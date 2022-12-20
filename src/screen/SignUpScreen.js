@@ -1,10 +1,13 @@
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
 
-const LoginScreen = props => {
+const SignUpScreen = props => {
     
     const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isSelected, setSelection] = useState(false);
 
     return (
       <ImageBackground
@@ -12,38 +15,55 @@ const LoginScreen = props => {
         style={styles.background}
       >
         <View>
-          <Image
-            source={require('../../assets/logo7.png')}
-            style={styles.logo}
-            resizeMode="contain">
-          </Image>
-          <Text style={styles.text}>Queyou</Text>
-          <View style={styles.inputView}>
+            <Text style={styles.signUp}>
+                Sign Up 
+            </Text>
+            <View style={styles.inputView}>
                 <TextInput
                 style={styles.TextInput}
                 placeholder="Username"
                 onChangeText={(username) => setUsername(username)}
                 /> 
-          </View>
-          <View style={styles.inputView}>
+            </View>
+            <View style={styles.inputView}>
+                <TextInput
+                style={styles.TextInput}
+                placeholder="Email"
+                onChangeText={(email) => setEmail(email)}
+                /> 
+            </View>
+            <View style={styles.inputView}>
                 <TextInput
                 style={styles.TextInput}
                 placeholder="Password"
                 onChangeText={(password) => setPassword(password)}
                 /> 
-          </View>
-          <TouchableOpacity>
-            <Text style={styles.forgot_button}>Forgot Password?</Text> 
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.loginBtn}>
-            <Text style={styles.loginText}>LOGIN</Text> 
-          </TouchableOpacity>
+            </View>
+            <View style={styles.inputView}>
+                <TextInput
+                style={styles.TextInput}
+                placeholder="Repeat Password"
+                onChangeText={(password) => setPassword(password)}
+                /> 
+            </View>
+            <View style={styles.Checkbox}>
+                <Checkbox
+                    value={isSelected} 
+                    onValueChange={setSelection}
+                    title="Music"
+                    isChecked={isSelected}
+                />
+                <Text style={styles.agree}>I agree to the Terms of Service</Text> 
+            </View>
+            <TouchableOpacity style={styles.loginBtn}>
+                <Text style={styles.loginText}>LOGIN</Text> 
+            </TouchableOpacity>
         </View>
       </ImageBackground>
     );
   }
 
-  export default LoginScreen
+  export default SignUpScreen
 
 
   const styles = StyleSheet.create({
@@ -52,19 +72,11 @@ const LoginScreen = props => {
       height: '100%',
       backgroundColor: '#a9a9a9'
     },
-    logo:{
-      width: 310,
-      height: 310,
-      marginLeft: '15%',
-    },
-    text: {
-      color: 'white',
-      fontSize: 26,
-      marginLeft: '40%',
-      color: '#ffffff',
-      marginTop: '-14%',
+    signUp:{
+      fontSize: 30,
       fontWeight: 'bold',
-      marginBottom: '8%',
+      marginLeft: '37%',
+      marginTop: '12%',
     },
     inputView: {
         backgroundColor: '#ffffff',
@@ -83,15 +95,19 @@ const LoginScreen = props => {
         fontWeight: 'bold',
         fontSize: 17,
     },
-    forgot_button: {
-        height: 30,
-        marginBottom: 30,
-        marginLeft: '38%',
-        marginTop: '4%',
+    Checkbox: {
+        flexDirection: 'row',
+        marginLeft: '20%',
+        marginTop: '8%',
+    },
+    agree: {
         fontWeight: 'bold',
         letterSpacing: 0.5,
+        marginLeft: '3%',
+        fontSize: 15,
       },
       loginBtn: {
+        marginTop: '8%',
         width:"72%",
         borderRadius:25,
         marginLeft: '15%',

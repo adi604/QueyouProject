@@ -8,6 +8,10 @@ const HomeScreen = props => {
         props.navigation.navigate('LoginScreen');
     };
 
+    const onPressSignUp = () => {
+        props.navigation.navigate('SignUpScreen');
+    };
+
 
     return (
       <ImageBackground
@@ -22,7 +26,7 @@ const HomeScreen = props => {
           </Image>
           <Text style={styles.text}>Queyou</Text>
           <TouchableOpacity 
-            onPress={Alert.alert("Completed Sign Up")}
+            onPress={onPressSignUp}
           >
             <Text style={styles.signup}>Sign Up</Text>
           </TouchableOpacity>
