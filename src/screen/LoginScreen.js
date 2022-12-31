@@ -6,6 +6,10 @@ const LoginScreen = props => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    const onPressLogin = () => {
+      props.navigation.navigate('MainUserScreen');
+  };
+
     return (
       <ImageBackground
         source={require('../../assets/back3.jpg')}
@@ -35,7 +39,7 @@ const LoginScreen = props => {
           <TouchableOpacity>
             <Text style={styles.forgot_button}>Forgot Password?</Text> 
           </TouchableOpacity>
-          <TouchableOpacity style={styles.loginBtn}>
+          <TouchableOpacity style={styles.loginBtn} onPress={onPressLogin}>
             <Text style={styles.loginText}>LOGIN</Text> 
           </TouchableOpacity>
         </View>
