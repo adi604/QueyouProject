@@ -7,7 +7,7 @@ const LoginScreen = props => {
     const [password, setPassword] = useState('');
 
     const onPressLogin = () => {
-      props.navigation.navigate('MainUserScreen');
+      props.navigation.navigate('Temp');
   };
 
     return (
