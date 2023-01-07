@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import FavoriteCategory from "../components/FavoriteCategory"
 import FreeSearch from "../components/FreeSearch"
+import AvailableAppointments from './AvailableAppointments'
 
 const SearchUserScreen = props => {
 
@@ -12,6 +13,9 @@ const SearchUserScreen = props => {
     const [isRate, setIsRate] = useState(false);
     const [isCloser, setIsCloser] = useState(false);
 
+    const onPressSearch = () => {
+        props.navigation.navigate('AvailableAppointments');
+    };
     
     return (
         <ScrollView>
@@ -31,7 +35,7 @@ const SearchUserScreen = props => {
 
 
                 <Text style={styles.filter}>SORT BY</Text>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row' , padding: 10 , paddingBottom: 30,}}>
                     <TouchableOpacity onPress={() => { setIsRate(true); setIsCloser(false); }}>
                         <Text style={[styles.sortByRate, isRate && { backgroundColor: '#0000cd', color: 'white' }]}>Rating</Text>
                     </TouchableOpacity>
@@ -40,6 +44,10 @@ const SearchUserScreen = props => {
                     </TouchableOpacity>
                 </View>
             </View>
+
+            <TouchableOpacity  style={styles.searchButton} onPress={onPressSearch}>
+                <Text style={styles.searchText}>Search</Text>
+            </TouchableOpacity>
         </ScrollView>
 
     );
@@ -54,7 +62,7 @@ const styles = StyleSheet.create({
     },
     heading: {
         fontSize: 22,
-        color: '#000080',
+        color: '#4169e1',
         paddingTop: 40,
         bottom: 10,
         fontWeight: 'bold',
@@ -114,5 +122,21 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         height: 30,
     },
+    searchButton: {
+        left: 130,
+        height: 40,
+        borderRadius: 8,
+        width: 170,
+        backgroundColor: `#4169e1`,
+        bottom: 20,
+    },
+    searchText: {
+        textAlign: "center",
+        top: 4,
+        fontSize: 20,
+        fontWeight: "bold",
+        color: 'white',
+    },
+
     
 });
