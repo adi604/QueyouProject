@@ -38,7 +38,8 @@ module.exports = {
                 });
                 review.save().then(() => {
                     res.status(200).json({
-                        message: `new review about ${targetProviderName} created !`
+                        message: `new review about ${targetProviderName} created !`,
+                        review
                     });
                 });
             }
