@@ -11,6 +11,7 @@ const FavoriteCategory = props => {
     const [ministry, setMinistry] = useState(false);
     const [valueCity, setValueCity] = useState(null);
     const [isFocusCity, setIsFocusCity] = useState(false);
+    const [isFocusCat, setIsFocusCat] = useState(false);
 
     const categories = [
         { label: 'Barber', value: '1' },
@@ -35,7 +36,7 @@ const FavoriteCategory = props => {
             <View style={{ flexDirection: 'row' }}>
                 <TouchableHighlight style={[styles.circle, barbershop && { backgroundColor: '#b0e0e6' }]}
                     underlayColor='#ccc'
-                    onPress={() => { setBarbershop(true); setBank(false); setDentist(false); setCosmetician(false); }}>
+                    onPress={() => { setBarbershop(true); setBank(false); setDentist(false); setCosmetician(false); setMinistry(false); }}>
                     <Text style={styles.textCircle}> Barbershop </Text>
                 </TouchableHighlight>
                 <TouchableHighlight style={[styles.circle, { marginLeft: 40 }, bank && { backgroundColor: '#b0e0e6' }]}
@@ -59,19 +60,14 @@ const FavoriteCategory = props => {
             <View style={{ flexDirection: 'row' }}>
                 <TouchableHighlight style={[styles.circle, ministry && { backgroundColor: '#b0e0e6' }]}
                     underlayColor='#ccc'
-                    onPress={() => { setMinistry(true); setBarbershop(false); setDentist(false); setBank(false); setCosmetician(false) }}>
-                    <Text style={styles.textCircle}> Cosmetician </Text>
-                </TouchableHighlight>
-                <TouchableHighlight style={[styles.circle, { marginLeft: 40 }, ministry && { backgroundColor: '#b0e0e6' }]}
-                    underlayColor='#ccc'
-                    onPress={() => { setMinistry(true); setBarbershop(false); setDentist(false); setBank(false); setCosmetician(false) }}>
+                    onPress={() => { setMinistry(true); setBarbershop(false); setDentist(false); setBank(false); setCosmetician(false); }}>
                     <Text style={styles.textCircle}> Cosmetician </Text>
                 </TouchableHighlight>
             </View>
 
             <View style={styles.section}>
                 <Dropdown
-                    style={[styles.dropdown, isFocusCity && { borderColor: 'blue' }]}
+                    style={[styles.dropdown, isFocusCat && { borderColor: 'blue' }]}
                     placeholderStyle={styles.placeholderStyle}
                     selectedTextStyle={styles.selectedTextStyle}
                     inputSearchStyle={styles.inputSearchStyle}
@@ -84,11 +80,11 @@ const FavoriteCategory = props => {
                     placeholder={'Select'}
                     searchPlaceholder="Search..."
                     value={valueCity}
-                    onFocus={() => setIsFocusCity(true)}
-                    onBlur={() => setIsFocusCity(false)}
+                    onFocus={() => setIsFocusCat(true)}
+                    onBlur={() => setIsFocusCat(false)}
                     onChange={item => {
                         setValueCity(item.value);
-                        setIsFocusCity(false);
+                        setIsFocusCat(false);
                     }}
                 />
                 <Text style={[styles.labelCat, isFocusCity && { color: 'blue' }]}>
@@ -222,14 +218,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     selectedTextStyle: {
-        fontSize: 16,
-    },
-    iconStyle: {
-        width: 20,
-        height: 20,
-    },
-    inputSearchStyle: {
-        height: 40,
         fontSize: 16,
     },
 });

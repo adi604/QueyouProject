@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 
 
-const MyQueues = props => {
+const MyAppointment = props => {
 
     const queues = [
         { provider: "Devin", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30" },
@@ -39,7 +39,7 @@ const MyQueues = props => {
 };
 
 
-export default MyQueues
+export default MyAppointment
 
 
 const styles = StyleSheet.create({
@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
         width: 15,
         height: 15,
         right: 1,
-        top: 40,
-        borderRadius: "50%",
+        top: 45,
+        borderRadius: 50,
         backgroundColor: `#ffa500`,
     },
     date: {
