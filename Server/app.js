@@ -25,6 +25,7 @@ const reviewsRoutes = require('./api/routes/reviews');
 const providersRoutes = require('./api/routes/providers');
 const customersRoutes = require('./api/routes/customers');
 const usersRoutes = require('./api/routes/users');
+const meetingsRoutes = require('./api/routes/meetings');
 
 // Middleware Logger
 app.use(morgan("dev"));
@@ -42,6 +43,7 @@ app.use('/users', usersRoutes);
 app.use('/customers', customersRoutes);
 app.use('/providers', providersRoutes);
 app.use('/reviews', reviewsRoutes);
+app.use('/meetings', meetingsRoutes);
 
 
 // Middleware - handle request for not found url
