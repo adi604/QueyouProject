@@ -2,6 +2,7 @@ import { Dimensions, StyleSheet, Text, View, ImageBackground, Image, TouchableOp
 import React, { useState } from 'react';
 import HomeClient from "../components/HomeClient"
 import HomeProvider from "../components/HomeProvider"
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 
@@ -19,9 +20,11 @@ const HomeScreen = props => {
 
 
   return (
-    <ImageBackground
-      source={require('../../assets/back3.jpg')}
-      style={styles.background}
+    <LinearGradient
+      colors={['#0066CC', '#66B2FF', '#99CCFF', '#DFECFF']}
+      style={styles.linearGradient}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
     >
       <View>
         <Image
@@ -45,7 +48,7 @@ const HomeScreen = props => {
           {(isClient) ? <HomeClient navigation={props.navigation} /> : <HomeProvider navigation={props.navigation} />}
         </View>
       </View>
-    </ImageBackground>
+    </LinearGradient>
   );
 }
 
@@ -64,7 +67,7 @@ const styles = StyleSheet.create({
     marginLeft: '15%',
   },
   text: {
-    fontSize: 26,
+    fontSize: 30,
     marginLeft: '40%',
     color: '#ffffff',
     marginTop: '-14%',

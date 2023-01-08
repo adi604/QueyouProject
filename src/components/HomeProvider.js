@@ -32,11 +32,11 @@ const HomeProvider = props => {
     signup: {
       backgroundColor: 'white',
       width: "55%",
-      height: "25%",
+      height: "26%",
       borderRadius: 25,
       marginLeft: '19%',
       padding: "1%",
-      top: 40,
+      top: 50,
       left: 20,
       shadowColor: "#000",
       shadowOffset: {
@@ -45,17 +45,18 @@ const HomeProvider = props => {
       },
       shadowOpacity: 0.25,
       shadowRadius: 3.84,
-  
       elevation: 10,
+      alignItems:"center",
+      justifyContent:"center",
     },
     login: {
       backgroundColor: '#9370db',
       width: "55%",
-      height: "25%",
+      height: "26%",
       borderRadius: 25,
       marginLeft: '19%',
       padding: "1%",
-      top: 70,
+      top: 90,
       left: 20,
       shadowColor: "#000",
       shadowOffset: {
@@ -65,5 +66,7 @@ const HomeProvider = props => {
       shadowOpacity: 0.25,
       shadowRadius: 3.84,
       elevation: 10,
+      alignItems:"center",
+      justifyContent:"center",
     },
   });
