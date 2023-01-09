@@ -19,46 +19,50 @@ const SearchUserScreen = props => {
     };
 
     return (
-        <LinearGradient
-            colors={['#003366', '#0080FF', '#3399FF', '#CCE5FF']}
-            style={[{ height: "100%" }]}
-            start={{ x: 1, y: 0 }}
-            end={{ x: 1, y: 1 }}
-        >
-            <ScrollView>
-                <View style={styles.container}>
-                    <Text style={styles.heading}>Hi Adi,</Text>
-                    <Text style={styles.heading}>What service are you looking for?</Text>
-                    <View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity style={styles.search}>
-                            <Text style={[styles.buttonSearch, !isFree && styles.shadow]} onPress={() => { setIsFree(false) }}>Advance Search</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.search}>
-                            <Text style={[styles.buttonSearch, isFree && styles.shadow]} onPress={() => { setIsFree(true) }}>Free Search</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View>
-                        {(isFree) ? <FreeSearch navigation={props.navigation} /> : <FavoriteCategory navigation={props.navigation} />}
-                    </View>
 
-                    <Text style={styles.filter}>SORT BY</Text>
-                    <View style={{ flexDirection: 'row', padding: 10, paddingBottom: 30, }}>
-                        <TouchableOpacity onPress={() => { setIsRate(true); setIsCloser(false); }}>
-                            <Text style={[styles.sortByRate, isRate && { backgroundColor: '#005500', color: 'white' }]}>Rating</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setIsCloser(true); setIsRate(false); }}>
-                            <Text style={[styles.sortByTurn, isCloser && { backgroundColor: '#005500', color: 'white' }]}>closer meeting</Text>
-                        </TouchableOpacity>
-                    </View>
+        <ScrollView style={{backgroundColor: '#F9F8F6'}}>
+            <View style={styles.container}>
+                <View >
+                    <LinearGradient
+                        colors={['#0080FF', '#94CBFF', '#CCE5FF']}
+                        style={{ width: 500, height: 200, right: 20, padding: 20, bottom: 18 }}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 1 }}
+                    >
+                        <Text style={styles.heading}>Hi Adi,</Text>
+                        <Text style={styles.heading}>What service are you looking for?</Text>
+                        <View style={{ flexDirection: 'row' , top: 20}}>
+                            <TouchableOpacity style={styles.search}>
+                                <Text style={[styles.buttonSearch, {shadowColor: "#0080FF"}, !isFree && styles.shadow]} onPress={() => { setIsFree(false) }}>Advance Search</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.search}>
+                                <Text style={[styles.buttonSearch,{shadowColor: "#77BBFF"}, isFree && styles.shadow]} onPress={() => { setIsFree(true) }}>Free Search</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </LinearGradient>
+                </View>
+                <View>
+                    {(isFree) ? <FreeSearch navigation={props.navigation} /> : <FavoriteCategory navigation={props.navigation} />}
                 </View>
 
-                <TouchableOpacity style={styles.searchButton} onPress={onPressSearch}>
-                    <ImageBackground source={require('../../assets/vi2.png')} style={styles.vi}>
-                        <Text></Text>
-                    </ImageBackground>
-                </TouchableOpacity>
-            </ScrollView>
-        </LinearGradient>
+                <Text style={styles.filter}>SORT BY</Text>
+                <View style={{ flexDirection: 'row', padding: 10, paddingBottom: 30, }}>
+                    <TouchableOpacity onPress={() => { setIsRate(true); setIsCloser(false); }}>
+                        <Text style={[styles.sortByRate, isRate && { backgroundColor: '#005500', color: 'white' }]}>Rating</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { setIsCloser(true); setIsRate(false); }}>
+                        <Text style={[styles.sortByTurn, isCloser && { backgroundColor: '#005500', color: 'white' }]}>closer meeting</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+
+            <TouchableOpacity style={styles.searchButton} onPress={onPressSearch}>
+                <ImageBackground source={require('../../assets/vi2.png')} style={styles.vi}>
+                    <Text></Text>
+                </ImageBackground>
+            </TouchableOpacity>
+        </ScrollView>
+
     );
 };
 
@@ -83,6 +87,7 @@ const styles = StyleSheet.create({
     },
     buttonSearch: {
         fontSize: 15,
+        height: 40,
         borderRadius: 20,
         letterSpacing: 1,
         paddingLeft: 30,
@@ -91,17 +96,17 @@ const styles = StyleSheet.create({
         paddingBottom: 8,
         fontWeight: '500',
         color: 'white',
-        shadowColor: "#0066CC",
+
+    },
+    shadow: {
+        shadowColor: "#FFFFFF",
         shadowOffset: {
             width: 0,
-            height: 5,
+            height: 10,
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 5,
-    },
-    shadow: {
-        shadowColor: "#E5CCFF",
+        elevation: 1,
     },
     selectedTextStyle: {
         fontSize: 16,
@@ -118,11 +123,11 @@ const styles = StyleSheet.create({
         marginTop: 70,
         fontSize: 40,
         fontWeight: 'bold',
-        color: 'white',
+        color: '#005500',
         letterSpacing: 1.5,
-        textShadowColor: 'rgba(255, 255, 255, 1)',
+        textShadowColor: 'rgba(0, 102, 0, 1)',
         textShadowOffset: { width: 1, height: 2 },
-        textShadowRadius: 10,
+        textShadowRadius: 7,
     },
     sortByRate: {
         backgroundColor: 'white',
