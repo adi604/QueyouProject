@@ -1,4 +1,4 @@
-import { TouchableOpacity, FlatList, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, TouchableOpacity, FlatList, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -14,24 +14,38 @@ const AvailableAppointments = props => {
         { provider: "Devin1", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
         { provider: "Devin2", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
         { provider: "Devin3", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+        { provider: "Devin4", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+        { provider: "Devin5", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+        { provider: "Devin6", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+        { provider: "Devin7", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+        { provider: "Devin8", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+        { provider: "Devin9", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+        { provider: "Devin10", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
     ];
 
 
     return (
-        <View style={[{ backgroundColor: "white", padding: 1 }]}>
-            <FlatList
+        <View style={[{ backgroundColor: "white", top: 25, height: "100%" }]}>
+            <LinearGradient
+                colors={['#000066', '#004C99', '#0066CC']}
+                style={styles.linearGradientResult}
+            >
+                <Text style={styles.resultsFound}>89 results were found</Text>
+            </LinearGradient>
+
+            <FlatList style={[{ top: 20 }]}
                 data={queues}
                 renderItem={({ item }) =>
-                    <View>
-                        <View style={[{ left: 16, bottom: 5, padding: 10 }]}>
+                    <View style={[{ bottom: 22 }]}>
+                        <View style={[{ left: 16, marginBottom: 15, padding: 8 }]}>
                             <Text style={styles.provider}>{item.provider}</Text>
                             <Text style={styles.category}>{item.category}</Text>
                             <Text style={styles.address}>{item.address}</Text>
-                            <TouchableOpacity onPress={function() { setProviderReview(item.provider); setIsReviews(!isReviews);}}>
+                            <TouchableOpacity onPress={function () { setProviderReview(item.provider); setIsReviews(!isReviews); }}>
                                 <Text style={styles.reviews}>Review this business</Text>
                             </TouchableOpacity>
                             <View>
-                                {(isReviews && (providerReview===item.provider)) ? <Reviews navigation={props.navigation} /> : <View></View>}
+                                {(isReviews && (providerReview === item.provider)) ? <Reviews navigation={props.navigation} /> : <View></View>}
                             </View>
                             <LinearGradient
                                 colors={['#000066', '#004C99', '#0066CC']}
@@ -41,7 +55,7 @@ const AvailableAppointments = props => {
                                     <Text style={styles.appointment}>Queue{"\n"}Reservation</Text>
                                 </TouchableOpacity>
                             </LinearGradient>
-                            <View style={{ top: 15, right: 25, width: 500, height: 1, backgroundColor: `#dcdcdc`, }} />
+                            <View style={{ top: 18, right: 25, width: 500, height: 1, backgroundColor: `#dcdcdc`, }} />
                         </View>
                     </View>}
             />
@@ -54,19 +68,23 @@ export default AvailableAppointments
 
 
 const styles = StyleSheet.create({
-    circle: {
-        width: 15,
-        height: 15,
-        right: 1,
-        top: 45,
-        borderRadius: 50,
-        backgroundColor: `#ffa500`,
+    linearGradientResult: {
+        alignItems: "center",
+    },
+    resultsFound: {
+        textAlign: 'center',
+        color: 'white',
+        fontSize: 20,
+        padding: 10,
+        letterSpacing: 1,
+        left: 10,
+        fontWeight: '500',
     },
     provider: {
         fontSize: 28,
         height: 52,
         letterSpacing: 0.5,
-        color: `#6495ed`,
+        color: `#000066`,
         fontWeight: "bold",
         textDecorationLine: 'underline',
         letterSpacing: 0.5,
@@ -89,9 +107,11 @@ const styles = StyleSheet.create({
     },
     reviews: {
         left: 11,
-        fontSize: 18,
+        fontSize: 19,
         marginBottom: 10,
-        textDecorationLine: 'underline',
+        color: '#0066CC',
+        letterSpacing: 0.8,
+        fontWeight: '500',
     },
     buttonAppointment: {
         borderRadius: 5,
