@@ -4,6 +4,18 @@ import React, { useState } from 'react';
 import Star from "./Star";
 
 const Reviews = props => {
+
+    const reviews = [
+        { provider: "Devin1", category: "Barbar", text:"They’ve usually had some experience with this company, which could include a purchase, use, or a conversation with their customer service team." },
+        { provider: "Devin2", category: "Barbar", text:"They’ve usually had some experience with this company, which could include a purchase, use, or a conversation with their customer service team." },
+        { provider: "Devin3", category: "Barbar", text:"They’ve usually had some experience with this company, which could include a purchase, use, or a conversation with their customer service team." },
+        { provider: "Devin4", category: "Barbar", text:"They’ve usually had some experience with this company, which could include a purchase, use, or a conversation with their customer service team." },
+        { provider: "Devin5", category: "Barbar", text:"They’ve usually had some experience with this company, which could include a purchase, use, or a conversation with their customer service team." },
+        { provider: "Devin6", category: "Barbar", text:"They’ve usually had some experience with this company, which could include a purchase, use, or a conversation with their customer service team." },
+        { provider: "Devin7", category: "Barbar", text:"They’ve usually had some experience with this company, which could include a purchase, use, or a conversation with their customer service team." },
+        { provider: "Devin8", category: "Barbar", text:"They’ve usually had some experience with this company, which could include a purchase, use, or a conversation with their customer service team." },
+        ];
+
     return (
         <View style={styles.container}>
             <View style={styles.reviewContainer}>

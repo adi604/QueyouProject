@@ -22,7 +22,7 @@ const HomeScreen = props => {
   return (
     <LinearGradient
       colors={['#0066CC', '#66B2FF', '#99CCFF', '#DFECFF']}
-      style={styles.linearGradient}
+      style={[{ height: "100%" }]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
     >
@@ -32,19 +32,23 @@ const HomeScreen = props => {
           style={styles.logo}
           resizeMode="contain">
         </Image>
-        <Text style={styles.text}>Queyou</Text>
+        <Image
+          source={require('../../assets/back1.png')}
+          style={styles.queyou}
+          resizeMode="contain">
+        </Image>
 
-        <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity style={[styles.client, styles.box]} onPress={() => { setIsClient(true); }}>
-            <Text style={[{ fontSize: 25 }, isClient && styles.shadow]}>Client</Text>
+        <View style={{ flexDirection: 'row', bottom: 110, }}>
+          <TouchableOpacity style={[styles.client]} onPress={() => { setIsClient(true); }}>
+            <Text style={[{ fontSize: 25, color: 'white', }, isClient && styles.shadow]}>Client</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.provider, styles.box]} onPress={() => { setIsClient(false); }}>
-            <Text style={[{ fontSize: 25 }, !isClient && styles.shadow]}>Provider</Text>
+          <TouchableOpacity style={[styles.provider]} onPress={() => { setIsClient(false); }}>
+            <Text style={[{ fontSize: 25 ,color: 'white', }, !isClient && styles.shadow]}>Provider</Text>
           </TouchableOpacity>
         </View>
 
-        <View style={styles.container}>
+        <View style={{bottom: 140,}}>
           {(isClient) ? <HomeClient navigation={props.navigation} /> : <HomeProvider navigation={props.navigation} />}
         </View>
       </View>
@@ -61,9 +65,23 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: '#a9a9a9'
   },
+  welcome: {
+    fontSize: 50,
+    color: '#dcdcdc',
+    letterSpacing: 5,
+    bottom: 70,
+    left: 50,
+  },
   logo: {
+    bottom: 20,
     width: 310,
     height: 310,
+    marginLeft: '15%',
+  },
+  queyou: {
+    bottom: 70,
+    width: 310,
+    height: 140,
     marginLeft: '15%',
   },
   text: {
@@ -73,17 +91,6 @@ const styles = StyleSheet.create({
     marginTop: '-14%',
     fontWeight: 'bold',
   },
-  box: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.36,
-    shadowRadius: 6.68,
-
-    elevation: 11,
-  },
   client: {
     fontSize: 25,
     left: 90,
@@ -91,7 +98,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   shadow: {
-    textShadowColor: 'rgba(0, 0, 0, 0.9)',
+    textShadowColor: 'rgba(255, 255, 255, 0.9)',
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
   },
@@ -100,14 +107,5 @@ const styles = StyleSheet.create({
     left: 110,
     top: 20,
     padding: 20,
-  },
-  squre: {
-    width: Dimensions.get('window').width * 0.9,
-    height: Dimensions.get('window').width * 0.5,
-    borderColor: 'black',
-    borderWidth: 0.8,
-    borderRadius: 50,
-    left: 20,
-    top: 30,
   },
 });

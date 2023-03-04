@@ -1,4 +1,4 @@
-import { Dimensions, TouchableHighlight, StyleSheet, Text, View } from 'react-native';
+import { ImageBackground, Dimensions, TouchableHighlight, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 
@@ -9,6 +9,7 @@ const FavoriteCategory = props => {
     const [dentist, setDentist] = useState(false);
     const [cosmetician, setCosmetician] = useState(false);
     const [ministry, setMinistry] = useState(false);
+    const [valueCat, setValueCat] = useState(null);
     const [valueCity, setValueCity] = useState(null);
     const [isFocusCity, setIsFocusCity] = useState(false);
     const [isFocusCat, setIsFocusCat] = useState(false);
@@ -33,41 +34,46 @@ const FavoriteCategory = props => {
 
     return (
         <View>
-            <View style={{ flexDirection: 'row' }}>
-                <TouchableHighlight style={[styles.circle, barbershop && { backgroundColor: '#b0e0e6' }]}
-                    underlayColor='#ccc'
+            <View style={{ flexDirection: 'row', left: 35, }}>
+                <TouchableHighlight style={[styles.square, barbershop && { backgroundColor: '#CCE5FF' }]}
                     onPress={() => { setBarbershop(true); setBank(false); setDentist(false); setCosmetician(false); setMinistry(false); }}>
-                    <Text style={styles.textCircle}> Barbershop </Text>
+                    <ImageBackground source={require('../../assets/barbar.png')} style={styles.icon}>
+                        <Text style={barbershop ? styles.textSquarepressed : styles.textSquare}> Barbershop </Text>
+                    </ImageBackground>
                 </TouchableHighlight>
-                <TouchableHighlight style={[styles.circle, { marginLeft: 40 }, bank && { backgroundColor: '#b0e0e6' }]}
-                    underlayColor='#ccc'
+                <TouchableHighlight style={[styles.square, { marginLeft: 20 }, bank && { backgroundColor: '#CCE5FF' }]}
                     onPress={() => { setBank(true); setBarbershop(false); setDentist(false); setCosmetician(false); setMinistry(false); }}>
-                    <Text style={styles.textCircle}> Bank </Text>
+                    <ImageBackground source={require('../../assets/bank.png')} style={styles.icon}>
+                        <Text style={bank ? styles.textSquarepressed : styles.textSquare}> Bank </Text>
+                    </ImageBackground>
                 </TouchableHighlight>
             </View>
-            <View style={{ flexDirection: 'row' }}>
-                <TouchableHighlight style={[styles.circle, dentist && { backgroundColor: '#b0e0e6' }]}
-                    underlayColor='#ccc'
-                    onPress={() => { setDentist(true); setBank(false); setBarbershop(false); setCosmetician(false); setMinistry(false); }}>
-                    <Text style={styles.textCircle}> Dentist </Text>
-                </TouchableHighlight>
-                <TouchableHighlight style={[styles.circle, { marginLeft: 40 }, cosmetician && { backgroundColor: '#b0e0e6' }]}
-                    underlayColor='#ccc'
+            <View style={{ flexDirection: 'row', left: 35, }}>
+                <TouchableHighlight style={[styles.square, cosmetician && { backgroundColor: '#CCE5FF' }]}
                     onPress={() => { setCosmetician(true); setBarbershop(false); setDentist(false); setBank(false); setMinistry(false); }}>
-                    <Text style={styles.textCircle}> Ministry of Interior </Text>
+                    <ImageBackground source={require('../../assets/cosmetic.png')} style={styles.icon}>
+                        <Text style={cosmetician ? styles.textSquarepressed : styles.textSquare}> Cosmetic </Text>
+                    </ImageBackground>
+                </TouchableHighlight>
+                <TouchableHighlight style={[styles.square, { marginLeft: 20 }, ministry && { backgroundColor: '#CCE5FF' }]}
+                    onPress={() => { setMinistry(true); setBarbershop(false); setDentist(false); setBank(false); setCosmetician(false); }}>
+                    <ImageBackground source={require('../../assets/interior.png')} style={styles.icon}>
+                        <Text style={ministry ? styles.textSquarepressed : styles.textSquare}> Ministry of Interior</Text>
+                    </ImageBackground>
                 </TouchableHighlight>
             </View>
-            <View style={{ flexDirection: 'row' }}>
-                <TouchableHighlight style={[styles.circle, ministry && { backgroundColor: '#b0e0e6' }]}
-                    underlayColor='#ccc'
-                    onPress={() => { setMinistry(true); setBarbershop(false); setDentist(false); setBank(false); setCosmetician(false); }}>
-                    <Text style={styles.textCircle}> Cosmetician </Text>
+            <View style={{ flexDirection: 'row', left: 35, }}>
+                <TouchableHighlight style={[styles.square, dentist && { backgroundColor: '#CCE5FF' }]}
+                    onPress={() => { setDentist(true); setBank(false); setBarbershop(false); setCosmetician(false); setMinistry(false); }}>
+                    <ImageBackground source={require('../../assets/dentist.png')} style={styles.icon}>
+                        <Text style={dentist ? styles.textSquarepressed : styles.textSquare}> Dentist </Text>
+                    </ImageBackground>
                 </TouchableHighlight>
             </View>
 
             <View style={styles.section}>
                 <Dropdown
-                    style={[styles.dropdown, isFocusCat && { borderColor: 'blue' }]}
+                    style={[styles.dropdown, isFocusCat && { borderColor: 'white' }]}
                     placeholderStyle={styles.placeholderStyle}
                     selectedTextStyle={styles.selectedTextStyle}
                     inputSearchStyle={styles.inputSearchStyle}
@@ -77,23 +83,20 @@ const FavoriteCategory = props => {
                     maxHeight={300}
                     labelField="label"
                     valueField="value"
-                    placeholder={'Select'}
+                    placeholder={'More Categories'}
                     searchPlaceholder="Search..."
-                    value={valueCity}
+                    value={valueCat}
                     onFocus={() => setIsFocusCat(true)}
                     onBlur={() => setIsFocusCat(false)}
                     onChange={item => {
-                        setValueCity(item.value);
+                        setValueCat(item.value);
                         setIsFocusCat(false);
                     }}
                 />
-                <Text style={[styles.labelCat, isFocusCity && { color: 'blue' }]}>
-                    More Categories
-                </Text>
             </View>
             <View style={styles.section}>
                 <Dropdown
-                    style={[styles.dropdown, isFocusCity && { borderColor: 'blue' }]}
+                    style={[styles.dropdown, isFocusCity && { borderColor: 'white' }]}
                     placeholderStyle={styles.placeholderStyle}
                     selectedTextStyle={styles.selectedTextStyle}
                     inputSearchStyle={styles.inputSearchStyle}
@@ -103,7 +106,8 @@ const FavoriteCategory = props => {
                     maxHeight={300}
                     labelField="label"
                     valueField="value"
-                    placeholder={'Select'}
+                    placeholder={'City'}
+                    placeholderTextColor="white"
                     searchPlaceholder="Search..."
                     value={valueCity}
                     onFocus={() => setIsFocusCity(true)}
@@ -113,9 +117,6 @@ const FavoriteCategory = props => {
                         setIsFocusCity(false);
                     }}
                 />
-                <Text style={[styles.labelCity, isFocusCity && { color: 'blue' }]}>
-                    City
-                </Text>
             </View>
         </View>
     )
@@ -126,57 +127,94 @@ export default FavoriteCategory
 
 
 const styles = StyleSheet.create({
-    circle: {
-        width: Dimensions.get('window').width * 0.4,
-        height: Dimensions.get('window').width * 0.18,
-        backgroundColor: '#4169e1',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 30,
-        borderRadius: 8,
-        borderWidth: 2,
-        borderColor: '#000080',
+    icon: {
+        top: 30,
+        left: 20,
+        height: 90,
+        width: 90,
     },
-    textCircle: {
-        fontWeight: 'bold',
-        color: 'white',
+    square: {
+        width: Dimensions.get('window').width * 0.35,
+        height: Dimensions.get('window').width * 0.33,
+        backgroundColor: '#FFF',
+        padding: 10,
+        marginTop: 18,
+        borderRadius: 20,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 10,
+    },
+    textSquarepressed: {
+        fontWeight: '500',
+        color: '#001933',
         fontSize: 17,
-        textAlign: 'center'
+        bottom: 35,
+        letterSpacing: 0.5,
+        height: 100,
+        width: 100,
+        textAlign: 'center',
+        right: 5,
+    },
+    textSquare: {
+        fontWeight: '500',
+        color: 'gray',
+        fontSize: 17,
+        bottom: 35,
+        letterSpacing: 0.5,
+        height: 100,
+        width: 100,
+        textAlign: 'center',
+        right: 5,
     },
     section: {
-        marginTop: 50,
-    },
-    section: {
-        marginTop: 50,
+        top: 50,
+        marginTop: 20,
     },
     dropdown: {
-        height: 60,
-        backgroundColor: 'white',
-        borderColor: 'gray',
-        borderWidth: 0.7,
+        height: 55,
         borderRadius: 8,
         paddingHorizontal: 12,
+        color: 'white',
+        backgroundColor: 'white',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 20,
     },
     labelCat: {
         fontWeight: 'bold',
-        backgroundColor: 'white',
+        backgroundColor: 'gray',
         width: 130,
         paddingHorizontal: 8,
         fontSize: 14,
-        bottom: 70,
+        bottom: 65,
         left: 15,
+        borderRadius: 8,
+        color: 'black',
     },
     labelCity: {
         fontWeight: 'bold',
-        backgroundColor: 'white',
+        color: 'white',
+        backgroundColor: 'gray',
         width: 42,
         paddingHorizontal: 8,
         fontSize: 14,
-        bottom: 70,
+        bottom: 65,
         left: 15,
+        borderRadius: 8,
     },
     placeholderStyle: {
         fontSize: 16,
+        color: '#001933',
     },
     iconStyle: {
         width: 20,
@@ -184,6 +222,7 @@ const styles = StyleSheet.create({
     },
     selectedTextStyle: {
         fontSize: 16,
+        color: '#001933',
     },
     iconStyle: {
         width: 20,
@@ -216,8 +255,5 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
         padding: 10,
         fontWeight: 'bold',
-    },
-    selectedTextStyle: {
-        fontSize: 16,
     },
 });

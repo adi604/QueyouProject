@@ -14,7 +14,7 @@ const HomeProvider = props => {
 
 
   return (
-    <View>
+    <View style={{height: '100%'}}>
       <TouchableOpacity style={styles.signup} onPress={onPressSignUp}>
         <Text style={[{ fontSize: 20 }, { textAlign: 'center' }, { fontWeight: 'bold' }, { color: 'black' }, { letterSpacing: 1 }]}>Sign Up</Text>
       </TouchableOpacity>
@@ -32,11 +32,11 @@ const styles = StyleSheet.create({
   signup: {
     backgroundColor: 'white',
     width: "55%",
-    height: "26%",
+    height: 50,
     borderRadius: 25,
     marginLeft: '19%',
     padding: "1%",
-    top: 50,
+    top: 60,
     left: 20,
     shadowColor: "#000",
     shadowOffset: {
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   login: {
     backgroundColor: '#9370db',
     width: "55%",
-    height: "26%",
+    height: 50,
     borderRadius: 25,
     marginLeft: '19%',
     padding: "1%",

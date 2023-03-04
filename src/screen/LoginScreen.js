@@ -24,7 +24,11 @@ const LoginScreen = props => {
           style={styles.logo}
           resizeMode="contain">
         </Image>
-        <Text style={styles.text}>Queyou</Text>
+        <Image
+          source={require('../../assets/back1.png')}
+          style={styles.queyou}
+          resizeMode="contain">
+        </Image>
         <View style={styles.inputView}>
           <TextInput
             style={styles.TextInput}
@@ -42,9 +46,17 @@ const LoginScreen = props => {
         <TouchableOpacity>
           <Text style={styles.forgot_button}>Forgot Password?</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.loginBtn} onPress={onPressLogin}>
-          <Text style={styles.loginText}>LOGIN</Text>
-        </TouchableOpacity>
+        <LinearGradient
+          colors={['#9370db', '#CC99FF', '#E5CCFF']}
+          start={{ x: 0, y: -1 }}
+          end={{ x: 1, y: 0.5 }}
+          style={styles.linearGradient}
+        >
+          <TouchableOpacity style={styles.loginBtn} onPress={onPressLogin}>
+            <Text style={styles.loginText}>LOGIN</Text>
+          </TouchableOpacity>
+        </LinearGradient>
+
       </View>
     </LinearGradient>
   );
@@ -57,11 +69,16 @@ const styles = StyleSheet.create({
   background: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#a9a9a9'
   },
   logo: {
     width: 310,
     height: 310,
+    marginLeft: '15%',
+  },
+  queyou: {
+    bottom: 70,
+    width: 310,
+    height: 140,
     marginLeft: '15%',
   },
   text: {
@@ -80,7 +97,8 @@ const styles = StyleSheet.create({
     height: 45,
     alignItems: "center",
     marginLeft: '21%',
-    marginTop: '7%',
+    marginTop: 22,
+    bottom: 30,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -100,20 +118,24 @@ const styles = StyleSheet.create({
   },
   forgot_button: {
     height: 30,
-    marginBottom: 30,
+    bottom: 38,
     marginLeft: '38%',
     marginTop: '4%',
     fontWeight: 'bold',
     letterSpacing: 0.5,
   },
-  loginBtn: {
+  linearGradient: {
+    bottom: 30,
     width: "62%",
-    borderRadius: 35,
     marginLeft: '21%',
-    height: 60,
+    height: 50,
+    borderRadius: 35,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#9370db",
+  },
+  loginBtn: {
+    alignItems: "center",
+    justifyContent: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -122,7 +144,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 10,
-    backgroundColor: "#9370db",
   },
   loginText: {
     fontWeight: 'bold',
