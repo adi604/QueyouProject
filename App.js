@@ -5,7 +5,9 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import HomeScreen from './src/screen/HomeScreen'
 import LoginScreen from './src/screen/LoginScreen'
+import PrLoginScreen from './src/screen/PrLoginScreen'
 import SignUpScreen from './src/screen/SignUpScreen'
+import PrSignUpScreen from './src/screen/PrSignUpScreen'
 import MainUserScreen from './src/screen/SearchUserScreen'
 import Temp from './src/screen/Temp'
 import AvailableAppointments from './src/screen/AvailableAppointments'
@@ -18,7 +20,9 @@ function App() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Oueyou" component={HomeScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="PrLoginScreen" component={PrLoginScreen} />
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+        <Stack.Screen name="PrSignUpScreen" component={PrSignUpScreen} />
         <Stack.Screen name="Temp" component={Temp} />
         <Stack.Screen name="AvailableAppointments" component={AvailableAppointments} />
       </Stack.Navigator>

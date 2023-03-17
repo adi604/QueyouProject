@@ -21,7 +21,7 @@ module.exports = {
     },
     // ##### Get all the meetings objects of customer by name. #####
     getCustomerMeetings : (req, res) => {
-        const customerName = req.params.providerName;
+        const customerName = req.params.customerName;
         Meeting.find({customerName: customerName}).then((meetings) => {
             res.status(200).json(meetings)
         }).catch(error => {
