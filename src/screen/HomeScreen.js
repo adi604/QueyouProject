@@ -40,7 +40,7 @@ const HomeScreen = props => {
 
         <View style={{ flexDirection: 'row', bottom: 110, }}>
           <TouchableOpacity style={[styles.client]} onPress={() => { setIsClient(true); }}>
-            <Text style={[{ fontSize: 25, color: 'white', }, isClient && styles.shadow]}>Client</Text>
+            <Text style={[{ fontSize: 25, color: 'white'}, isClient && styles.shadow]}>Client</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={[styles.provider]} onPress={() => { setIsClient(false); }}>

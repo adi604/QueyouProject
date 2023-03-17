@@ -1,12 +1,12 @@
 import { ImageBackground, Dimensions, TouchableHighlight, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const FavoriteCategory = props => {
 
     const [barbershop, setBarbershop] = useState(false);
     const [bank, setBank] = useState(false);
-    const [dentist, setDentist] = useState(false);
     const [cosmetician, setCosmetician] = useState(false);
     const [ministry, setMinistry] = useState(false);
     const [valueCat, setValueCat] = useState(null);
@@ -19,8 +19,6 @@ const FavoriteCategory = props => {
         { label: 'Dentist', value: '2' },
         { label: 'Cosmetic', value: '3' },
         { label: 'Ministry', value: '4' },
-        { label: 'Driving lessons', value: '5' },
-        { label: 'Pilates lessons', value: '6' },
     ];
 
     const cities = [
@@ -33,45 +31,61 @@ const FavoriteCategory = props => {
     ];
 
     return (
-        <View>
-            <View style={{ flexDirection: 'row', left: 35, }}>
-                <TouchableHighlight style={[styles.square, barbershop && { backgroundColor: '#CCE5FF' }]}
-                    onPress={() => { setBarbershop(true); setBank(false); setDentist(false); setCosmetician(false); setMinistry(false); }}>
-                    <ImageBackground source={require('../../assets/barbar.png')} style={styles.icon}>
-                        <Text style={barbershop ? styles.textSquarepressed : styles.textSquare}> Barbershop </Text>
-                    </ImageBackground>
-                </TouchableHighlight>
-                <TouchableHighlight style={[styles.square, { marginLeft: 20 }, bank && { backgroundColor: '#CCE5FF' }]}
-                    onPress={() => { setBank(true); setBarbershop(false); setDentist(false); setCosmetician(false); setMinistry(false); }}>
-                    <ImageBackground source={require('../../assets/bank.png')} style={styles.icon}>
-                        <Text style={bank ? styles.textSquarepressed : styles.textSquare}> Bank </Text>
-                    </ImageBackground>
-                </TouchableHighlight>
-            </View>
-            <View style={{ flexDirection: 'row', left: 35, }}>
-                <TouchableHighlight style={[styles.square, cosmetician && { backgroundColor: '#CCE5FF' }]}
-                    onPress={() => { setCosmetician(true); setBarbershop(false); setDentist(false); setBank(false); setMinistry(false); }}>
-                    <ImageBackground source={require('../../assets/cosmetic.png')} style={styles.icon}>
-                        <Text style={cosmetician ? styles.textSquarepressed : styles.textSquare}> Cosmetic </Text>
-                    </ImageBackground>
-                </TouchableHighlight>
-                <TouchableHighlight style={[styles.square, { marginLeft: 20 }, ministry && { backgroundColor: '#CCE5FF' }]}
-                    onPress={() => { setMinistry(true); setBarbershop(false); setDentist(false); setBank(false); setCosmetician(false); }}>
-                    <ImageBackground source={require('../../assets/interior.png')} style={styles.icon}>
-                        <Text style={ministry ? styles.textSquarepressed : styles.textSquare}> Ministry of Interior</Text>
-                    </ImageBackground>
+        <View style={{top: 20,}}>
+            <View style={{ flexDirection: 'row', left: 125, bottom: 10,}}>
+                <TouchableHighlight style={[styles.circle4, barbershop && { backgroundColor: '#CCE5FF' }]}
+                    onPress={() => { setBarbershop(true); setCosmetician(false); setBank(false); setMinistry(false); }}>
+                    <LinearGradient
+                        colors={['#c5b3e5', '#9575cd',]}
+                        style={{width: '100%', height: '100%', borderRadius: 80, elevation: 30, shadowColor: '#000',}}
+                        start={{ x: 1, y:  0}}
+                        end={{ x: 1, y: 1 }}
+                    >
+                        <Text style={[styles.textSquare, {top: 35, left: 6,}]}> Barbar </Text>
+                    </LinearGradient>
                 </TouchableHighlight>
             </View>
-            <View style={{ flexDirection: 'row', left: 35, }}>
-                <TouchableHighlight style={[styles.square, dentist && { backgroundColor: '#CCE5FF' }]}
-                    onPress={() => { setDentist(true); setBank(false); setBarbershop(false); setCosmetician(false); setMinistry(false); }}>
-                    <ImageBackground source={require('../../assets/dentist.png')} style={styles.icon}>
-                        <Text style={dentist ? styles.textSquarepressed : styles.textSquare}> Dentist </Text>
-                    </ImageBackground>
+            <View style={{ flexDirection: 'row', left: 27, }}>
+                <TouchableHighlight style={[styles.circle1, ministry && { backgroundColor: '#CCE5FF' }]}
+                    onPress={() => { setMinistry(true); setCosmetician(false); setBank(false); setBarbershop(false); }}>
+                    <LinearGradient
+                        colors={['#FFFFFF', '#99E5C6', '#7bdcb5', '#54BF94']}
+                        style={{width: '100%', height: '100%', borderRadius: 80, elevation: 30, shadowColor: '#000'}}
+                        start={{ x: 1, y:  0}}
+                        end={{ x: 1, y: 1 }}
+                    >
+                        <Text style={styles.textSquare}> Ministry </Text>
+                    </LinearGradient>
+                </TouchableHighlight>
+                <TouchableHighlight style={[styles.circle2, bank && { backgroundColor: '#CCE5FF' }]}
+                    onPress={() => { setBank(true); setBarbershop(false); setMinistry(false); setCosmetician(false); }}>
+                    <LinearGradient
+                        colors={['#FFD9B7', '#FA9567', '#ff6a65' , ]}
+                        style={{width: '100%', height: '100%', borderRadius: 80, elevation: 30, shadowColor: '#000',}}
+                        start={{ x: 1, y:  0}}
+                        end={{ x: 1, y: 1 }}
+                    >
+                        <Text style={[styles.textSquare, {top: 60, left: 28,}]}> Bank </Text>
+                    </LinearGradient>
+                </TouchableHighlight>
+            </View>
+            <View style={{ flexDirection: 'row', left: 115,}}>
+                <TouchableHighlight style={[styles.circle3, cosmetician && { backgroundColor: '#CCE5FF' }]}
+                    onPress={() => { setCosmetician(true); setBarbershop(false); setBank(false); setMinistry(false); }}>
+                    <LinearGradient
+                        colors={['#9575cd', '#64b5f6',]}
+                        style={{width: '100%', height: '100%', borderRadius: 80, elevation: 30, shadowColor: '#000',}}
+                        start={{ x: 1, y:  0}}
+                        end={{ x: 1, y: 1 }}
+                    >
+                        <Text style={[styles.textSquare, {top: 50, left: 18,}]}> Cosmetic </Text>
+                    </LinearGradient>
                 </TouchableHighlight>
             </View>
 
-            <View style={styles.section}>
+
+            <View style={styles.more}>
+            <View style={[styles.section, {bottom: 20}]}>
                 <Dropdown
                     style={[styles.dropdown, isFocusCat && { borderColor: 'white' }]}
                     placeholderStyle={styles.placeholderStyle}
@@ -119,6 +133,7 @@ const FavoriteCategory = props => {
                 />
             </View>
         </View>
+        </View>
     )
 };
 
@@ -141,19 +156,49 @@ const styles = StyleSheet.create({
         marginTop: 18,
         borderRadius: 20,
         shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 10,
+        elevation: 20,
+    },
+    circle1: {
+        width: Dimensions.get('window').width * 0.34,
+        height: Dimensions.get('window').width * 0.34,
+        backgroundColor: '#FFF',
+        borderRadius: 80,
+        shadowColor: "#000",
+        elevation: 20,
+        bottom: 40,
+    },
+    circle2: {
+        width: Dimensions.get('window').width * 0.37,
+        height: Dimensions.get('window').width * 0.37,
+        backgroundColor: '#FFF',
+        bottom: 50,
+        borderRadius: 100,
+        shadowColor: "#000",
+        elevation: 20,
+        marginLeft: 25
+    },
+    circle3: {
+        width: Dimensions.get('window').width * 0.31,
+        height: Dimensions.get('window').width * 0.31,
+        backgroundColor: '#FFF',
+        borderRadius: 80,
+        shadowColor: "#000",
+        elevation: 20,
+        bottom: 85,
+    },
+    circle4: {
+        width: Dimensions.get('window').width * 0.26,
+        height: Dimensions.get('window').width * 0.26,
+        backgroundColor: '#FFF',
+        borderRadius: 80,
+        shadowColor: "#000",
+        elevation: 20,
     },
     textSquarepressed: {
         fontWeight: '500',
         color: '#001933',
         fontSize: 17,
-        bottom: 35,
+        bottom: 45,
         letterSpacing: 0.5,
         height: 100,
         width: 100,
@@ -162,17 +207,30 @@ const styles = StyleSheet.create({
     },
     textSquare: {
         fontWeight: '500',
-        color: 'gray',
-        fontSize: 17,
-        bottom: 35,
+        color: 'white',
+        fontSize: 20,
+        top: 55,
+        left: 23,
         letterSpacing: 0.5,
         height: 100,
         width: 100,
         textAlign: 'center',
-        right: 5,
+        fontWeight: '700',
+    },
+    more: {
+        width: 350,
+        backgroundColor: '#ffffff',
+        left: 12,
+        padding: 40,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 10,
+          height: 10,
+        },
+        elevation: 50,
+        bottom: 50
     },
     section: {
-        top: 50,
         marginTop: 20,
     },
     dropdown: {
