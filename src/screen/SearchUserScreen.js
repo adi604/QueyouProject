@@ -11,6 +11,7 @@ const SearchUserScreen = props => {
 
     const [isFree, setIsFree] = useState(false);
 
+    const [isAll, setIsAll] = useState(true);
     const [isRate, setIsRate] = useState(false);
     const [isCloser, setIsCloser] = useState(false);
 
@@ -20,7 +21,7 @@ const SearchUserScreen = props => {
 
     return (
 
-        <ScrollView>
+        <ScrollView style={{backgroundColor: '#FFF'}}>
             <View style={styles.container}>
                 <View>
                     <LinearGradient
@@ -45,14 +46,20 @@ const SearchUserScreen = props => {
                 <View>
                     {(isFree) ? <FreeSearch navigation={props.navigation} /> : <FavoriteCategory navigation={props.navigation} />}
                 </View>
-
+                <View style={styles.line}></View>
+                <View style={{flexDirection: 'row'}}>
                 <Text style={styles.filter}>SORT BY</Text>
+                <Image style={{height: 30, width: 25, top: 40, left: 10,}} source={require('./../../assets/sorting.png')}></Image>
+                </View>
                 <View style={{ flexDirection: 'row', padding: 10, paddingBottom: 30, }}>
-                    <TouchableOpacity onPress={() => { setIsRate(true); setIsCloser(false); }}>
-                        <Text style={[styles.sortByRate, isRate && { backgroundColor: '#696969', color: 'white' }]}>Rating</Text>
+                    <TouchableOpacity style={styles.squre} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
+                        <Text style={[styles.sortBy, isRate && { backgroundColor: '#696969', color: 'white' }]}>All</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { setIsCloser(true); setIsRate(false); }}>
-                        <Text style={[styles.sortByTurn, isCloser && { backgroundColor: '#696969', color: 'white' }]}>closer meeting</Text>
+                    <TouchableOpacity style={styles.squre} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
+                        <Text style={[styles.sortBy, isRate && { backgroundColor: '#696969', color: 'white' }]}>Rating</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.squre} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
+                        <Text style={[styles.sortBy, {top: 6},  isCloser && { backgroundColor: '#696969', color: 'white' }]}>closer meeting</Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.searchButton} onPress={onPressSearch}>
@@ -119,34 +126,31 @@ const styles = StyleSheet.create({
         height: 40,
         fontSize: 16,
     },
+    line: {
+        top: 20,
+        backgroundColor: '#d1d1d1',
+        height: 2,  
+    },
     filter: {
-        marginTop: 20,
-        fontSize: 40,
-        color: '#ffb74d',
-        letterSpacing: 1.5,
+        marginTop: 40,
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: '#000',
+        letterSpacing: 0.2,
     },
-    sortByRate: {
-        backgroundColor: 'white',
-        fontSize: 20,
+    squre: {
+        backgroundColor: '#E7E7E7',
+        height: 60,
         top: 20,
-        width: 90,
-        borderColor: 'gray',
-        borderWidth: 0.7,
-        borderRadius: 8,
-        textAlign: 'center',
-        height: 30,
+        marginRight: 25,
+        borderRadius: 5,
+        width: 100,
     },
-    sortByTurn: {
-        backgroundColor: 'white',
-        fontSize: 20,
-        top: 20,
-        width: 160,
-        borderColor: 'gray',
-        borderWidth: 0.7,
-        borderRadius: 8,
+    sortBy: {
+        color: '#a1a1a1',
+        fontSize: 18,
         textAlign: 'center',
-        marginLeft: 20,
-        height: 30,
+        top: 14,
     },
     searchButton: {
         top: 10,

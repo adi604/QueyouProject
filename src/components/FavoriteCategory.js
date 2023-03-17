@@ -31,7 +31,7 @@ const FavoriteCategory = props => {
     ];
 
     return (
-        <View>
+        <View style={{top: 20,}}>
             <View style={{ flexDirection: 'row', left: 125, bottom: 10,}}>
                 <TouchableHighlight style={[styles.circle4, barbershop && { backgroundColor: '#CCE5FF' }]}
                     onPress={() => { setBarbershop(true); setCosmetician(false); setBank(false); setMinistry(false); }}>
@@ -224,11 +224,11 @@ const styles = StyleSheet.create({
         padding: 40,
         shadowColor: "#000",
         shadowOffset: {
-          width: 0,
-          height: 2,
+          width: 10,
+          height: 10,
         },
-        elevation: 10,
-        bottom: 30
+        elevation: 50,
+        bottom: 50
     },
     section: {
         marginTop: 20,
