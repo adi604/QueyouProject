@@ -5,11 +5,11 @@ import {StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 const HomeProvider = props => {
     
     const onPressLogin = () => {
-        props.navigation.navigate('LoginScreen');
+        props.navigation.navigate('PrLoginScreen');
     };
 
     const onPressSignUp = () => {
-        props.navigation.navigate('SignUpScreen');
+        props.navigation.navigate('PrSignUpScreen');
     };
 
 

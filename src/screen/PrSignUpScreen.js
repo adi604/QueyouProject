@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert
 import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
 
-const SignUpScreen = props => {
+const PrSignUpScreen = props => {
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -16,7 +16,7 @@ const SignUpScreen = props => {
     >
       <View>
         <Text style={styles.signUp}>
-          Sign Up
+          Provider Sign Up
         </Text>
         <View style={styles.inputView}>
           <TextInput
@@ -63,7 +63,7 @@ const SignUpScreen = props => {
   );
 }
 
-export default SignUpScreen
+export default PrSignUpScreen
 
 
 const styles = StyleSheet.create({
@@ -73,9 +73,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#a9a9a9'
   },
   signUp: {
-    fontSize: 50,
+    fontSize: 30,
     fontWeight: 'bold',
-    marginLeft: '28%',
+    marginLeft: '22%',
     marginTop: '18%',
     marginBottom: '3%',
     textShadowColor: 'rgba(0, 0, 0, 0.6)',
