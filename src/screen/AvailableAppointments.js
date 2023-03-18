@@ -9,6 +9,10 @@ const AvailableAppointments = props => {
     const [isReviews, setIsReviews] = useState(false);
     const [providerReview, setProviderReview] = useState("");
 
+    const onPressSchedule = () => {
+        props.navigation.navigate('CalendarPickerScreen');
+      };
+
 
     const queues = [
         { provider: "Devin1", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
@@ -51,7 +55,7 @@ const AvailableAppointments = props => {
                                 colors={['#000066', '#004C99', '#0066CC']}
                                 style={styles.linearGradient}
                             >
-                                <TouchableOpacity style={styles.buttonAppointment}>
+                                <TouchableOpacity style={styles.buttonAppointment} onPress={onPressSchedule}>
                                     <Text style={styles.appointment}>Queue{"\n"}Reservation</Text>
                                 </TouchableOpacity>
                             </LinearGradient>
