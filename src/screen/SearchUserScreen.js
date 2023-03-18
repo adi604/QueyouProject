@@ -21,7 +21,7 @@ const SearchUserScreen = props => {
 
     return (
 
-        <ScrollView style={{backgroundColor: '#FFF'}}>
+        <ScrollView style={{backgroundColor: '#f0f8ff'}}>
             <View style={styles.container}>
                 <View>
                     <LinearGradient
@@ -31,7 +31,7 @@ const SearchUserScreen = props => {
                         start={{ x: 0, y: 0 }}
                         end={{ x: 0, y: 1 }}
                     >
-                        <Text style={[styles.heading, {left: 130, fontSize: 30, fontWeight: '500', letterSpacing: 3,}]}>Hey Adi,</Text>
+                        <Text style={[styles.heading, {fontSize: 30, fontWeight: '500', letterSpacing: 2, borderBottomWidth: 0.5, borderBottomColor: 'white', width: 130}]}>Hey Adi,</Text>
                         <Text style={[styles.heading, {top: 35}]}>What service are you looking for?</Text>
                         <View style={{ flexDirection: 'row' , top: 20}}>
                             <TouchableOpacity style={styles.search}>
@@ -78,7 +78,7 @@ export default SearchUserScreen;
 const styles = StyleSheet.create({
     container: {
         padding: 18,
-        backgroundColor: '#FFF',
+        backgroundColor: '#f0f8ff',
     },
     heading: {
         top: 30,
