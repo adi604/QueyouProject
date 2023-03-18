@@ -14,6 +14,7 @@ import AvailableAppointments from './src/screen/AvailableAppointments'
 import PrAppointments from './src/screen/PrAppointments'
 import CalendarPickerScreen from './src/screen/CalendarPickerScreen'
 import SearchUserScreen from './src/screen/SearchUserScreen'
+import Reviews from './src/components/Reviews';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,7 @@ function App() {
         <Stack.Screen name="PrAppointments" component={PrAppointments} />
         <Stack.Screen name="CalendarPickerScreen" component={CalendarPickerScreen} />
         <Stack.Screen name="SearchUserScreen" component={Temp} />
+        <Stack.Screen name="Reviews" component={Reviews} />
       </Stack.Navigator>
 
     </NavigationContainer>
