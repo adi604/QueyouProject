@@ -152,7 +152,5 @@ const styles = StyleSheet.create({
         width: 40,
         top: '12%',
         left: '30%',
-
-
     },
 });
