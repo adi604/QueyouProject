@@ -1,53 +1,81 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-
 
 const MyAppointment = props => {
 
     const queues = [
-        { provider: "Devin", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30" },
-        { provider: "Devin", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30" },
-        { provider: "Devin", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30" },
+        { provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
+        { provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
+        { provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
+        { provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
+        { provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
+        { provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
     ];
 
+    const onPressAdd = () => {
+        props.navigation.navigate('SearchUserScreen');
+      };
 
     return (
-        <View style={[{ backgroundColor: "white" }]}>
+        <View style={{ backgroundColor: '#faffff', height: '110%' }}>
             <View>
                 <LinearGradient
                     colors={['#64b5f6', '#9575cd']}
                     style={{
-                        width: 450, height: 120, right: 20, padding: 20, bottom: 18, elevation: 30,
-                        shadowColor: '#52006A',
+                        width: 450, height: 120, right: 20, padding: 20, bottom: 18, shadowColor: '#000', shadowOffset: { width: 1, height: 1 },
+                        shadowOpacity: 0.4,
+                        shadowRadius: 3,
+                        elevation: 5,
                     }}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 0, y: 1 }}
                 >
-                    <Text style={styles.heading}>My Appointment</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.heading}>My Appointment</Text>
+                        <Image style={{ height: 28, width: 28, top: 40, left: 150}} source={require('./../../assets/calender3.png')}></Image>
+                    </View>
+                    <View style={{
+                        backgroundColor: '#9575cd',
+                        width: 450, height: 1, top: 30, shadowColor: '#000', shadowOffset: { width: -2, height: 5 },
+                        shadowOpacity: 0.4,
+                        shadowRadius: 3,
+                        elevation: 10,
+                    }}>
+                    </View>
                 </LinearGradient>
             </View>
             <FlatList
                 data={queues}
                 renderItem={({ item }) =>
-                    <View>
+                    <View style={styles.box}>
                         <View style={{ flexDirection: 'row', padding: 7, }}>
+                            <View style={{ flexDirection: 'column' }}>
+                                <Image style={styles.icon} source={item.icon}></Image>
+                                <Text style={styles.category}>{item.category}</Text>
+                            </View>
                             <View style={styles.verticalLine} />
-                            <View style={styles.circle} />
                             <View style={[{ left: 16 }]}>
+                                <Text style={styles.provider}>{item.provider}</Text>
                                 <View style={{ flexDirection: 'row' }}>
-                                    <Text style={styles.date}>{item.date}</Text>
                                     <Text style={styles.day}>{item.day} in hour</Text>
                                     <Text style={styles.hour}>{item.hour}</Text>
+                                    <Text style={styles.date}>{item.date}</Text>
                                 </View>
-
-                                <Text style={styles.provider}>{item.provider}</Text>
-                                <Text style={styles.category}>{item.category}</Text>
-                                <View style={{ top: 5, right: 25, width: 500, height: 1, backgroundColor: `#808080`, }} />
                             </View>
                         </View>
                     </View>}
             />
+            <LinearGradient
+                    colors={['#ff6a65', '#f3afbf']}
+                    style={styles.addbtn}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}
+                >
+            <TouchableOpacity style={styles.btn} onPress={onPressAdd}>
+                <Text style={{fontSize: 30, color: 'white'}}>+</Text>
+            </TouchableOpacity>
+            </LinearGradient>
         </View>
     )
 };
@@ -63,55 +91,89 @@ const styles = StyleSheet.create({
         top: 20,
         color: 'white',
         padding: 20,
+        fontWeight: '500',
+    },
+    icon: {
+        marginTop: 5,
+        left: 20,
+        top: 10,
+        height: 45,
+        width: 45,
+    },
+    category: {
+        left: 19,
+        fontSize: 15,
+        height: 30,
+        color: `#696969`,
+        top: 10,
+        fontWeight: '400',
+    },
+    box: {
+        backgroundColor: '#FFF',
+        shadowColor: "#000",
+        elevation: 15,
+        height: 100,
+        marginTop: 5,
+        width: 370,
+        left: 20,
+        borderRadius: 2,
+        marginBottom: 25,
     },
     verticalLine: {
         top: 5,
-        left: 8,
-        width: 3.5,
-        backgroundColor: `#ffa500`,
+        width: 2,
+        backgroundColor: `#dcdcdc`,
         height: "90%",
+        marginLeft: 40,
 
     },
-    circle: {
-        width: 15,
-        height: 15,
-        right: 1,
-        top: 45,
-        borderRadius: 50,
-        backgroundColor: `#ffa500`,
-    },
     date: {
-        top: 10,
-        fontSize: 18,
-        left: 10,
-        color: "#808080",
+        bottom: 30,
+        fontSize: 12,
+        left: 35,
+        fontWeight: '600',
+        color: "#c0c0c0",
 
     },
     day: {
-        top: 10,
-        left: 30,
-        fontSize: 18,
-        color: "#808080",
+        bottom: 8,
+        left: 10,
+        fontSize: 16,
+        color: "#c0c0c0",
+        fontWeight: '400',
+
     },
     hour: {
-        top: 10,
-        left: 36,
-        fontSize: 18,
-        color: "#808080",
+        bottom: 8,
+        left: 14,
+        fontSize: 16,
+        fontWeight: '400',
+        color: "#c0c0c0",
     },
     provider: {
+        top: 7,
         padding: 10,
-        fontSize: 25,
-        height: 52,
-        letterSpacing: 0.5,
-        color: `#6495ed`,
+        fontSize: 20,
+        height: 50,
+        color: `#696969`,
         fontWeight: "bold",
     },
-    category: {
-        left: 11,
-        fontSize: 15,
-        height: 30,
-        color: `#6495ed`,
-        fontWeight: "bold",
+    addbtn: {
+        bottom: 90,
+        right: 20,
+        width: 70,
+        height: 70,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        alignSelf: 'flex-end',
+    },
+    btn: {
+        width: 70,
+        height: 70,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        alignSelf: 'flex-end'
     },
 });

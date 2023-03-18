@@ -11,7 +11,7 @@ const Drawer = createDrawerNavigator();
 
 const Temp = props => {
   return (
-    <Drawer.Navigator initialRouteName='MainUserScreen'>
+    <Drawer.Navigator initialRouteName='SearchUserScreen'>
       <Drawer.Screen name="Search" component={SearchUserScreen} options={{headerShown:false}}/>
       <Drawer.Screen name="My Appointment" component={MyAppointment} options={{headerShown:false}}/>
       <Drawer.Screen name="Reviews" component={Reviews} options={{headerShown:false}}/>

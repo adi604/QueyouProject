@@ -12,6 +12,7 @@ import MainUserScreen from './src/screen/SearchUserScreen'
 import Temp from './src/screen/Temp'
 import AvailableAppointments from './src/screen/AvailableAppointments'
 import PrAppointments from './src/screen/PrAppointments'
+import SearchUserScreen from './src/screen/SearchUserScreen'
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,7 @@ function App() {
         <Stack.Screen name="Temp" component={Temp} />
         <Stack.Screen name="AvailableAppointments" component={AvailableAppointments} />
         <Stack.Screen name="PrAppointments" component={PrAppointments} />
+        <Stack.Screen name="SearchUserScreen" component={Temp} />
       </Stack.Navigator>
 
     </NavigationContainer>

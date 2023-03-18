@@ -21,25 +21,35 @@ const SearchUserScreen = props => {
 
     return (
 
-        <ScrollView style={{backgroundColor: '#f0f8ff'}}>
+        <ScrollView style={{ backgroundColor: '#f0f8ff' }}>
             <View style={styles.container}>
                 <View>
                     <LinearGradient
                         colors={['#64b5f6', '#9575cd']}
-                        style={{ width: 415, height: 200, right: 20, padding: 20, bottom: 18, elevation: 30,
-                            shadowColor: '#52006A',}}
+                        style={{
+                            width: 415, height: 200, right: 20, padding: 20, bottom: 18, elevation: 30,
+                            shadowColor: '#52006A',
+                        }}
                         start={{ x: 0, y: 0 }}
                         end={{ x: 0, y: 1 }}
                     >
-                        <Text style={[styles.heading, {fontSize: 30, fontWeight: '500', letterSpacing: 2, borderBottomWidth: 0.5, borderBottomColor: 'white', width: 130}]}>Hey Adi,</Text>
-                        <Text style={[styles.heading, {top: 35}]}>What service are you looking for?</Text>
-                        <View style={{ flexDirection: 'row' , top: 20}}>
+                        <Text style={[styles.heading, { fontSize: 30, fontWeight: '500', letterSpacing: 2, borderBottomWidth: 0.5, borderBottomColor: 'white', width: 130 }]}>Hey Adi,</Text>
+                        <Text style={[styles.heading, { top: 35 }]}>What service are you looking for?</Text>
+                        <View style={{ flexDirection: 'row', top: 20 }}>
                             <TouchableOpacity style={styles.search}>
-                                <Text style={[styles.buttonSearch, {shadowColor: "#0080FF"}, !isFree && styles.shadow]} onPress={() => { setIsFree(false) }}>Advance Search</Text>
+                                <Text style={[styles.buttonSearch, { shadowColor: "#0080FF" }, !isFree && styles.shadow]} onPress={() => { setIsFree(false) }}>Advance Search</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.search}>
-                                <Text style={[styles.buttonSearch,{shadowColor: "#77BBFF"}, isFree && styles.shadow]} onPress={() => { setIsFree(true) }}>Free Search</Text>
+                                <Text style={[styles.buttonSearch, { shadowColor: "#77BBFF" }, isFree && styles.shadow]} onPress={() => { setIsFree(true) }}>Free Search</Text>
                             </TouchableOpacity>
+                        </View>
+                        <View style={{
+                            backgroundColor: '#9575cd',
+                            width: 450, height: 1, top: 30, shadowColor: '#000', shadowOffset: { width: 1, height: 1 },
+                            shadowOpacity: 0.4,
+                            shadowRadius: 3,
+                            elevation: 20,
+                        }}>
                         </View>
                     </LinearGradient>
                 </View>
@@ -47,9 +57,9 @@ const SearchUserScreen = props => {
                     {(isFree) ? <FreeSearch navigation={props.navigation} /> : <FavoriteCategory navigation={props.navigation} />}
                 </View>
                 <View style={styles.line}></View>
-                <View style={{flexDirection: 'row'}}>
-                <Text style={styles.filter}>SORT BY</Text>
-                <Image style={{height: 30, width: 25, top: 40, left: 10,}} source={require('./../../assets/sorting.png')}></Image>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.filter}>SORT BY</Text>
+                    <Image style={{ height: 30, width: 25, top: 40, left: 10, }} source={require('./../../assets/sorting.png')}></Image>
                 </View>
                 <View style={{ flexDirection: 'row', padding: 10, paddingBottom: 30, }}>
                     <TouchableOpacity style={styles.squre} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
@@ -59,14 +69,14 @@ const SearchUserScreen = props => {
                         <Text style={[styles.sortBy, isRate && { backgroundColor: '#696969', color: 'white' }]}>Rating</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.squre} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
-                        <Text style={[styles.sortBy, {top: 6},  isCloser && { backgroundColor: '#696969', color: 'white' }]}>closer meeting</Text>
+                        <Text style={[styles.sortBy, { top: 6 }, isCloser && { backgroundColor: '#696969', color: 'white' }]}>closer meeting</Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.searchButton} onPress={onPressSearch}>
-                <ImageBackground source={require('../../assets/vi2.png')} style={styles.vi}>
-                    <Text></Text>
-                </ImageBackground>
-            </TouchableOpacity>
+                    <ImageBackground source={require('../../assets/vi2.png')} style={styles.vi}>
+                        <Text></Text>
+                    </ImageBackground>
+                </TouchableOpacity>
             </View>
         </ScrollView>
 
@@ -129,7 +139,7 @@ const styles = StyleSheet.create({
     line: {
         top: 20,
         backgroundColor: '#d1d1d1',
-        height: 2,  
+        height: 2,
     },
     filter: {
         marginTop: 40,
