@@ -1,5 +1,6 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 const MyAppointment = props => {
@@ -12,15 +13,28 @@ const MyAppointment = props => {
 
 
     return (
-        <View style={[{backgroundColor: "white"}]}>
+        <View style={[{ backgroundColor: "white" }]}>
+            <View>
+                <LinearGradient
+                    colors={['#64b5f6', '#9575cd']}
+                    style={{
+                        width: 450, height: 120, right: 20, padding: 20, bottom: 18, elevation: 30,
+                        shadowColor: '#52006A',
+                    }}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}
+                >
+                    <Text style={styles.heading}>My Appointment</Text>
+                </LinearGradient>
+            </View>
             <FlatList
                 data={queues}
                 renderItem={({ item }) =>
                     <View>
-                        <View style={{ flexDirection: 'row' , padding: 7,}}>
+                        <View style={{ flexDirection: 'row', padding: 7, }}>
                             <View style={styles.verticalLine} />
                             <View style={styles.circle} />
-                            <View style={[{left: 16}]}>
+                            <View style={[{ left: 16 }]}>
                                 <View style={{ flexDirection: 'row' }}>
                                     <Text style={styles.date}>{item.date}</Text>
                                     <Text style={styles.day}>{item.day} in hour</Text>
@@ -43,6 +57,13 @@ export default MyAppointment
 
 
 const styles = StyleSheet.create({
+    heading: {
+        fontSize: 22,
+        left: 10,
+        top: 20,
+        color: 'white',
+        padding: 20,
+    },
     verticalLine: {
         top: 5,
         left: 8,
