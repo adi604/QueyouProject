@@ -7,6 +7,10 @@ const PrLoginScreen = props => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const onPressLogin = () => {
+    props.navigation.navigate('PrAppointments');
+  };
+
   return (
     <LinearGradient
       colors={['#0066CC', '#66B2FF', '#99CCFF', '#DFECFF']}
@@ -48,7 +52,7 @@ const PrLoginScreen = props => {
           end={{ x: 1, y: 0.5 }}
           style={styles.linearGradient}
         >
-          <TouchableOpacity style={styles.loginBtn}>
+          <TouchableOpacity style={styles.loginBtn} onPress={onPressLogin}>
             <Text style={styles.loginText}>LOGIN</Text>
           </TouchableOpacity>
         </LinearGradient>
