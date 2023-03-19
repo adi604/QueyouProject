@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
     line: {
         backgroundColor: '#d1d1d1',
         height: 2,
+        marginTop: -20,
     },
     filter: {
         marginTop: 40,
