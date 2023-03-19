@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     },
     more: {
         width: 350,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#f5fcff',
         left: 12,
         padding: 40,
         shadowColor: "#000",
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
           width: 10,
           height: 10,
         },
-        elevation: 50,
+        elevation: 10,
         bottom: 50
     },
     section: {
