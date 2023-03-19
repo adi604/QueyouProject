@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
 const Customer = require('../models/customer');
 const Provider = require('../models/provider');
+const utils = require("../../utils/utils")
 
 module.exports = {
     // Sign up - create new user of customer.
@@ -49,7 +50,12 @@ module.exports = {
                     });
                 }
                 if(result) {
-                    return res.status(200).json(c);
+                    const token = utils.generateToken(c.usernamem, c.password);
+                    const response = {
+                        user: c,
+                        token: token
+                    };
+                    return res.status(200).json(response);
                 }
                 res.status(401).json({
                     message: "Authentication failed !"

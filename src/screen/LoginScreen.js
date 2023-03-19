@@ -1,13 +1,25 @@
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
+import { serverBaseUrl } from '../utils/strings';
+import { sendRequest } from '../utils/utils'
 
 const LoginScreen = props => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const onPressLogin = () => {
+  const onPressLogin = async () => {
+    // const body = {
+    //   username: username,
+    //   password: password
+    // }
+    // const url = `${serverBaseUrl}/users/loginCustomers`;
+    // const response = await sendRequest(url, 'POST', body);
+    // if(!response.ok) {
+    //   return;
+    // }
+    // login succeeded
     props.navigation.navigate('Temp');
   };
 
