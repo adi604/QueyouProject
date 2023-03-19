@@ -40,7 +40,7 @@ const Reviews = props => {
     return (
         <View style={styles.container}>
             <View style={styles.reviewContainer}>
-                <Text style={styles.title}>Customer reviews</Text>
+                <Text style={styles.title}>Reviews</Text>
                 <View style={styles.totalWrap}>
                     <View style={{ flexDirection: "row", }}>
                         <Star />
@@ -60,11 +60,12 @@ const Reviews = props => {
                     <Text style={styles.progressPercentText}>60%</Text>
                 </View>
             </View>
-            <FlatList style={[{ top: 80 }]}
+            <FlatList style={[{ marginTop: 70 }]}
                 data={reviews}
                 renderItem={({ item }) =>
                     <View style={styles.box}>
                         <View style={[{ flexDirection: 'row' }]}>
+                            <Image style={[{ left: 10, height: 45, width: 45, top: 10 }]} source={require('../../assets/person.png')}></Image>
                             <View style={[{ left: 20, bottom: 20, padding: 8 }]}>
                                 <Text style={styles.provider}>{item.provider}</Text>
                                 <View style={[{ flexDirection: 'row', right: 5, }]}>
@@ -73,7 +74,7 @@ const Reviews = props => {
                                 </View>
                                 <Text style={styles.text}>{item.text}</Text>
                             </View>
-                            <Text style={{ left: 5, top: 40, color: '#696969', fontSize: 15, }}>{item.date}</Text>
+                            <Text style={{ right: 100, top: 40, color: '#696969', fontSize: 15, fontWeight: '500' }}>{item.date}</Text>
                         </View>
                     </View>}
             />
@@ -93,6 +94,7 @@ const styles = StyleSheet.create({
         right: 13,
         marginBottom: 10,
         marginTop: 5,
+        height: '100%'
     },
     reviewContainer: {
         backgroundColor: "#FFFFFF",
@@ -110,9 +112,9 @@ const styles = StyleSheet.create({
     },
     title: {
         bottom: 20,
-        fontWeight: "bold",
+        fontWeight: "500",
         fontSize: 30,
-        color: "#e91e63",
+        color: "#000",
         textAlign: "center",
     },
     totalWrap: {
@@ -165,15 +167,16 @@ const styles = StyleSheet.create({
         minWidth: 5,
     },
     box: {
-        backgroundColor: '#FFF',
-        shadowColor: "#000",
-        elevation: 15,
-        height: 120,
-        marginTop: 10,
+        // backgroundColor: '#FFF',
+        // shadowColor: "#000",
+        // elevation: 15,
+        height: 130,
         width: '85%',
         left: 45,
         borderRadius: 18,
         marginBottom: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: '#d3d3d3',
     },
     provider: {
         fontSize: 20,
@@ -190,9 +193,10 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 14,
         height: 50,
-        width: 250,
+        width: 300,
         color: `#808080`,
         top: 5,
+        right: 60
     },
     locationbtn: {
         height: 28,
