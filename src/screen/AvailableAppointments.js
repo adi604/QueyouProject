@@ -33,20 +33,23 @@ const AvailableAppointments = props => {
 
     return (
         <View style={[{ backgroundColor: "white", top: 25, height: "100%" }]}>
+            <View style={{
+                    shadowColor: '#000',
+                    elevation: 45,
+                }}>
             <LinearGradient
                 colors={['#64b5f6', '#9575cd']}
                 style={{
-                    width: '100%', height: 100, borderBottomLeftRadius: 30, borderBottomRightRadius: 30, padding: 20, bottom: 25, shadowColor: '#000', shadowOffset: { width: 1, height: 1 },
-                    shadowOpacity: 0.4,
-                    shadowRadius: 3,
-                    elevation: 5,
+                    width: '100%', height: 100, borderBottomLeftRadius: 30, borderBottomRightRadius: 30, padding: 20, bottom: 25, 
+                    shadowColor: '#000',
+                    elevation: 50,
                 }}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 0, y: 1 }}
             >
                 <Text style={styles.resultsFound}>89 results were found</Text>
             </LinearGradient>
-
+            </View>
             <View style={{ flexDirection: 'row', width: '90%', left: 15, }}>
                 <TouchableOpacity style={[styles.btnfilter, isFilter && styles.pressed]} onPress={() => { setIsFilter(true);}}>
                     <Text style={[{fontSize: 20, color: 'black', textAlign: 'center', top: 5, }, isFilter && styles.pressedText]}>Filtered</Text>
@@ -104,7 +107,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#e9e9e9',
         width: '50%',
         height: 40,
-        
+        borderRadius: 20,
     },
     pressed: {
         backgroundColor: '#9575cd',
