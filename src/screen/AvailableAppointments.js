@@ -6,8 +6,7 @@ import Reviews from '../components/Reviews'
 
 const AvailableAppointments = props => {
 
-    const [isReviews, setIsReviews] = useState(false);
-    const [providerReview, setProviderReview] = useState("");
+    const [isFilter, setIsFilter] = useState(true);
 
     const onPressSchedule = () => {
         props.navigation.navigate('CalendarPickerScreen');
@@ -47,6 +46,15 @@ const AvailableAppointments = props => {
             >
                 <Text style={styles.resultsFound}>89 results were found</Text>
             </LinearGradient>
+
+            <View style={{ flexDirection: 'row', width: '90%', left: 15, }}>
+                <TouchableOpacity style={[styles.btnfilter, isFilter && styles.pressed]} onPress={() => { setIsFilter(true);}}>
+                    <Text style={[{fontSize: 20, color: 'black', textAlign: 'center', top: 5, }, isFilter && styles.pressedText]}>Filtered</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.btnfilter, {left: 10}, !isFilter && styles.pressed]} onPress={() => { setIsFilter(false);}}>
+                    <Text style={[{fontSize: 20, color: 'black', textAlign: 'center', top: 5,}, !isFilter && styles.pressedText]}>All</Text>
+                </TouchableOpacity>
+            </View>
 
             <FlatList style={[{ top: 20 }]}
                 data={queues}
@@ -89,6 +97,23 @@ const styles = StyleSheet.create({
         left: 10,
         top: 30,
         fontWeight: '500',
+    },
+    btnfilter: {
+        width: 80,
+        fontSize: 40,
+        backgroundColor: '#e9e9e9',
+        width: '50%',
+        height: 40,
+        
+    },
+    pressed: {
+        backgroundColor: '#9575cd',
+    },
+    pressedText: {
+        color: '#fff',
+        textShadowColor: 'rgba(255,255,255, 0.3)',
+        textShadowOffset: {width: -1, height: -1},
+        textShadowRadius: 20,
     },
     box: {
         backgroundColor: '#FFF',
