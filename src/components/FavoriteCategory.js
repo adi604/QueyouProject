@@ -78,7 +78,7 @@ const FavoriteCategory = props => {
                         start={{ x: 1, y:  0}}
                         end={{ x: 1, y: 1 }}
                     >
-                        <Text style={[styles.textSquare, {top: 50, left: 18,}]}> Cosmetic </Text>
+                        <Text style={[styles.textSquare, {top: 58, left: 22,}]}> Cosmetic </Text>
                     </LinearGradient>
                 </TouchableHighlight>
             </View>
@@ -159,32 +159,33 @@ const styles = StyleSheet.create({
         elevation: 20,
     },
     circle1: {
-        width: Dimensions.get('window').width * 0.34,
-        height: Dimensions.get('window').width * 0.34,
+        width: Dimensions.get('window').width * 0.33,
+        height: Dimensions.get('window').width * 0.33,
         backgroundColor: '#FFF',
         borderRadius: 80,
         shadowColor: "#000",
         elevation: 20,
-        bottom: 40,
+        bottom: 80,
+        right: 20,
     },
     circle2: {
-        width: Dimensions.get('window').width * 0.37,
-        height: Dimensions.get('window').width * 0.37,
+        width: Dimensions.get('window').width * 0.38,
+        height: Dimensions.get('window').width * 0.38,
         backgroundColor: '#FFF',
-        bottom: 50,
+        bottom: 93,
         borderRadius: 100,
         shadowColor: "#000",
         elevation: 20,
-        marginLeft: 25
+        marginLeft: 40
     },
     circle3: {
-        width: Dimensions.get('window').width * 0.31,
-        height: Dimensions.get('window').width * 0.31,
+        width: Dimensions.get('window').width * 0.35,
+        height: Dimensions.get('window').width * 0.35,
         backgroundColor: '#FFF',
         borderRadius: 80,
         shadowColor: "#000",
         elevation: 20,
-        bottom: 85,
+        bottom: 155,
     },
     circle4: {
         width: Dimensions.get('window').width * 0.26,
@@ -193,6 +194,8 @@ const styles = StyleSheet.create({
         borderRadius: 80,
         shadowColor: "#000",
         elevation: 20,
+        bottom: 15,
+        right: 10,
     },
     textSquarepressed: {
         fontWeight: '500',
@@ -228,7 +231,7 @@ const styles = StyleSheet.create({
           height: 10,
         },
         elevation: 10,
-        bottom: 50
+        bottom: 110
     },
     section: {
         marginTop: 20,

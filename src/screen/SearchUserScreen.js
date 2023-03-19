@@ -33,7 +33,7 @@ const SearchUserScreen = props => {
                         start={{ x: 0, y: 0 }}
                         end={{ x: 0, y: 1 }}
                     >
-                        <Text style={[styles.heading, { fontSize: 30, fontWeight: '500', letterSpacing: 2, borderBottomWidth: 0.5, borderBottomColor: 'white', width: 130 }]}>Hey Adi,</Text>
+                        <Text style={[styles.heading, { fontSize: 30, fontWeight: '400', letterSpacing: 0.5, width: 130 }]}>Hey Adi,</Text>
                         <Text style={[styles.heading, { top: 35 }]}>What service are you looking for?</Text>
                         <View style={{ flexDirection: 'row', top: 20 }}>
                             <TouchableOpacity style={styles.search}>
@@ -62,14 +62,14 @@ const SearchUserScreen = props => {
                     <Image style={{ height: 30, width: 25, top: 40, left: 10, }} source={require('./../../assets/sorting.png')}></Image>
                 </View>
                 <View style={{ flexDirection: 'row', padding: 10, paddingBottom: 30, }}>
-                    <TouchableOpacity style={styles.squre} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
-                        <Text style={[styles.sortBy, isRate && { backgroundColor: '#696969', color: 'white' }]}>All</Text>
+                    <TouchableOpacity style={[styles.squre, isAll && { backgroundColor: '#FA9567'}]} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
+                        <Text style={[styles.sortBy]}>All</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.squre} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
-                        <Text style={[styles.sortBy, isRate && { backgroundColor: '#696969', color: 'white' }]}>Rating</Text>
+                    <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#FA9567'}]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
+                        <Text style={[styles.sortBy]}>Rating</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.squre} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
-                        <Text style={[styles.sortBy, { top: 6 }, isCloser && { backgroundColor: '#696969', color: 'white' }]}>closer meeting</Text>
+                    <TouchableOpacity style={[styles.squre, isCloser && { backgroundColor: '#FA9567'}]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
+                        <Text style={[styles.sortBy]}>closer meeting</Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.searchButton} onPress={onPressSearch}>
@@ -92,10 +92,10 @@ const styles = StyleSheet.create({
     },
     heading: {
         top: 30,
-        fontSize: 20,
+        fontSize: 18,
         color: 'white',
         left: 40,
-        fontWeight: '400',
+        fontWeight: '500',
         letterSpacing: 0.3,
     },
     search: {
@@ -103,9 +103,8 @@ const styles = StyleSheet.create({
         paddingRight: 30,
     },
     buttonSearch: {
-        fontSize: 15,
+        fontSize: 16,
         height: 40,
-        borderRadius: 20,
         letterSpacing: 1,
         paddingLeft: 30,
         paddingRight: 30,
@@ -113,17 +112,14 @@ const styles = StyleSheet.create({
         paddingBottom: 8,
         fontWeight: '500',
         color: 'white',
-
     },
     shadow: {
-        shadowColor: "#FFFFFF",
-        shadowOffset: {
-            width: 0,
-            height: 10,
-        },
+        backgroundColor: "DDD",
+        shadowColor: "#DDD",
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 1,
+        borderRadius: 4,
     },
     selectedTextStyle: {
         fontSize: 16,
@@ -137,7 +133,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     line: {
-        top: 20,
         backgroundColor: '#d1d1d1',
         height: 2,
     },
@@ -149,18 +144,18 @@ const styles = StyleSheet.create({
         letterSpacing: 0.2,
     },
     squre: {
-        backgroundColor: '#E7E7E7',
-        height: 60,
+        backgroundColor: '#a1a1a1',
+        height: 30,
         top: 20,
         marginRight: 25,
-        borderRadius: 5,
+        borderRadius: 15,
         width: 100,
     },
     sortBy: {
-        color: '#a1a1a1',
+        color: '#fff',
         fontSize: 18,
         textAlign: 'center',
-        top: 14,
+        top: 2,
     },
     searchButton: {
         top: 10,
