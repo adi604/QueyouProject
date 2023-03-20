@@ -6,6 +6,7 @@ import { Icon, ScrollView, StyleSheet, Text, View, ImageBackground, Image, Touch
 import SearchUserScreen from './SearchUserScreen'
 import MyAppointment from '../components/MyAppointment'
 import Reviews from '../components/Reviews'
+import Settings from './Settings'
 
 const Drawer = createDrawerNavigator();
 
@@ -14,7 +15,8 @@ const Temp = props => {
     <Drawer.Navigator initialRouteName='SearchUserScreen'>
       <Drawer.Screen name="Search" component={SearchUserScreen} options={{headerShown:false}}/>
       <Drawer.Screen name="My Appointment" component={MyAppointment} options={{headerShown:false}}/>
-      <Drawer.Screen name="Reviews" component={Reviews} options={{headerShown:false}}/>
+      <Drawer.Screen name="Reviews" component={Reviews} options={{headerShown:true}}/>
+      <Drawer.Screen name="Settings" component={Settings} options={{headerShown:false, headerStyle: {backgroundColor: '#e7305b'}, headerTintColor: '#FFF', headerTitleStyle: {fontSize: 20, letterSpacing: 0.2,}}}/>
     </Drawer.Navigator>
   )
 }
