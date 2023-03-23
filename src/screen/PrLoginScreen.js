@@ -1,13 +1,26 @@
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
+import { serverBaseUrl } from '../utils/strings';
+import { sendRequest } from '../utils/utils'
 
 const PrLoginScreen = props => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const onPressLogin = () => {
+  const onPressLogin = async () => {
+    const body = {
+      username: username,
+      password: password
+    }
+    const url = `${serverBaseUrl}/users/loginProviders`;
+    const response = await sendRequest(url, 'POST', body);
+    if(!response.ok) {
+      return;
+    }
+    // login succeeded
+    await AsyncStorage.setItem('token', response.body.token);
     props.navigation.navigate('PrAppointments');
   };
 

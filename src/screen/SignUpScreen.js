@@ -1,6 +1,9 @@
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
+import { sendRequest, validateEmail, validatePassword } from '../utils/utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { INVALID_PASSWORD_MSG, serverBaseUrl, INVALID_EMAIL_MSG } from '../utils/strings';
 
 const SignUpScreen = props => {
 
@@ -8,6 +11,31 @@ const SignUpScreen = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSelected, setSelection] = useState(false);
+
+  const onPressSignUp = async () => {
+    if(!validateEmail(email)) {
+      Alert.alert(INVALID_EMAIL_MSG);
+      return;
+    }
+    if(!validatePassword(password)) {
+      Alert.alert(INVALID_PASSWORD_MSG);
+      return;
+    }
+    const body = {
+      username: username,
+      password: password,
+      mail: email
+    }
+    const url = `${serverBaseUrl}/users/signUpCustomers`;
+    const response = await sendRequest(url, 'POST', body);
+    if(!response.ok) {
+      Alert.alert(response.body.message);
+      return;
+    }
+    // login succeeded
+    await AsyncStorage.setItem('token', response.body.token);
+    props.navigation.navigate('Temp');
+  }
 
   return (
     <ImageBackground
@@ -55,7 +83,7 @@ const SignUpScreen = props => {
           />
           <Text style={styles.agree}>I agree to the Terms of Service</Text>
         </View>
-        <TouchableOpacity style={styles.signBtn}>
+        <TouchableOpacity style={styles.signBtn} onPress={onPressSignUp}>
           <Text style={styles.signBtnText}>Sign Up</Text>
         </TouchableOpacity>
       </View>

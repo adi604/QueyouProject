@@ -3,23 +3,27 @@ import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { serverBaseUrl } from '../utils/strings';
 import { sendRequest } from '../utils/utils'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = props => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+
   const onPressLogin = async () => {
-    // const body = {
-    //   username: username,
-    //   password: password
-    // }
-    // const url = `${serverBaseUrl}/users/loginCustomers`;
-    // const response = await sendRequest(url, 'POST', body);
-    // if(!response.ok) {
-    //   return;
-    // }
+    const body = {
+      username: username,
+      password: password
+    }
+    const url = `${serverBaseUrl}/users/loginCustomers`;
+    const response = await sendRequest(url, 'POST', body);
+    if(!response.ok) {
+      Alert.alert(response.body.message);
+      return;
+    }
     // login succeeded
+    await AsyncStorage.setItem('token', response.body.token);
     props.navigation.navigate('Temp');
   };
 
