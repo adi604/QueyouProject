@@ -26,7 +26,7 @@ module.exports = {
                 });
                 customer.save().then(() => {
                     res.status(200).json({
-                        message: `SignUp - ${customer.username} created !`
+                        token: utils.generateToken(username, password),
                     });
                 });
             });
@@ -40,17 +40,17 @@ module.exports = {
         Customer.findOne({username: username}).then((c) => {
             if(c == null) {
                 return res.status(404).json({
-                    message: "Authentication failed !"
+                    message: "Authentication failed, username or passwaord incorrect."
                 });
             }
             bcrypt.compare(password, c.password, (error, result) => {
                 if(error) {
                     return res.status(500).json({
-                        message: "Authentication failed !"
+                        message: "Authentication failed, username or passwaord incorrect."
                     });
                 }
                 if(result) {
-                    const token = utils.generateToken(c.usernamem, c.password);
+                    const token = utils.generateToken(username, password);
                     const response = {
                         user: c,
                         token: token
@@ -58,7 +58,7 @@ module.exports = {
                     return res.status(200).json(response);
                 }
                 res.status(401).json({
-                    message: "Authentication failed !"
+                    message: "Authentication failed."
                 });
             });
         }).catch(error => {
@@ -112,7 +112,12 @@ module.exports = {
                     });
                 }
                 if(result) {
-                    return res.status(200).json(p);
+                    const token = utils.generateToken(name, password);
+                    const response = {
+                        user: p,
+                        token: token
+                    };
+                    return res.status(200).json(response);
                 }
                 res.status(401).json({
                     message: "Authentication failed !"
