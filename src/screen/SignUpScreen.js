@@ -3,22 +3,35 @@ import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
 import { sendRequest, validateEmail, validatePassword } from '../utils/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { INVALID_PASSWORD_MSG, serverBaseUrl, INVALID_EMAIL_MSG } from '../utils/strings';
+import * as strings from '../utils/strings';
+import ModalSilde from '../components/ModalSilde';
 
 const SignUpScreen = props => {
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
   const [isSelected, setSelection] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  
 
   const onPressSignUp = async () => {
+    if(password !== repeatPassword) {
+      setModalMessage(strings.REPEAT_PASSWORD_MSG);
+      setModalVisible(true);
+      return;
+    }
+
     if(!validateEmail(email)) {
-      Alert.alert(INVALID_EMAIL_MSG);
+      setModalMessage(strings.INVALID_EMAIL_MSG);
+      setModalVisible(true);
       return;
     }
     if(!validatePassword(password)) {
-      Alert.alert(INVALID_PASSWORD_MSG);
+      setModalMessage(strings.INVALID_PASSWORD_MSG);
+      setModalVisible(true);
       return;
     }
     const body = {
@@ -26,10 +39,11 @@ const SignUpScreen = props => {
       password: password,
       mail: email
     }
-    const url = `${serverBaseUrl}/users/signUpCustomers`;
+    const url = `${strings.serverBaseUrl}/users/signUpCustomers`;
     const response = await sendRequest(url, 'POST', body);
     if(!response.ok) {
-      Alert.alert(response.body.message);
+      setModalMessage(response.body.message);
+      setModalVisible(true);
       return;
     }
     // login succeeded
@@ -43,6 +57,12 @@ const SignUpScreen = props => {
       style={styles.background}
     >
       <View>
+      <ModalSilde 
+        modalVisible = {modalVisible}
+        setModalVisible = {setModalVisible}
+        message = {modalMessage}
+        buttonText = "OK"
+        />
         <Text style={styles.signUp}>
           Sign Up
         </Text>
@@ -71,7 +91,7 @@ const SignUpScreen = props => {
           <TextInput
             style={styles.TextInput}
             placeholder="Repeat Password"
-            onChangeText={(password) => setPassword(password)}
+            onChangeText={(repeatPassword) => setRepeatPassword(repeatPassword)}
           />
         </View>
         <View style={styles.Checkbox}>
