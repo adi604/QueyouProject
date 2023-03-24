@@ -24,13 +24,13 @@ export default FreeSearch
 
 const styles = StyleSheet.create({
     search: {
-        top: 25,
+        top: 15,
         width: 330,
         placeholder: 10,
         borderRadius: 10,
-        left: 20,
         marginBottom: 50,
         backgroundColor: '#f5fcff',
+        alignSelf: 'center',
     },
     inputStyle: {
         fontSize: 18,
