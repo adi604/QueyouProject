@@ -21,13 +21,13 @@ const SearchUserScreen = props => {
 
     return (
 
-        <ScrollView style={{ backgroundColor: '#f0f8ff' }}>
+        <ScrollView style={{ backgroundColor: '#fff' }}>
             <View style={styles.container}>
                 <View>
                     <LinearGradient
-                        colors={['#64b5f6', '#9575cd']}
+                        colors={['#55D284', '#9CE88D', ]}
                         style={{
-                            width: 415, height: 200, right: 20, padding: 20, bottom: 18, elevation: 30,
+                            width: 415, height: 280, right: 20, padding: 20, bottom: 18, elevation: 30,
                             shadowColor: '#52006A',
                         }}
                         start={{ x: 0, y: 0 }}
@@ -43,17 +43,9 @@ const SearchUserScreen = props => {
                                 <Text style={[styles.buttonSearch, { shadowColor: "#77BBFF" }, isFree && styles.shadow]} onPress={() => { setIsFree(true) }}>Free Search</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{
-                            backgroundColor: '#9575cd',
-                            width: 450, height: 1, top: 30, shadowColor: '#000', shadowOffset: { width: 1, height: 1 },
-                            shadowOpacity: 0.4,
-                            shadowRadius: 3,
-                            elevation: 20,
-                        }}>
-                        </View>
                     </LinearGradient>
                 </View>
-                <View>
+                <View style={[{backgroundColor: '#fff', width: 410, right: 17.5, bottom: 90, paddingTop: 20, borderRadius: 40, shadowColor: '#000', elevation: 5}]}>
                     {(isFree) ? <FreeSearch navigation={props.navigation} /> : <FavoriteCategory navigation={props.navigation} />}
                 </View>
                 <View style={styles.line}></View>
