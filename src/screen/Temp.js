@@ -14,7 +14,7 @@ const Temp = props => {
   return (
     <Drawer.Navigator initialRouteName='SearchUserScreen'>
       <Drawer.Screen name="Search" component={SearchUserScreen} options={{headerShown:false}}/>
-      <Drawer.Screen name="My Appointment" component={MyAppointment} options={{headerShown:false}}/>
+      <Drawer.Screen name="My Appointments" component={MyAppointment} options={{headerShown:false}}/>
       <Drawer.Screen name="Reviews" component={Reviews} options={{headerShown:true}}/>
       <Drawer.Screen name="Settings" component={Settings} options={{headerShown:false, headerStyle: {backgroundColor: '#e7305b'}, headerTintColor: '#FFF', headerTitleStyle: {fontSize: 20, letterSpacing: 0.2,}}}/>
     </Drawer.Navigator>

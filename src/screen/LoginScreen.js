@@ -4,8 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { serverBaseUrl } from '../utils/strings';
 import { sendRequest } from '../utils/utils'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ModalSilde from '../components/ModalSilde';
-
+import ModalSlide from '../components/ModalSlide';
 const LoginScreen = props => {
 
   const [username, setUsername] = useState('');
@@ -37,7 +36,7 @@ const LoginScreen = props => {
       end={{ x: 1, y: 1 }}
     >
       <View>
-        <ModalSilde 
+        <ModalSlide 
         modalVisible = {modalVisible}
         setModalVisible = {setModalVisible}
         message = "Invalid username or password, please try again."

@@ -3,11 +3,14 @@ import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { serverBaseUrl } from '../utils/strings';
 import { sendRequest } from '../utils/utils'
+import ModalSlide from '../components/ModalSlide';
 
 const PrLoginScreen = props => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+
 
   const onPressLogin = async () => {
     const body = {
@@ -17,6 +20,7 @@ const PrLoginScreen = props => {
     const url = `${serverBaseUrl}/users/loginProviders`;
     const response = await sendRequest(url, 'POST', body);
     if(!response.ok) {
+      setModalVisible(true);
       return;
     }
     // login succeeded
@@ -32,6 +36,12 @@ const PrLoginScreen = props => {
       end={{ x: 1, y: 1 }}
     >
       <View>
+      <ModalSlide 
+        modalVisible = {modalVisible}
+        setModalVisible = {setModalVisible}
+        message = "Invalid username or password, please try again."
+        buttonText = "OK"
+        />
         <Image
           source={require('../../assets/logo7.png')}
           style={styles.logo}
