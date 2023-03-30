@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Modal
 import React from 'react';
 
 
-const ModalSilde = ({ modalVisible, setModalVisible, message, buttonText }) => {
+const ModalSlide = ({ modalVisible, setModalVisible, message, buttonText }) => {
 
     return (
         <Modal
@@ -10,10 +10,10 @@ const ModalSilde = ({ modalVisible, setModalVisible, message, buttonText }) => {
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
                 setModalVisible(!modalVisible);
             }}>
             <View style={styles.centeredView}>
+                
                 <View style={styles.modalView}>
                     <Text style={styles.modalText}>{message}</Text>
                     <Pressable
@@ -71,4 +71,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ModalSilde;
+export default ModalSlide;

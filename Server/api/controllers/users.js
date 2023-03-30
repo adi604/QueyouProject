@@ -67,11 +67,11 @@ module.exports = {
     },
     // Sign up - create new user of provider.
     signUpProviders : (req, res) => {
-        const {name, password, address, mail, description} = req.body
-        Provider.findOne({name: name}).then((p) => {
+        const {username, name, password, address, mail, description} = req.body
+        Provider.findOne({username: username}).then((p) => {
             if(p != null) {
                 return res.status(409).json({
-                    message: `${name} already exist !`
+                    message: `${username} already exist !`
                 });
             }
             bcrypt.hash(password, Number(process.env.SALT_ROUNDS), (err, hash) => {
@@ -80,6 +80,7 @@ module.exports = {
                 }
                 const provider = new Provider({
                     _id: new mongoose.Types.ObjectId(),
+                    username: username,
                     name: name,
                     password: hash,
                     address: address,
@@ -88,7 +89,7 @@ module.exports = {
                 });
                 provider.save().then(() => {
                     res.status(200).json({
-                        message: `SignUp - ${provider.name} created !`
+                        message: `SignUp - ${provider.username} created !`
                     });
                 });
             });
@@ -98,8 +99,8 @@ module.exports = {
     },
     // Login - get user of provider.
     loginProviders : (req, res) => {
-        const {name, password} = req.body
-        Provider.findOne({name: name}).then((p) => {
+        const {username, password} = req.body
+        Provider.findOne({username: username}).then((p) => {
             if(p == null) {
                 return res.status(404).json({
                     message: "Authentication failed !"
@@ -112,7 +113,7 @@ module.exports = {
                     });
                 }
                 if(result) {
-                    const token = utils.generateToken(name, password);
+                    const token = utils.generateToken(username, password);
                     const response = {
                         user: p,
                         token: token

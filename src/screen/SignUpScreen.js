@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
-import { sendRequest, validateEmail, validatePassword } from '../utils/utils';
+import { sendRequest, validateSignUpDetails } from '../utils/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as strings from '../utils/strings';
-import ModalSilde from '../components/ModalSilde';
+import ModalSlide from '../components/ModalSlide';
 
 const SignUpScreen = props => {
 
@@ -15,25 +15,26 @@ const SignUpScreen = props => {
   const [isSelected, setSelection] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  
+
 
   const onPressSignUp = async () => {
-    if(password !== repeatPassword) {
-      setModalMessage(strings.REPEAT_PASSWORD_MSG);
-      setModalVisible(true);
+    const signUpDetails = {
+      username: username,
+      email: email,
+      password: password,
+      repeatPassword: repeatPassword
+    }
+
+    const isValid = validateSignUpDetails(signUpDetails,
+      (errorMsg) => {
+        setModalMessage(errorMsg);
+        setModalVisible(true);
+      }
+    );
+    if (!isValid) {
       return;
     }
 
-    if(!validateEmail(email)) {
-      setModalMessage(strings.INVALID_EMAIL_MSG);
-      setModalVisible(true);
-      return;
-    }
-    if(!validatePassword(password)) {
-      setModalMessage(strings.INVALID_PASSWORD_MSG);
-      setModalVisible(true);
-      return;
-    }
     const body = {
       username: username,
       password: password,
@@ -41,7 +42,7 @@ const SignUpScreen = props => {
     }
     const url = `${strings.serverBaseUrl}/users/signUpCustomers`;
     const response = await sendRequest(url, 'POST', body);
-    if(!response.ok) {
+    if (!response.ok) {
       setModalMessage(response.body.message);
       setModalVisible(true);
       return;
@@ -57,11 +58,11 @@ const SignUpScreen = props => {
       style={styles.background}
     >
       <View>
-      <ModalSilde 
-        modalVisible = {modalVisible}
-        setModalVisible = {setModalVisible}
-        message = {modalMessage}
-        buttonText = "OK"
+        <ModalSlide
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          message={modalMessage}
+          buttonText="OK"
         />
         <Text style={styles.signUp}>
           Sign Up
