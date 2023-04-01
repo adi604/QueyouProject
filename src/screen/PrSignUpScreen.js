@@ -1,13 +1,57 @@
+import * as strings from "../utils/strings"
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
+import { sendRequest, validateSignUpDetails } from '../utils/utils';
+import ModalSlide from '../components/ModalSlide';
 
 const PrSignUpScreen = props => {
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
   const [isSelected, setSelection] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
+  const onPressSignUp = async () => {
+    const signUpDetails = {
+      username: username,
+      email: email,
+      password: password,
+      repeatPassword: repeatPassword
+    }
+
+    const isValid = validateSignUpDetails(signUpDetails,
+      (errorMsg) => {
+        setModalMessage(errorMsg);
+        setModalVisible(true);
+      }
+    );
+    if (!isValid) {
+      return;
+    }
+
+    const body = {
+      username: username,
+      name: username,
+      password: password,
+      address: "1111",
+      mail: email,
+      description: "11111"
+    }
+    const url = `${strings.serverBaseUrl}/users/signUpProviders`;
+    const response = await sendRequest(url, 'POST', body);
+    if (!response.ok) {
+      setModalMessage(response.body.message);
+      setModalVisible(true);
+      return;
+    }
+    // login succeeded
+    await AsyncStorage.setItem('token', response.body.token);
+    props.navigation.navigate('Temp');
+  }
 
   return (
     <ImageBackground
@@ -15,6 +59,12 @@ const PrSignUpScreen = props => {
       style={styles.background}
     >
       <View>
+      <ModalSlide
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          message={modalMessage}
+          buttonText="OK"
+        />
         <Text style={styles.signUp}>
           Provider Sign Up
         </Text>
@@ -43,7 +93,7 @@ const PrSignUpScreen = props => {
           <TextInput
             style={styles.TextInput}
             placeholder="Repeat Password"
-            onChangeText={(password) => setPassword(password)}
+            onChangeText={(repeatPassword) => setRepeatPassword(repeatPassword)}
           />
         </View>
         <View style={styles.Checkbox}>
@@ -55,7 +105,7 @@ const PrSignUpScreen = props => {
           />
           <Text style={styles.agree}>I agree to the Terms of Service</Text>
         </View>
-        <TouchableOpacity style={styles.signBtn}>
+        <TouchableOpacity style={styles.signBtn} onPress={onPressSignUp}>
           <Text style={styles.signBtnText}>Sign Up</Text>
         </TouchableOpacity>
       </View>

@@ -1,3 +1,5 @@
+import * as strings from "../utils/strings";
+
 export async function sendRequest(url, method, body) {
     try {
         const response = await fetch(url, {
@@ -11,6 +13,7 @@ export async function sendRequest(url, method, body) {
         return { body: res, ok: response.ok };
     } catch (error) {
         console.error('Error:', error);
+        throw error;
     }
 }
 
@@ -29,4 +32,20 @@ export function validatePassword(password) {
 export function validateEmail(email) {
     const regex = /\S+@\S+\.\S+/;
     return regex.test(email);
+}
+
+export function validateSignUpDetails(SignUpDetails, onDetailsNotValid) {
+    if (!validateEmail(SignUpDetails.email)) {
+        onDetailsNotValid(strings.INVALID_EMAIL_MSG);
+        return false;
+    }
+    if (!validatePassword(SignUpDetails.password)) {
+        onDetailsNotValid(strings.INVALID_PASSWORD_MSG);
+        return false;
+    }
+    if (SignUpDetails.password !== SignUpDetails.repeatPassword) {
+        onDetailsNotValid(strings.REPEAT_PASSWORD_MSG);
+        return false;
+    }
+    return true;
 }
