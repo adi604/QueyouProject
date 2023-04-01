@@ -103,20 +103,18 @@ const SearchUserScreen = props => {
                         <FontAwesome style={{ height: 30, width: 25, left: 15, top: 4 }} name="filter" size={25} color="white" />
                     </View>
                     <View style={{ flexDirection: 'row', padding: 10, paddingBottom: 30, }}>
-                        <TouchableOpacity style={[styles.squre, isAll && { backgroundColor: '#ff6a65' }]} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
+                        <TouchableOpacity style={[styles.squre, isAll && { backgroundColor: '#303f9f' }]} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
                             <Text style={[styles.sortBy]}>All</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#ff6a65' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
+                        <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#303f9f' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
                             <Text style={[styles.sortBy]}>Rating</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.squre, isCloser && { backgroundColor: '#ff6a65' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
+                        <TouchableOpacity style={[styles.squre, isCloser && { backgroundColor: '#303f9f' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
                             <Text style={[styles.sortBy]}>closer meeting</Text>
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity style={styles.searchButton} onPress={onPressSearch}>
-                        <ImageBackground source={require('../../assets/vi2.png')} style={styles.vi}>
-                            <Text></Text>
-                        </ImageBackground>
+                        <Text style={{color: "#FFF", fontWeight: '600', fontSize: 18}}>view all businesses</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -198,25 +196,32 @@ const styles = StyleSheet.create({
         width: 100,
     },
     sortBy: {
-        color: '#252525',
+        color: '#EEEEEE',
         fontSize: 18,
         textAlign: 'center',
         top: 2,
         fontWeight: 'bold',
+        textShadowColor: 'rgba(0, 0, 0, 1)',
+        textShadowOffset: {width: -1, height: 1},
+        textShadowRadius: 10,
     },
     searchButton: {
-        top: 10,
-        left: 150,
-        height: 100,
-        borderRadius: 50,
-        width: 105,
+        top: 20,
+        height: 40,
+        borderRadius: 10,
+        width: "50%",
         marginBottom: 25,
-        shadowColor: "#FFF",
-        elevation: 20,
+        shadowColor: "#000",
+        elevation: 5,
         justifyContent: "center",
+        alignItems: "center",
+        alignSelf: "center",
+        backgroundColor: "#2D87B8",
     },
     vi: {
-        height: 70,
+        height: 60,
+        width: 50,
+        alignSelf: "center",
     },
 
 
