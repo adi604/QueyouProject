@@ -7,6 +7,7 @@ import SearchUserScreen from './SearchUserScreen'
 import MyAppointment from '../components/MyAppointment'
 import Reviews from '../components/Reviews'
 import Settings from './Settings'
+import temp_main_page from './main_temp_page'
 
 const Drawer = createDrawerNavigator();
 
@@ -17,6 +18,7 @@ const Temp = props => {
       <Drawer.Screen name="My Appointments" component={MyAppointment} options={{headerShown:false}}/>
       <Drawer.Screen name="Reviews" component={Reviews} options={{headerShown:true}}/>
       <Drawer.Screen name="Settings" component={Settings} options={{headerShown:false, headerStyle: {backgroundColor: '#e7305b'}, headerTintColor: '#FFF', headerTitleStyle: {fontSize: 20, letterSpacing: 0.2,}}}/>
+      <Drawer.Screen name="temp_main_page" component={temp_main_page} options={{headerShown:false, headerStyle: {backgroundColor: '#e7305b'}, headerTintColor: '#FFF', headerTitleStyle: {fontSize: 20, letterSpacing: 0.2,}}}/>
     </Drawer.Navigator>
   )
 }
