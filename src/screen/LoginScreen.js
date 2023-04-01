@@ -176,5 +176,5 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
-  }
+    }
 });

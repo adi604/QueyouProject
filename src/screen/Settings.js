@@ -1,6 +1,8 @@
 import { ScrollView, TouchableOpacity, Image, FlatList, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
+import { FontAwesome5, Feather, Fontisto, MaterialIcons, Ionicons, FontAwesome  } from '@expo/vector-icons'; 
+
 
 const Settings = props => {
 
@@ -52,29 +54,29 @@ const Settings = props => {
 
       <View style={styles.box}>
         <Text style={styles.subexp}>Login and security</Text>
-        <View style={[{ flexDirection: 'row', marginTop: 25, left: 20 , padding: 5,}]}>
-          <Image style={[styles.icon, { }]} source={require('./../../assets/username_settings.png')}></Image>
+        <View style={[{ flexDirection: 'row', marginTop: 30, }]}>
+          <FontAwesome5 style={[styles.icon,]} name="user" size={21} color="#64b5f6" />
           <Text style={styles.username}>Username</Text>
           <TouchableOpacity onPress={onPressSchedule}>
             <Image style={[styles.continuebtn, {left: "570%"}]} source={require('../../assets/continue.png')}></Image>
           </TouchableOpacity>
         </View>
-        <View style={[{ flexDirection: 'row', left: 25, marginTop: 10 }]}>
-          <Image style={[styles.icon, { width: 28, height: 30, left: 2,}]} source={require('./../../assets/call.png')}></Image>
-          <Text style={[styles.username, {left: 20, top: 2}]}>Phone Number</Text>
+        <View style={[{ flexDirection: 'row', marginTop: 10 }]}>
+          <Feather style={[styles.icon,]} name="phone-call" size={22} color="#64b5f6" />
+          <Text style={[styles.username,]}>Phone Number</Text>
           <TouchableOpacity onPress={onPressSchedule}>
           <Image style={[styles.continuebtn, {left: "435%"}]} source={require('../../assets/continue.png')}></Image>
           </TouchableOpacity>
         </View>
-        <View style={[{ flexDirection: 'row', left: 25, marginTop: 15 }]}>
-          <Image style={[styles.icon, { width: 32, height: 30, left: 2, bottom: 2 }]} source={require('./../../assets/mail_settings.png')}></Image>
-          <Text style={[styles.username, {left: 20, top: 2}]}>Email</Text>
+        <View style={[{ flexDirection: 'row', marginTop: 10 }]}>
+          <Fontisto style={[styles.icon, ]} name="email" size={22} color="#64b5f6" />
+          <Text style={[styles.username,]}>Email</Text>
           <TouchableOpacity onPress={onPressSchedule}>
           <Image style={[styles.continuebtn, {left: "670%"}]} source={require('../../assets/continue.png')}></Image>
           </TouchableOpacity>
         </View>
-        <View style={[{ flexDirection: 'row', left: 25, marginTop: 15 }]}>
-          <Image style={[styles.icon, { width: 32, height: 30, left: 0 }]} source={require('./../../assets/password_settings.png')}></Image>
+        <View style={[{ flexDirection: 'row', marginTop: 10 }]}>
+          <MaterialIcons style={[styles.icon,]} name="lock-outline" size={26} color="#64b5f6" />
           <Text style={[styles.username, {left: 20, top: 4}]}>Password</Text>
           <TouchableOpacity onPress={onPressSchedule}>
           <Image style={[styles.continuebtn, {left: "550%"}]} source={require('../../assets/continue.png')}></Image>
@@ -82,7 +84,7 @@ const Settings = props => {
         </View>
         <Text style={[styles.subexp, {top: 20}]}>Data and permissions</Text>
         <View style={[{ flexDirection: 'row', left: 25, marginTop: 45, marginBottom: -15 }]}>
-          <Image style={[styles.icon, { width: 32, height: 30, left: 0 }]} source={require('./../../assets/location_settings.png')}></Image>
+          <Ionicons style={[styles.icon, ]} name="location-sharp" size={25} color="#64b5f6" />
           <Text style={[styles.username, {left: 20, }]}>Location</Text>
           <TouchableOpacity onPress={onPressSchedule}>
           <Image style={[styles.continuebtn, {left: "580%"}]} source={require('../../assets/continue.png')}></Image>
@@ -90,8 +92,8 @@ const Settings = props => {
         </View>
       </View>
       <View style={styles.lastBox}>
-        <View style={[{ flexDirection: 'row' , padding: 5, bottom: 5}]}>
-          <Image style={[styles.icon, { }]} source={require('./../../assets/disconnect.png')}></Image>
+        <View style={[{ flexDirection: 'row'}]}>
+          <FontAwesome style={[styles.icon, { }]} name="power-off" size={24} color="#d32f2f" />
           <Text style={[styles.username, {color: '#d32f2f'}]}>Deactive</Text>
           <TouchableOpacity onPress={onPressSchedule}>
             <Image style={[styles.continuebtn, {left: "570%"}]} source={require('../../assets/continue.png')}></Image>
@@ -163,9 +165,8 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   icon: {
-    height: 22,
-    width: 22,
-    left: 5,
+    height: 25,
+    width: 25,
     top: 2,
 
   },
