@@ -199,16 +199,15 @@ const styles = StyleSheet.create({
         right: 5,
     },
     textSquare: {
-        fontWeight: '500',
         color: 'white',
         fontSize: 20,
-        top: 55,
+        top: 50,
         left: 23,
         letterSpacing: 0.5,
         height: 100,
         width: 100,
         textAlign: 'center',
-        fontWeight: '700',
+        fontFamily: 'GentiumPlus_700Bold'
     },
     more: {
         width: 350,

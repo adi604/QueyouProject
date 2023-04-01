@@ -1,13 +1,24 @@
 import { ScrollView, StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-
+import {
+    useFonts,
+    GentiumPlus_400Regular,
+    GentiumPlus_400Regular_Italic,
+    GentiumPlus_700Bold,
+    GentiumPlus_700Bold_Italic,
+  } from '@expo-google-fonts/gentium-plus';
 
 import FavoriteCategory from "../components/FavoriteCategory"
 import FreeSearch from "../components/FreeSearch"
 import AvailableAppointments from './AvailableAppointments'
 
 const SearchUserScreen = props => {
+
+    let [fontsLoaded] = useFonts({
+        GentiumPlus_400Regular,
+        GentiumPlus_700Bold,
+      });
 
     const [isFree, setIsFree] = useState(false);
 
@@ -18,6 +29,10 @@ const SearchUserScreen = props => {
     const onPressSearch = () => {
         props.navigation.navigate('AvailableAppointments');
     };
+
+    if (!fontsLoaded) {
+        return <AppLoading />;
+      }
 
     return (
 
@@ -33,9 +48,9 @@ const SearchUserScreen = props => {
                         start={{ x: 0, y: 0 }}
                         end={{ x: 0, y: 1 }}
                     >
-                        <Text style={[styles.heading, { fontSize: 30, fontWeight: '400', letterSpacing: 0.5, width: 130 }]}>Hey Adi,</Text>
+                        <Text style={[styles.heading, { fontSize: 30, fontWeight: '400', letterSpacing: 0.5, width: 130, fontFamily: 'GentiumPlus_700Bold', }]}>Hey Adi,</Text>
                         <Text style={[styles.heading, { top: 35 }]}>What service are you looking for?</Text>
-                        <View style={{ flexDirection: 'row', top: 20 }}>
+                        <View style={{ flexDirection: 'row', top: 20, right: 10 }}>
                             <TouchableOpacity style={styles.search}>
                                 <Text style={[styles.buttonSearch, { shadowColor: "#0080FF" }, !isFree && styles.shadow]} onPress={() => { setIsFree(false) }}>Advance Search</Text>
                             </TouchableOpacity>
@@ -84,26 +99,27 @@ const styles = StyleSheet.create({
     },
     heading: {
         top: 30,
-        fontSize: 18,
+        fontSize: 19,
         color: 'white',
         left: 40,
         fontWeight: '500',
         letterSpacing: 0.3,
+        fontFamily: 'GentiumPlus_400Regular',
     },
     search: {
         paddingTop: 40,
         paddingRight: 30,
     },
     buttonSearch: {
-        fontSize: 16,
+        fontSize: 18,
         height: 40,
         letterSpacing: 1,
         paddingLeft: 30,
         paddingRight: 30,
-        paddingTop: 8,
         paddingBottom: 8,
         fontWeight: '500',
         color: 'white',
+        fontFamily: 'GentiumPlus_700Bold',
     },
     shadow: {
         backgroundColor: "DDD",
