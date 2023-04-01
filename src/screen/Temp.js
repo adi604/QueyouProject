@@ -1,8 +1,9 @@
 import React from "react";
-import {  createDrawerNavigator, IconComponent } from "@react-navigation/drawer";
-import {DrawerActions} from '@react-navigation/native';
+import { createDrawerNavigator, IconComponent } from "@react-navigation/drawer";
+import { DrawerActions } from '@react-navigation/native';
 import { Icon, ScrollView, StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { AntDesign, Fontisto } from '@expo/vector-icons';
 
 import SearchUserScreen from './SearchUserScreen'
 import MyAppointment from '../components/MyAppointment'
@@ -17,13 +18,58 @@ const Tab = createBottomTabNavigator();
 
 const Temp = props => {
   return (
-    <Drawer.Navigator initialRouteName='SearchUserScreen'>
-      <Drawer.Screen name="Search" component={SearchUserScreen} options={{headerShown:false}}/>
-      <Drawer.Screen name="My Appointments" component={MyAppointment} options={{headerShown:false}}/>
-      <Drawer.Screen name="Reviews" component={Reviews} options={{headerShown:true}}/>
-      <Drawer.Screen name="Settings" component={Settings} options={{headerShown:false, headerStyle: {backgroundColor: '#e7305b'}, headerTintColor: '#FFF', headerTitleStyle: {fontSize: 20, letterSpacing: 0.2,}}}/>
-      <Drawer.Screen name="temp_main_page" component={temp_main_page} options={{headerShown:false, headerStyle: {backgroundColor: '#e7305b'}, headerTintColor: '#FFF', headerTitleStyle: {fontSize: 20, letterSpacing: 0.2,}}}/>
-    </Drawer.Navigator>
+    <Tab.Navigator initialRouteName='SearchUserScreen'
+      screenOptions={{
+        headerTitleAlign: 'center',
+        tabBarStyle: { backgroundColor: "#2D87B8", borderRightWidth: 2, borderrRightColor: "white" },
+        tabBarLabelStyle: { color: "#fff" },
+
+      }}
+    >
+      <Tab.Screen
+        name="Search"
+        component={SearchUserScreen}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarLabelStyle: { fontSize: 12, color: 'white' },
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="home" size={24} color="white" />
+          ),
+          headerShown: false,
+        }} />
+      <Tab.Screen
+        name="My Appointments"
+        component={MyAppointment}
+        options={{
+          tabBarLabel: 'Appointments',
+          tabBarLabelStyle: { fontSize: 12, color: 'white' },
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="calendar" size={24} color="white" />
+          ),
+          headerShown: false,
+        }} />
+      <Tab.Screen
+        name="Reviews"
+        component={Reviews}
+        options={{
+          tabBarLabel: 'Reviews',
+          tabBarLabelStyle: { fontSize: 12, color: 'white' },
+          tabBarIcon: ({ color, size }) => (
+            <Fontisto name="preview" size={24} color="white" />
+          ),
+          headerShown: false,
+        }} />
+      <Tab.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          tabBarLabel: 'Reviews',
+          tabBarLabelStyle: { fontSize: 12, color: 'white' },
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="setting" size={24} color="white" />),
+          headerShown: false,
+        }} />
+    </Tab.Navigator>
   )
 }
 

@@ -21,7 +21,7 @@ const MyAppointment = props => {
         <View style={{ backgroundColor: '#faffff', height: '110%' }}>
             <View>
                 <LinearGradient
-                    colors={['#64b5f6', '#9575cd']}
+                    colors={['#64b5f6', '#6CC3ED', '#6CC3ED']}
                     style={{
                         width: 450, height: 120, right: 20, padding: 20, bottom: 18, shadowColor: '#000', shadowOffset: { width: 1, height: 1 },
                         shadowOpacity: 0.4,
@@ -36,7 +36,7 @@ const MyAppointment = props => {
                         <Image style={{ height: 28, width: 28, top: 40, left: 150}} source={require('./../../assets/calender3.png')}></Image>
                     </View>
                     <View style={{
-                        backgroundColor: '#9575cd',
+                        backgroundColor: '#6CC3ED',
                         width: 450, height: 1, top: 30, shadowColor: '#000', shadowOffset: { width: -2, height: 5 },
                         shadowOpacity: 0.4,
                         shadowRadius: 3,

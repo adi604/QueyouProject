@@ -38,7 +38,7 @@ const Settings = props => {
         elevation: 45,
       }}>
         <LinearGradient
-          colors={['#64b5f6', '#64b5f6']}
+          colors={['#4FA4E5', '#64b5f6']}
           style={{
             width: '100%', height: 250, padding: 20, bottom: 25,
             shadowColor: '#000',

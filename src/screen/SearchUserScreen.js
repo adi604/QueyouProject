@@ -1,13 +1,27 @@
 import { ScrollView, StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
 import React, { useState } from 'react';
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons';
 import {
     useFonts,
-    GentiumPlus_400Regular,
-    GentiumPlus_400Regular_Italic,
-    GentiumPlus_700Bold,
-    GentiumPlus_700Bold_Italic,
-} from '@expo-google-fonts/gentium-plus';
+    Montserrat_100Thin,
+    Montserrat_200ExtraLight,
+    Montserrat_300Light,
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_700Bold,
+    Montserrat_800ExtraBold,
+    Montserrat_900Black,
+    Montserrat_100Thin_Italic,
+    Montserrat_200ExtraLight_Italic,
+    Montserrat_300Light_Italic,
+    Montserrat_400Regular_Italic,
+    Montserrat_500Medium_Italic,
+    Montserrat_600SemiBold_Italic,
+    Montserrat_700Bold_Italic,
+    Montserrat_800ExtraBold_Italic,
+    Montserrat_900Black_Italic,
+} from '@expo-google-fonts/montserrat';
 import AppLoading from 'expo-app-loading';
 
 import FavoriteCategory from "../components/FavoriteCategory"
@@ -17,8 +31,24 @@ import AvailableAppointments from './AvailableAppointments'
 const SearchUserScreen = props => {
 
     let [fontsLoaded] = useFonts({
-        GentiumPlus_400Regular,
-        GentiumPlus_700Bold,
+        Montserrat_100Thin,
+        Montserrat_200ExtraLight,
+        Montserrat_300Light,
+        Montserrat_400Regular,
+        Montserrat_500Medium,
+        Montserrat_600SemiBold,
+        Montserrat_700Bold,
+        Montserrat_800ExtraBold,
+        Montserrat_900Black,
+        Montserrat_100Thin_Italic,
+        Montserrat_200ExtraLight_Italic,
+        Montserrat_300Light_Italic,
+        Montserrat_400Regular_Italic,
+        Montserrat_500Medium_Italic,
+        Montserrat_600SemiBold_Italic,
+        Montserrat_700Bold_Italic,
+        Montserrat_800ExtraBold_Italic,
+        Montserrat_900Black_Italic,
     });
 
     const [isFree, setIsFree] = useState(false);
@@ -42,38 +72,44 @@ const SearchUserScreen = props => {
             resizeMode="cover"
             blurRadius={5}
         >
-            <ScrollView style={{backgroundColor: 'rgba(0,0,0,0.2)',}}>
+            <ScrollView style={{ backgroundColor: 'rgba(0,0,0,0.2)', }}>
                 <View style={styles.container}>
                     <View>
-                        <View style={{justifyContent: 'center', }}>
-                            <Text style={[styles.heading, { fontSize: 30, fontWeight: '400', letterSpacing: 0.5, width: 130, fontFamily: 'GentiumPlus_700Bold', }]}>Hey Adi,</Text>
+                        <View style={{ justifyContent: 'center', }}>
+                            <Text style={[styles.heading, { fontSize: 40, fontWeight: '400', fontFamily: 'Montserrat_500Medium_Italic', }]}>Hey Adi,</Text>
                             <Text style={[styles.heading, { top: 35 }]}>What service are you looking for?</Text>
-                            <View style={{ flexDirection: 'row', top: 20, right: 10 }}>
-                                <TouchableOpacity style={styles.search}>
-                                    <Text style={[styles.buttonSearch, { shadowColor: "#0080FF" }, !isFree && styles.shadow]} onPress={() => { setIsFree(false) }}>Advance Search</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.search}>
-                                    <Text style={[styles.buttonSearch, { shadowColor: "#77BBFF" }, isFree && styles.shadow]} onPress={() => { setIsFree(true) }}>Free Search</Text>
-                                </TouchableOpacity>
+                            <View style={{ top: 30, width: "100%" }}>
+                                <View style={{ alignItems: 'center', flexDirection: 'row', }}>
+                                    <TouchableOpacity style={styles.search}>
+                                        <View style={[!isFree && styles.shadow, { }]}>
+                                            <Text style={[styles.buttonSearch, { shadowColor: "#0080FF", },]} onPress={() => { setIsFree(false) }}>Advance Search</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.search}>
+                                        <View style={[isFree && styles.shadow, { }]}>
+                                            <Text style={[styles.buttonSearch, { shadowColor: "#77BBFF" },]} onPress={() => { setIsFree(true) }}>Free Search</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         </View>
                     </View>
-                    <View style={[{ marginTop: 30,}]}>
+                    <View style={[{ marginTop: 40, }]}>
                         {(isFree) ? <FreeSearch navigation={props.navigation} /> : <FavoriteCategory navigation={props.navigation} />}
                     </View>
                     <View style={styles.line}></View>
-                    <View style={{ flexDirection: 'row' , marginTop: 20}}>
+                    <View style={{ flexDirection: 'row', marginTop: 20 }}>
                         <Text style={styles.filter}>SORT BY</Text>
                         <FontAwesome style={{ height: 30, width: 25, left: 15, top: 4 }} name="filter" size={25} color="white" />
                     </View>
                     <View style={{ flexDirection: 'row', padding: 10, paddingBottom: 30, }}>
-                        <TouchableOpacity style={[styles.squre, isAll && { backgroundColor: '#FA9567' }]} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
+                        <TouchableOpacity style={[styles.squre, isAll && { backgroundColor: '#ff6a65' }]} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
                             <Text style={[styles.sortBy]}>All</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#FA9567' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
+                        <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#ff6a65' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
                             <Text style={[styles.sortBy]}>Rating</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.squre, isCloser && { backgroundColor: '#FA9567' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
+                        <TouchableOpacity style={[styles.squre, isCloser && { backgroundColor: '#ff6a65' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
                             <Text style={[styles.sortBy]}>closer meeting</Text>
                         </TouchableOpacity>
                     </View>
@@ -100,36 +136,36 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     heading: {
-        top: 30,
-        fontSize: 19,
+        top: 25,
+        marginTop: 10,
+        fontSize: 18,
         color: 'white',
         left: 40,
         fontWeight: '500',
-        letterSpacing: 0.3,
-        fontFamily: 'GentiumPlus_400Regular',
+        fontFamily: 'Montserrat_700Bold_Italic',
     },
     search: {
         paddingTop: 40,
-        paddingRight: 30,
+        marginLeft: "8%",
     },
     buttonSearch: {
-        fontSize: 18,
+        fontSize: 17.5,
+        top: 8,
         height: 40,
-        letterSpacing: 1,
-        paddingLeft: 30,
-        paddingRight: 30,
-        paddingBottom: 8,
         fontWeight: '500',
         color: 'white',
-        fontFamily: 'GentiumPlus_700Bold',
+        fontFamily: 'Montserrat_700Bold',
+        left: "8%",
     },
     shadow: {
         backgroundColor: "DDD",
         shadowColor: "#DDD",
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 1,
+        elevation: 3,
         borderRadius: 4,
+        width: '120%',
+
     },
     selectedTextStyle: {
         fontSize: 16,
