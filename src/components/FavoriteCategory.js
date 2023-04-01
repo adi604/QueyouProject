@@ -174,8 +174,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 10,
     padding: 40,
-    shadowColor: "#000",
-    elevation: 80,
     marginTop: 25,
 },
 section: {
