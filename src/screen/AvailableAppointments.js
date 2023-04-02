@@ -1,4 +1,4 @@
-import { ScrollView, TouchableOpacity, Image, FlatList, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, TouchableOpacity, Image, FlatList, StyleSheet, Text, View, Linking } from 'react-native';
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -11,6 +11,11 @@ const AvailableAppointments = props => {
     const onPressSchedule = () => {
         props.navigation.navigate('CalendarPickerScreen');
     };
+
+    const onPressLocation = (address) => {
+        const url = `https://www.google.com/maps/search/?api=1&query=${address}`;
+        Linking.openURL(url);
+    }
 
 
     const queues = [
@@ -73,10 +78,12 @@ const AvailableAppointments = props => {
                                     </TouchableOpacity>
                                 </View>
                                 <Text style={styles.category}>{item.category}</Text>
-                                <View style={[{ flexDirection: 'row' }]}>
-                                    <Image style={styles.locationbtn} source={require('../../assets/location.png')}></Image>
-                                    <Text style={styles.address}>{item.address}</Text>
-                                </View>
+                                <TouchableOpacity onPress={ () => onPressLocation(item.address)}>
+                                    <View style={[{ flexDirection: 'row' }]}>
+                                        <Image style={styles.locationbtn} source={require('../../assets/location.png')}></Image>
+                                        <Text style={styles.address}>{item.address}</Text>
+                                    </View>
+                                </TouchableOpacity>
                             </View>
                             <TouchableOpacity style={styles.continuebtn} onPress={onPressSchedule}>
                                 <Image style={styles.continuebtn} source={require('../../assets/continue.png')}></Image>
