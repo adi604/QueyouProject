@@ -7,7 +7,7 @@ const utils = require("../../utils/utils")
 module.exports = {
     // Sign up - create new user of customer.
     signUpCustomers : (req, res) => {
-        const {username, password, mail} = req.body
+        const {username, firstName, lastName, password, mail, phoneNumber} = req.body
         Customer.findOne({username: username}).then((c) => {
             if(c != null) {
                 return res.status(409).json({
@@ -21,8 +21,11 @@ module.exports = {
                 const customer = new Customer({
                     _id: new mongoose.Types.ObjectId(),
                     username: username,
+                    firstName: firstName,
+                    lastName: lastName,
                     password: hash,
-                    mail: mail
+                    mail: mail,
+                    phoneNumber: phoneNumber
                 });
                 customer.save().then(() => {
                     res.status(200).json({
@@ -67,7 +70,7 @@ module.exports = {
     },
     // Sign up - create new user of provider.
     signUpProviders : (req, res) => {
-        const {username, name, password, address, mail, description} = req.body
+        const {username, name, password, address, mail, description, phoneNumber, city} = req.body
         Provider.findOne({username: username}).then((p) => {
             if(p != null) {
                 return res.status(409).json({
@@ -85,7 +88,9 @@ module.exports = {
                     password: hash,
                     address: address,
                     mail: mail,
-                    description: description
+                    description: description,
+                    phoneNumber: phoneNumber,
+                    city: city
                 });
                 provider.save().then(() => {
                     res.status(200).json({
