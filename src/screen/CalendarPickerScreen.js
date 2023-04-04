@@ -5,16 +5,85 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-
 const CalendarPickerScreen = props => {
     const [selectedDate, setSelectedDate] = useState("");
     const [selectedTime, setSelectedTime] = useState("");
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
-    const [timeOptions] = useState([
-        '12:00 AM', '12:30 AM', '1:00 AM', '1:30 AM', '2:00 AM', '2:30 AM', '3:00 AM', '3:30 AM', '4:00 AM', '4:30 AM', '5:00 AM', '5:30 AM', '6:00 AM', '6:30 AM', '7:00 AM', '7:30 AM', '8:00 AM', '8:30 AM', '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
-        '12:00 PM', '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM', '8:00 PM', '8:30 PM', '9:00 PM', '9:30 PM', '10:00 PM', '10:30 PM', '11:00 PM', '11:30 PM',
-    ]);
+    //////////////////////////////////////
+    // Take from the server
+    const maxDate = new Date('2024-05-07')
+    const disabledDatesList = ['2023-04-20', '2023-04-22', '2023-04-24', '2023-04-25']
+    const disabledDays = [1, 3];
+    const durationMeeting = 25;
+    const open = "08:25";
+    const close = "20:00";
+    //////////////////////////////////////
+    // Remove hours of existing meetings
+    const [timeOptions] = useState(getPossibleHours(durationMeeting, open, close));
 
+
+    // Check if date is disable
+    const isDisabledDate = (date) => {
+        return disabledDays.includes(date.getDay());
+      };
+    
+    // return disable dates by disabledDatesList and disabledDays (until maxDate)
+    const disabledDates = () => {
+    const dates = disabledDatesList;
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 1);
+    let i = 0;
+    let currentDate = new Date(startDate.getTime());
+    currentDate.setDate(currentDate.getDate() + i);
+    while (currentDate <= maxDate) {
+        currentDate = new Date(startDate.getTime());
+        currentDate.setDate(currentDate.getDate() + i);
+        if (isDisabledDate(currentDate)) {
+        dates.push(currentDate);
+        }
+        i++;
+    }
+    return dates;
+    };
+
+    function finishTime(duration, hour, minute) {
+        minute += duration;
+        while (minute >= 60) {
+            hour++;
+            minute -= 60;
+          }
+        return [hour, minute]
+      }
+      
+      // return Possible Hours by openTime, closeTime and duration of meeting.
+      function getPossibleHours(duration, openTime, closeTime) {
+        const hours = [];
+        let hour = parseInt(openTime.split(':')[0]);
+        let minute = parseInt(openTime.split(':')[1]);
+        const maxHour = parseInt(closeTime.split(':')[0]);
+        const maxMinute = parseInt(closeTime.split(':')[1]);
+        let finish = finishTime(duration, hour, minute)
+        let finishH = finish[0]
+        let finishM = finish[1]
+        let next = []
+        let hourStr = ""
+        let minuteStr = ""
+        let current = ""
+        while (finishH < maxHour || (finishH === maxHour && finishM <= maxMinute)) {
+          hourStr = hour.toString().padStart(2, '0');
+          minuteStr = minute.toString().padStart(2, '0');
+          current = `${hourStr}:${minuteStr}`;
+          hours.push(current);
+          next = finishTime(duration, hour, minute)
+          hour = next[0]
+          minute = next[1]
+          finish = finishTime(duration, hour, minute)
+          finishH = finish[0]
+          finishM = finish[1]
+        }
+        return hours;
+      }
+      
 
     const showTimePicker = () => {
         setTimePickerVisibility(true);
@@ -41,10 +110,6 @@ const CalendarPickerScreen = props => {
         setSelectedDate(formatDate(date.toString()));
     };
 
-    const onChangeTime = (time) => {
-        
-    }
-
 
     return (
         <View style={styles.container}>
@@ -60,6 +125,7 @@ const CalendarPickerScreen = props => {
                     <CalendarPicker
                     onDateChange={onDateChangeFunc}
                     minDate = {new Date()}
+                    maxDate={maxDate}
                     monthTitleStyle = {{color:"#ffc266", fontWeight: 'bold', fontSize: 25,}}
                     yearTitleStyle = {{color:"#ffc266", fontWeight: 'bold', fontSize: 25,}}
                     previousTitleStyle = {{color:'#e6ffe6', fontWeight: 'bold',}}
@@ -67,7 +133,7 @@ const CalendarPickerScreen = props => {
                     todayBackgroundColor="#e6ffe6"
                     selectedDayStyle={{backgroundColor:"#ffc266"}}
                     disabledDatesTextStyle ={{color:'#666666', fontSize: 18,}}
-                    disabledDates={['2023-04-20', '2023-04-22', '2023-04-25']}
+                    disabledDates={disabledDates()}
                     textStyle={{
                         color: '#FFFFFF',
                         fontSize: 20,
@@ -78,8 +144,6 @@ const CalendarPickerScreen = props => {
             
                 <View>
                     <Text style={styles.dateStr}>Selected Date : { selectedDate }</Text>
-
-
                     <TouchableOpacity onPress={showTimePicker} style={styles.clock}>
                         <MaterialCommunityIcons name="clock-edit-outline" size={70} color="#002080" style={styles.vi}/>
                     </TouchableOpacity>
@@ -105,7 +169,6 @@ const CalendarPickerScreen = props => {
                         </LinearGradient>
                     </Modal>
 
-
                     <Text style={styles.timeStr}>Selected Time : {selectedTime}</Text>
 
                     <TouchableOpacity style={styles.viButton}>
@@ -113,7 +176,6 @@ const CalendarPickerScreen = props => {
                     </TouchableOpacity>
                 </View>
         </LinearGradient>
-
         </View>
     )
 
