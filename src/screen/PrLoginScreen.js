@@ -13,6 +13,7 @@ const PrLoginScreen = props => {
 
 
   const onPressLogin = async () => {
+    props.navigation.navigate('PrNevigator');
     const body = {
       username: username,
       password: password
@@ -25,7 +26,7 @@ const PrLoginScreen = props => {
     }
     // login succeeded
     await AsyncStorage.setItem('token', response.body.token);
-    props.navigation.navigate('PrAppointments');
+    props.navigation.navigate('PrNevigator');
   };
 
   return (

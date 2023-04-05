@@ -9,12 +9,13 @@ import PrLoginScreen from './src/screen/PrLoginScreen'
 import SignUpScreen from './src/screen/SignUpScreen'
 import PrSignUpScreen from './src/screen/PrSignUpScreen'
 import MainUserScreen from './src/screen/SearchUserScreen'
-import Temp from './src/screen/Temp'
+import Nevigator from './src/screen/Nevigator'
 import AvailableAppointments from './src/screen/AvailableAppointments'
 import PrAppointments from './src/screen/PrAppointments'
 import CalendarPickerScreen from './src/screen/CalendarPickerScreen'
 import SearchUserScreen from './src/screen/SearchUserScreen'
 import Reviews from './src/components/Reviews';
+import PrNevigator from './src/screen/PrNevigator'
 
 const Stack = createNativeStackNavigator();
 
@@ -27,12 +28,13 @@ function App() {
         <Stack.Screen name="PrLoginScreen" component={PrLoginScreen} />
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
         <Stack.Screen name="PrSignUpScreen" component={PrSignUpScreen} />
-        <Stack.Screen name="Temp" component={Temp} />
+        <Stack.Screen name="Nevigator" component={Nevigator} />
         <Stack.Screen name="AvailableAppointments" component={AvailableAppointments} />
         <Stack.Screen name="PrAppointments" component={PrAppointments} />
         <Stack.Screen name="CalendarPickerScreen" component={CalendarPickerScreen} />
-        <Stack.Screen name="SearchUserScreen" component={Temp} />
+        <Stack.Screen name="SearchUserScreen" component={Nevigator} />
         <Stack.Screen name="Reviews" component={Reviews} />
+        <Stack.Screen name="PrNevigator" component={PrNevigator} />
       </Stack.Navigator>
 
     </NavigationContainer>
