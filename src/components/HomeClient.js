@@ -16,10 +16,10 @@ const HomeProvider = props => {
   return (
     <View style={{height: '100%'}}>
       <TouchableOpacity style={styles.signup} onPress={onPressSignUp}>
-        <Text style={[{ fontSize: 20 }, { textAlign: 'center' }, { fontWeight: 'bold' }, { color: 'black' }, { letterSpacing: 1 }]}>Sign Up</Text>
+        <Text style={[{ fontSize: 20 }, { textAlign: 'center' }, { fontWeight: 'bold' }, { color: 'black' },]}>Sign Up</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.login} onPress={onPressLogin}>
-        <Text style={[{ fontSize: 20 }, { textAlign: 'center' }, { fontWeight: 'bold' }, { color: 'white' }, { letterSpacing: 1 }]}>Log In</Text>
+        <Text style={[{ fontSize: 20 }, { textAlign: 'center' }, { fontWeight: 'bold' }, { color: 'white' },]}>Log In</Text>
       </TouchableOpacity>
     </View>
   );
@@ -34,39 +34,21 @@ const styles = StyleSheet.create({
     width: "55%",
     height: 50,
     borderRadius: 25,
-    marginLeft: '19%',
-    padding: "1%",
-    top: 60,
-    left: 20,
+    marginTop: 30,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
     elevation: 10,
-    alignItems:"center",
+    alignSelf:"center",
     justifyContent:"center",
   },
   login: {
-    backgroundColor: '#9370db',
+    backgroundColor: '#4FA4E5',
     width: "55%",
     height: 50,
+    marginTop: 40,
     borderRadius: 25,
-    marginLeft: '19%',
-    padding: "1%",
-    top: 90,
-    left: 20,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
     elevation: 10,
-    alignItems:"center",
+    alignSelf:"center",
     justifyContent:"center",
   },
 });
