@@ -4,13 +4,13 @@ const secret = 'gdfgdfsdfq367506yjihkrekgJGIKRI23JGrjretjrFJ'
 
 module.exports = {
     
-    // This function generates a JWT token for a given username and password 
-    generateToken: (username, password) => {
-        const token = jwt.sign({ username: username, password: password }, secret, { expiresIn: '1h' });
+    // generates a JWT token for a given username and password 
+    generateToken: (username) => {
+        const token = jwt.sign({ username: username }, secret, { expiresIn: '1h' });
         return token;
     },
 
-    // This function verifies a JWT token and returns the decoded token
+    // verifies a JWT token and returns the decoded token
     verifyToken: (token) => {
         const decodedToken = jwt.verify(token, secret);
         return decodedToken;
@@ -30,5 +30,17 @@ module.exports = {
             res.status(401).json({ message: 'No token' });
         }
     },
+
+    mapProvider(provider) { 
+        return {
+            _id: provider._id,
+            name: provider.name,
+            address: provider.address,
+            city: provider.city,
+            mail: provider.mail,
+            phoneNumber: provider.phoneNumber,
+            description: provider.description
+        }
+    }
 
 }
