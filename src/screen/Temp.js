@@ -9,7 +9,7 @@ import SearchUserScreen from './SearchUserScreen'
 import MyAppointment from '../components/MyAppointment'
 import Reviews from '../components/Reviews'
 import Settings from './Settings'
-import temp_main_page from './main_temp_page'
+import main_temp_page from './main_temp_page'
 
 const Drawer = createDrawerNavigator();
 
@@ -48,22 +48,23 @@ const Temp = props => {
           ),
           headerShown: false,
         }} />
-      <Tab.Screen
-        name="Reviews"
-        component={Reviews}
-        options={{
-          tabBarLabel: 'Reviews',
-          tabBarLabelStyle: { fontSize: 12, color: 'white' },
-          tabBarIcon: ({ color, size }) => (
-            <Fontisto name="preview" size={24} color="white" />
-          ),
-          headerShown: false,
-        }} />
+      
       <Tab.Screen
         name="Settings"
         component={Settings}
         options={{
           tabBarLabel: 'Reviews',
+          tabBarLabelStyle: { fontSize: 12, color: 'white' },
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="setting" size={24} color="white" />),
+          headerShown: false,
+        }} />
+
+      <Tab.Screen
+        name="main_temp_page"
+        component={main_temp_page}
+        options={{
+          tabBarLabel: 'main_temp_page',
           tabBarLabelStyle: { fontSize: 12, color: 'white' },
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="setting" size={24} color="white" />),
