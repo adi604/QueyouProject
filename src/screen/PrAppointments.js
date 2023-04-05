@@ -6,11 +6,12 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const AppointmentList = ({ appointments, onDeleteAppointment }) => {
     return (
         <FlatList
+            style={{backgroundColor: "#FFF", marginTop: "-22%", shadowColor: "#000", elevation: 40, width: "93%", alignSelf: "center",}}
             data={appointments}
             renderItem={({ item }) => (
                 <View style={styles.appointmentContainer}>
                     <View style={styles.iconContainer}>
-                        <MaterialCommunityIcons name="calendar-clock" size={32} color="#44B883" />
+                        <MaterialCommunityIcons name="calendar-clock" size={32} color="#2D87B8" />
                     </View>
                     <View style={styles.detailsContainer}>
                         <Text style={styles.customerNameText}>{item.customerName}</Text>
@@ -44,6 +45,36 @@ const ProviderPage = () => {
                 customerName: 'Jane Smith',
                 date: '2023-03-25T14:00:00Z',
             },
+            {
+                id: '2',
+                customerName: 'Jane Smith',
+                date: '2023-03-25T14:00:00Z',
+            },
+            {
+                id: '2',
+                customerName: 'Jane Smith',
+                date: '2023-03-25T14:00:00Z',
+            },
+            {
+                id: '2',
+                customerName: 'Jane Smith',
+                date: '2023-03-25T14:00:00Z',
+            },
+            {
+                id: '2',
+                customerName: 'Jane Smith',
+                date: '2023-03-25T14:00:00Z',
+            },
+            {
+                id: '2',
+                customerName: 'Jane Smith',
+                date: '2023-03-25T14:00:00Z',
+            },
+            {
+                id: '2',
+                customerName: 'Jane Smith',
+                date: '2023-03-25T14:00:00Z',
+            },
             // Add more appointments as needed
         ];
         setAppointments(appointmentsData);
@@ -58,8 +89,10 @@ const ProviderPage = () => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.heading}>Upcoming Appointments</Text>
-                <MaterialCommunityIcons name="calendar-plus" size={32} color="#ffffff" />
+                <View style={{ flexDirection: 'row', top: "18%", justifyContent: "center", }}>
+                    <Text style={styles.heading}>Upcoming Appointments</Text>
+                    <MaterialCommunityIcons style={{ padding: 7, }} name="calendar-plus" size={30} color="#ffffff" />
+                </View>
             </View>
             <AppointmentList appointments={appointments} onDeleteAppointment={handleDeleteAppointment} />
         </View>
@@ -72,26 +105,21 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
     },
     header: {
-        backgroundColor: '#44B883',
-        paddingHorizontal: 16,
-        paddingTop: 64,
-        paddingBottom: 16,
-        marginBottom: 32,
-        borderBottomLeftRadius: 32,
-        borderBottomRightRadius: 32,
-        elevation: 5,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      },
-      heading: {
+        backgroundColor: '#2D87B8',
+        height: "40%",
+        shadowColor: "#000",
+        elevation: 70,
+        width: "100%",
+    },
+    heading: {
         fontSize: 30,
         fontWeight: 'bold',
         color: '#ffffff',
-      },
+    },
     listContainer: {
+        top: 20,
         paddingHorizontal: 16,
-        paddingBottom: 16,
+        paddingBottom: 20,
     },
     appointmentContainer: {
         backgroundColor: '#ffffff',
@@ -101,11 +129,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        shadowColor: '#000000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
+        shadowColor: '#000',
+        elevation: 15,
     },
     iconContainer: {
         marginRight: 16,

@@ -1,169 +1,131 @@
-import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
-import React, { useState } from 'react';
-import { LinearGradient } from 'expo-linear-gradient';
-import { serverBaseUrl } from '../utils/strings';
-import { sendRequest } from '../utils/utils'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import ModalSlide from '../components/ModalSlide';
-const LoginScreen = props => {
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [modalVisible, setModalVisible] = useState(false);
+const AppointmentList = ({ appointments, onDeleteAppointment }) => {
+    return (
+        <FlatList
+            data={appointments}
+            renderItem={({ item }) => (
+                <View style={styles.appointmentContainer}>
+                    <View style={styles.iconContainer}>
+                        <MaterialCommunityIcons name="calendar-clock" size={32} color="#2D87B8" />
+                    </View>
+                    <View style={styles.detailsContainer}>
+                        <Text style={styles.customerNameText}>{item.customerName}</Text>
+                        <Text style={styles.dateText}>{item.date}</Text>
+                    </View>
+                    <TouchableOpacity onPress={() => onDeleteAppointment(item.id)}>
+                        <AntDesign name="delete" size={24} color="#ff0000" />
+                    </TouchableOpacity>
+                </View>
+            )}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.listContainer}
+            showsVerticalScrollIndicator={false}
+        />
+    );
+};
 
+const ProviderPage = () => {
+    const [appointments, setAppointments] = useState([]);
 
-    const onPressLogin = async () => {
-        const body = {
-            username: username,
-            password: password
-        }
-        const url = `${serverBaseUrl}/users/loginCustomers`;
-        const response = await sendRequest(url, 'POST', body);
-        if (!response.ok) {
-            setModalVisible(true);
-            return;
-        }
-        // login succeeded
-        await AsyncStorage.setItem('token', response.body.token);
-        props.navigation.navigate('Temp');
+    useEffect(() => {
+        // Fetch appointments from API or local storage
+        const appointmentsData = [
+            {
+                id: '1',
+                customerName: 'John Doe',
+                date: '2023-03-24T10:30:00Z',
+            },
+            {
+                id: '2',
+                customerName: 'Jane Smith',
+                date: '2023-03-25T14:00:00Z',
+            },
+            // Add more appointments as needed
+        ];
+        setAppointments(appointmentsData);
+    }, []);
+
+    const handleDeleteAppointment = (id) => {
+        setAppointments((prevAppointments) =>
+            prevAppointments.filter((appointment) => appointment.id !== id)
+        );
     };
 
     return (
-        <View style={{ backgroundColor: "white", height: "100%" }}>
-            <LinearGradient
-                colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
-                style={[{ height: "35%", borderBottomLeftRadius: 40, borderBottomRightRadius: 40, shadowColor: "#000", elevation: 20}]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-            >
-                <View>
-                    <ModalSlide
-                        modalVisible={modalVisible}
-                        setModalVisible={setModalVisible}
-                        message="Invalid username or password, please try again."
-                        buttonText="OK"
-                    />
-                    <Image
-                        source={require('../../assets/logo7.png')}
-                        style={styles.logo}
-                        resizeMode="contain">
-                    </Image>
-                    <Image
-                        source={require('../../assets/back1.png')}
-                        style={styles.queyou}
-                        resizeMode="contain">
-                    </Image>
-                    <View style={{ marginTop: -30, left: 50, padding: 20 }}>
-                        <Text style={{ fontSize: 80, fontWeight: "bold", color: "#333" }}>Hello</Text>
-                        <Text style={{ color: "#AAA", fontSize: 18, bottom: 10 }}>Sign up to your account</Text>
-                    </View>
-                    <View style={styles.inputView}>
-                            <TextInput
-                                style={styles.TextInput}
-                                placeholder="Username"
-                                onChangeText={(username) => setUsername(username)}
-                            />
-                        </View>
-                        <View style={styles.inputView}>
-                            <TextInput
-                                style={styles.TextInput}
-                                placeholder="Password"
-                                onChangeText={(password) => setPassword(password)}
-                            />
-                        </View>
-                    <TouchableOpacity>
-                        <Text style={styles.forgot_button}>Forgot Password?</Text>
-                    </TouchableOpacity>
-                    <LinearGradient
-                        colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
-                        start={{ x: 0, y: -1 }}
-                        end={{ x: 1, y: 0.5 }}
-                        style={styles.linearGradient}
-                    >
-                        <TouchableOpacity style={styles.loginBtn} onPress={onPressLogin}>
-                            <Text style={styles.loginText}>LOGIN</Text>
-                        </TouchableOpacity>
-                    </LinearGradient>
-
-                </View>
-            </LinearGradient>
+        <View style={styles.container}>
+            <View style={styles.header}>
+                <Text style={styles.heading}>Upcoming Appointments</Text>
+                <MaterialCommunityIcons name="calendar-plus" size={32} color="#ffffff" />
+            </View>
+            <AppointmentList appointments={appointments} onDeleteAppointment={handleDeleteAppointment} />
         </View>
     );
-}
-
-export default LoginScreen
-
+};
 
 const styles = StyleSheet.create({
-    background: {
-        width: '100%',
-        height: '100%',
-    },
-    logo: {
-        width: 200,
-        height: 145,
-        alignSelf: 'center',
-    },
-    queyou: {
-        bottom: 20,
-        width: 250,
-        height: 100,
-        alignSelf: 'center',
-    },
-    text: {
-        fontSize: 26,
-        color: '#ffffff',
-        fontWeight: 'bold',
-    },
-    inputView: {
-        backgroundColor: '#ffffff',
-        borderRadius: 30,
-        width: "75%",
-        height: 50,
-        alignItems: "center",
-        alignSelf: "center",
-        marginTop: 22,
-        shadowColor: "#777",
-        elevation: 30,
-        bottom: 30
-    },
-    TextInput: {
-        height: 50,
+    container: {
         flex: 1,
-        padding: 10,
-        marginLeft: 20,
-        fontWeight: 'bold',
-        fontSize: 17,
+        backgroundColor: '#ffffff',
     },
-    forgot_button: {
-        height: 30,
-        bottom: 38,
-        marginLeft: '38%',
-        marginTop: '4%',
-        fontWeight: 'bold',
-        letterSpacing: 0.5,
-        color: "#777",
-    },
-    linearGradient: {
-        width: "55%",
-        height: 50,
-        borderRadius: 35,
-        alignSelf: "center",
-        justifyContent: "center",
+    header: {
+        backgroundColor: '#2D87B8',
+        paddingHorizontal: 16,
+        paddingTop: 64,
+        paddingBottom: 16,
+        marginBottom: 32,
+        borderBottomLeftRadius: 32,
+        borderBottomRightRadius: 32,
         shadowColor: "#000",
-        elevation: 50,
-    },
-    loginBtn: {
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    loginText: {
+        elevation: 70,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      },
+      heading: {
+        fontSize: 30,
         fontWeight: 'bold',
-        color: "white",
+        color: '#ffffff',
+      },
+    listContainer: {
+        paddingHorizontal: 16,
+        paddingBottom: 16,
+    },
+    appointmentContainer: {
+        backgroundColor: '#ffffff',
+        borderRadius: 16,
+        marginBottom: 16,
+        padding: 16,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        shadowColor: '#000000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    iconContainer: {
+        marginRight: 16,
+    },
+    detailsContainer: {
+        flex: 1,
+    },
+    customerNameText: {
         fontSize: 20,
-        letterSpacing: 2,
-        textShadowColor: 'rgba(0, 0, 0, 0.3)',
-        textShadowOffset: { width: -1, height: 1 },
-        textShadowRadius: 10,
-    }
+        fontWeight: 'bold',
+        marginBottom: 8,
+        color: '#333333',
+    },
+    dateText: {
+        fontSize: 16,
+        color: '#666666',
+    },
 });
+
+
+
+export default ProviderPage;

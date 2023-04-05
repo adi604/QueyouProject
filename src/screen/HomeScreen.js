@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   queyou: {
-    bottom: 70,
+    bottom: 80,
     width: 310,
     height: 140,
     alignSelf: "center",

@@ -49,7 +49,7 @@ const SignUpScreen = props => {
     }
     // login succeeded
     await AsyncStorage.setItem('token', response.body.token);
-    props.navigation.navigate('Temp');
+    props.navigation.navigate('Nevigator');
   }
 
   return (

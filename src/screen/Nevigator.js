@@ -16,7 +16,7 @@ const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
 
-const Temp = props => {
+const Nevigator = props => {
   return (
     <Tab.Navigator initialRouteName='SearchUserScreen'
       screenOptions={{
@@ -53,7 +53,7 @@ const Temp = props => {
         name="Settings"
         component={Settings}
         options={{
-          tabBarLabel: 'Reviews',
+          tabBarLabel: 'Settings',
           tabBarLabelStyle: { fontSize: 12, color: 'white' },
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="setting" size={24} color="white" />),
@@ -74,4 +74,4 @@ const Temp = props => {
   )
 }
 
-export default Temp;
+export default Nevigator;
