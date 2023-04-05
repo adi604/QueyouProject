@@ -1,109 +1,169 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
+import { serverBaseUrl } from '../utils/strings';
+import { sendRequest } from '../utils/utils'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ModalSlide from '../components/ModalSlide';
+const LoginScreen = props => {
 
-const HomePage = () => {
-  const navigation = useNavigation();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.titleContainer}>
-        <Image
-          style={styles.logo}
-          source={require('../../assets/logo7.png')}
-        />
-        <Text style={styles.title}>Welcome to MyApp</Text>
-      </View>
-      <View style={styles.content}>
-        <Text style={styles.description}>Please sign in or sign up to continue</Text>
-        
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.button, { backgroundColor: '#1E90FF' }]} onPress={() => navigation.navigate('Signup')}>
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
+    const onPressLogin = async () => {
+        const body = {
+            username: username,
+            password: password
+        }
+        const url = `${serverBaseUrl}/users/loginCustomers`;
+        const response = await sendRequest(url, 'POST', body);
+        if (!response.ok) {
+            setModalVisible(true);
+            return;
+        }
+        // login succeeded
+        await AsyncStorage.setItem('token', response.body.token);
+        props.navigation.navigate('Temp');
+    };
+
+    return (
+        <View style={{ backgroundColor: "white", height: "100%" }}>
+            <LinearGradient
+                colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
+                style={[{ height: "35%", borderBottomLeftRadius: 40, borderBottomRightRadius: 40, shadowColor: "#000", elevation: 20}]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+            >
+                <View>
+                    <ModalSlide
+                        modalVisible={modalVisible}
+                        setModalVisible={setModalVisible}
+                        message="Invalid username or password, please try again."
+                        buttonText="OK"
+                    />
+                    <Image
+                        source={require('../../assets/logo7.png')}
+                        style={styles.logo}
+                        resizeMode="contain">
+                    </Image>
+                    <Image
+                        source={require('../../assets/back1.png')}
+                        style={styles.queyou}
+                        resizeMode="contain">
+                    </Image>
+                    <View style={{ marginTop: -30, left: 50, padding: 20 }}>
+                        <Text style={{ fontSize: 80, fontWeight: "bold", color: "#333" }}>Hello</Text>
+                        <Text style={{ color: "#AAA", fontSize: 18, bottom: 10 }}>Sign up to your account</Text>
+                    </View>
+                    <View style={styles.inputView}>
+                            <TextInput
+                                style={styles.TextInput}
+                                placeholder="Username"
+                                onChangeText={(username) => setUsername(username)}
+                            />
+                        </View>
+                        <View style={styles.inputView}>
+                            <TextInput
+                                style={styles.TextInput}
+                                placeholder="Password"
+                                onChangeText={(password) => setPassword(password)}
+                            />
+                        </View>
+                    <TouchableOpacity>
+                        <Text style={styles.forgot_button}>Forgot Password?</Text>
+                    </TouchableOpacity>
+                    <LinearGradient
+                        colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
+                        start={{ x: 0, y: -1 }}
+                        end={{ x: 1, y: 0.5 }}
+                        style={styles.linearGradient}
+                    >
+                        <TouchableOpacity style={styles.loginBtn} onPress={onPressLogin}>
+                            <Text style={styles.loginText}>LOGIN</Text>
+                        </TouchableOpacity>
+                    </LinearGradient>
+
+                </View>
+            </LinearGradient>
+        </View>
+    );
+}
+
+export default LoginScreen
+
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    margin: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
+    background: {
+        width: '100%',
+        height: '100%',
     },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-    elevation: 8,
-  },
-  titleContainer: {
-    backgroundColor: '#1E90FF',
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    padding: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
+    logo: {
+        width: 200,
+        height: 145,
+        alignSelf: 'center',
     },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-    elevation: 8,
-  },
-  logo: {
-    width: 24,
-    height: 24,
-    marginRight: 8,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-  },
-  description: {
-    fontSize: 16,
-    marginBottom: 32,
-    textAlign: 'center',
-    color: '#333',
-  },
-  button: {
-    backgroundColor: '#000',
-    borderRadius: 16,
-    paddingVertical: 16,
-    paddingHorizontal: 48,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
+    queyou: {
+        bottom: 20,
+        width: 250,
+        height: 100,
+        alignSelf: 'center',
     },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-    elevation: 8,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
+    text: {
+        fontSize: 26,
+        color: '#ffffff',
+        fontWeight: 'bold',
+    },
+    inputView: {
+        backgroundColor: '#ffffff',
+        borderRadius: 30,
+        width: "75%",
+        height: 50,
+        alignItems: "center",
+        alignSelf: "center",
+        marginTop: 22,
+        shadowColor: "#777",
+        elevation: 30,
+        bottom: 30
+    },
+    TextInput: {
+        height: 50,
+        flex: 1,
+        padding: 10,
+        marginLeft: 20,
+        fontWeight: 'bold',
+        fontSize: 17,
+    },
+    forgot_button: {
+        height: 30,
+        bottom: 38,
+        marginLeft: '38%',
+        marginTop: '4%',
+        fontWeight: 'bold',
+        letterSpacing: 0.5,
+        color: "#777",
+    },
+    linearGradient: {
+        width: "55%",
+        height: 50,
+        borderRadius: 35,
+        alignSelf: "center",
+        justifyContent: "center",
+        shadowColor: "#000",
+        elevation: 50,
+    },
+    loginBtn: {
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    loginText: {
+        fontWeight: 'bold',
+        color: "white",
+        fontSize: 20,
+        letterSpacing: 2,
+        textShadowColor: 'rgba(0, 0, 0, 0.3)',
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 10,
+    }
 });
-
-export default HomePage;
