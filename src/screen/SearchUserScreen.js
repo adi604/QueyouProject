@@ -66,19 +66,18 @@ const SearchUserScreen = props => {
     }
 
     return (
-        <ImageBackground
-            source={require('./../../assets/logo7.png')}
-            style={styles.backgroundImage}
+        <View
+            source={require('./../../assets/calendar.png')}
+            style={{backgroundColor: "#98c1d9"}}
             resizeMode="cover"
-            blurRadius={5}
+            blurRadius={2}
         >
-            <ScrollView style={{ backgroundColor: 'rgba(0,0,0,0.2)', }}>
+            <ScrollView style={{ }}>
                 <View style={styles.container}>
                     <View>
                         <View style={{ justifyContent: 'center', }}>
                             <Text style={[styles.heading, { fontSize: 40, fontWeight: '400', fontFamily: 'Montserrat_500Medium_Italic', }]}>Hey Adi,</Text>
-                            <Text style={[styles.heading, { top: 35 }]}>What service are you looking for?</Text>
-                            <View style={{ top: 30, width: "100%" }}>
+                            <View style={{ marginTop: 20, width: "100%" }}>
                                 <View style={{ alignItems: 'center', flexDirection: 'row', }}>
                                     <TouchableOpacity style={styles.search}>
                                         <View style={[!isFree && styles.shadow, { }]}>
@@ -94,7 +93,7 @@ const SearchUserScreen = props => {
                             </View>
                         </View>
                     </View>
-                    <View style={[{ marginTop: 40, }]}>
+                    <View style={[{ marginTop: 10, }]}>
                         {(isFree) ? <FreeSearch navigation={props.navigation} /> : <FavoriteCategory navigation={props.navigation} />}
                     </View>
                     <View style={styles.line}></View>
@@ -103,13 +102,13 @@ const SearchUserScreen = props => {
                         <FontAwesome style={{ height: 30, width: 25, left: 15, top: 4 }} name="filter" size={25} color="white" />
                     </View>
                     <View style={{ flexDirection: 'row', padding: 10, paddingBottom: 30, }}>
-                        <TouchableOpacity style={[styles.squre, isAll && { backgroundColor: '#303f9f' }]} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
+                        <TouchableOpacity style={[styles.squre, isAll && { backgroundColor: '#293241' }]} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
                             <Text style={[styles.sortBy]}>All</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#303f9f' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
+                        <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#293241' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
                             <Text style={[styles.sortBy]}>Rating</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.squre, isCloser && { backgroundColor: '#303f9f' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
+                        <TouchableOpacity style={[styles.squre, isCloser && { backgroundColor: '#293241' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
                             <Text style={[styles.sortBy]}>closer meeting</Text>
                         </TouchableOpacity>
                     </View>
@@ -118,7 +117,7 @@ const SearchUserScreen = props => {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
-        </ImageBackground>
+        </View>
     );
 };
 
@@ -216,7 +215,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         alignSelf: "center",
-        backgroundColor: "#2D87B8",
+        backgroundColor: "#293241",
     },
     vi: {
         height: 60,

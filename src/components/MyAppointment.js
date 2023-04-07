@@ -1,6 +1,7 @@
 import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
+import { FontAwesome5 } from '@expo/vector-icons'; 
 
 const MyAppointment = props => {
 
@@ -50,7 +51,7 @@ const MyAppointment = props => {
                 renderItem={({ item }) =>
                     <View style={styles.box}>
                         <View style={{ flexDirection: 'row', padding: 7, }}>
-                            <View style={{ flexDirection: 'column' }}>
+                            <View style={{ flexDirection: 'column', width: 60}}>
                                 <Image style={styles.icon} source={item.icon}></Image>
                                 <Text style={styles.category}>{item.category}</Text>
                             </View>
@@ -61,6 +62,7 @@ const MyAppointment = props => {
                                     <Text style={styles.day}>{item.day} in hour</Text>
                                     <Text style={styles.hour}>{item.hour}</Text>
                                     <Text style={styles.date}>{item.date}</Text>
+                                    <FontAwesome5 style={{transform: [{ rotate: '30deg'}], bottom: 30, right: 10}} name="thumbtack" size={32} color="red" />
                                 </View>
                             </View>
                         </View>
@@ -129,8 +131,8 @@ const styles = StyleSheet.create({
     },
     date: {
         bottom: 30,
+        right: 45,
         fontSize: 12,
-        left: 35,
         fontWeight: '600',
         color: "#c0c0c0",
 
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
     day: {
         bottom: 8,
         left: 10,
-        fontSize: 16,
+        fontSize: 17,
         color: "#c0c0c0",
         fontWeight: '400',
 
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
     hour: {
         bottom: 8,
         left: 14,
-        fontSize: 16,
+        fontSize: 17,
         fontWeight: '400',
         color: "#c0c0c0",
     },

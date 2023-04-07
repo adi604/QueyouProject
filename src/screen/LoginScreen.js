@@ -32,7 +32,7 @@ const LoginScreen = props => {
     <ScrollView style={{ backgroundColor: "white", height: "100%" }}>
       <LinearGradient
         colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
-        style={[{ height: "35%", borderBottomLeftRadius: 60, borderBottomRightRadius: 60, shadowColor: "#000", elevation: 40, }]}
+        style={[{ height: "38%", borderBottomLeftRadius: 60, borderBottomRightRadius: 60, shadowColor: "#000", elevation: 40, }]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
@@ -54,7 +54,7 @@ const LoginScreen = props => {
             resizeMode="contain">
           </Image>
           <View style={{ marginTop: -10, left: 50, padding: 20 }}>
-            <Text style={{ fontSize: 80, fontWeight: "bold", color: "#555", textShadowColor: 'rgba(0, 0, 0, 0.8)', textShadowOffset: { width: -1, height: 1 }, textShadowRadius: 5 }}>Hello</Text>
+            <Text style={{ fontSize: 60, fontWeight: "bold", color: "#555", textShadowColor: 'rgba(0, 0, 0, 0.8)', textShadowOffset: { width: -1, height: 1 }, textShadowRadius: 5 }}>Hello</Text>
             <Text style={{ color: "#AAA", fontSize: 18, bottom: 10, fontWeight: '500' }}>Sign up to your account</Text>
           </View>
           <View style={styles.inputView}>
