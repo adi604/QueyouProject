@@ -45,7 +45,7 @@ const MainPage = () => {
   return (
     <ScrollView style={styles.container}>
         <View style={styles.contentContainer}>
-          <Text style={styles.title}>Favorite Categories</Text>
+        <Text style={[styles.heading, { top: 10 }]}>What service are you looking for?</Text>                    
           <View style={styles.categoryContainer}>
             <View style={[styles.categoryItem, {backgroundColor: '#4FA4E5'}]}>
               <MaterialCommunityIcons name="hair-dryer" size={48} color="#fff" />
@@ -132,19 +132,18 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    justifyContent: 'center',
     paddingVertical: 25,
-    alignItems: "center",
   },
-  title: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color: '#fff',
-    fontFamily: 'Montserrat-Bold',
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+  heading: {
+    fontSize: 20,
+    color: '#293241',
+    fontWeight: '500',
+    fontFamily: 'Montserrat_700Bold_Italic',
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 10,
-  },
+    paddingLeft: 30,
+},
   categoryContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',

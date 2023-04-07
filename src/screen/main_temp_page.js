@@ -1,131 +1,212 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { ScrollView, StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { FontAwesome } from '@expo/vector-icons';
+import {
+    useFonts,
+    Montserrat_100Thin,
+    Montserrat_200ExtraLight,
+    Montserrat_300Light,
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_700Bold,
+    Montserrat_800ExtraBold,
+    Montserrat_900Black,
+    Montserrat_100Thin_Italic,
+    Montserrat_200ExtraLight_Italic,
+    Montserrat_300Light_Italic,
+    Montserrat_400Regular_Italic,
+    Montserrat_500Medium_Italic,
+    Montserrat_600SemiBold_Italic,
+    Montserrat_700Bold_Italic,
+    Montserrat_800ExtraBold_Italic,
+    Montserrat_900Black_Italic,
+} from '@expo-google-fonts/montserrat';
+import AppLoading from 'expo-app-loading';
 
-const AppointmentList = ({ appointments, onDeleteAppointment }) => {
-    return (
-        <FlatList
-            data={appointments}
-            renderItem={({ item }) => (
-                <View style={styles.appointmentContainer}>
-                    <View style={styles.iconContainer}>
-                        <MaterialCommunityIcons name="calendar-clock" size={32} color="#2D87B8" />
-                    </View>
-                    <View style={styles.detailsContainer}>
-                        <Text style={styles.customerNameText}>{item.customerName}</Text>
-                        <Text style={styles.dateText}>{item.date}</Text>
-                    </View>
-                    <TouchableOpacity onPress={() => onDeleteAppointment(item.id)}>
-                        <AntDesign name="delete" size={24} color="#ff0000" />
-                    </TouchableOpacity>
-                </View>
-            )}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={styles.listContainer}
-            showsVerticalScrollIndicator={false}
-        />
-    );
-};
+import FavoriteCategory from "../components/FavoriteCategory"
+import FreeSearch from "../components/FreeSearch"
+import AvailableAppointments from './AvailableAppointments'
 
-const ProviderPage = () => {
-    const [appointments, setAppointments] = useState([]);
+const SearchUserScreen = props => {
 
-    useEffect(() => {
-        // Fetch appointments from API or local storage
-        const appointmentsData = [
-            {
-                id: '1',
-                customerName: 'John Doe',
-                date: '2023-03-24T10:30:00Z',
-            },
-            {
-                id: '2',
-                customerName: 'Jane Smith',
-                date: '2023-03-25T14:00:00Z',
-            },
-            // Add more appointments as needed
-        ];
-        setAppointments(appointmentsData);
-    }, []);
+    let [fontsLoaded] = useFonts({
+        Montserrat_100Thin,
+        Montserrat_200ExtraLight,
+        Montserrat_300Light,
+        Montserrat_400Regular,
+        Montserrat_500Medium,
+        Montserrat_600SemiBold,
+        Montserrat_700Bold,
+        Montserrat_800ExtraBold,
+        Montserrat_900Black,
+        Montserrat_100Thin_Italic,
+        Montserrat_200ExtraLight_Italic,
+        Montserrat_300Light_Italic,
+        Montserrat_400Regular_Italic,
+        Montserrat_500Medium_Italic,
+        Montserrat_600SemiBold_Italic,
+        Montserrat_700Bold_Italic,
+        Montserrat_800ExtraBold_Italic,
+        Montserrat_900Black_Italic,
+    });
 
-    const handleDeleteAppointment = (id) => {
-        setAppointments((prevAppointments) =>
-            prevAppointments.filter((appointment) => appointment.id !== id)
-        );
+    const [isFree, setIsFree] = useState(false);
+
+    const [isAll, setIsAll] = useState(true);
+    const [isRate, setIsRate] = useState(false);
+    const [isCloser, setIsCloser] = useState(false);
+
+    const onPressSearch = () => {
+        props.navigation.navigate('AvailableAppointments');
     };
 
+    if (!fontsLoaded) {
+        return <AppLoading />;
+    }
+
     return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.heading}>Upcoming Appointments</Text>
-                <MaterialCommunityIcons name="calendar-plus" size={32} color="#ffffff" />
-            </View>
-            <AppointmentList appointments={appointments} onDeleteAppointment={handleDeleteAppointment} />
-        </View>
+            <ScrollView style={{ backgroundColor: "#98c1d9" }}>
+                <View style={styles.container}>
+                    <View>
+                        <View style={{ justifyContent: 'center', }}>
+                            <View style={{ width: "100%" }}>
+                                <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
+                                    <TouchableOpacity style={styles.search}>
+                                        <View style={[!isFree && styles.shadow, { }]}>
+                                            <Text style={[styles.buttonSearch, { shadowColor: "#0080FF", },]} onPress={() => { setIsFree(false) }}>Advance Search</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.search}>
+                                        <View style={[isFree && styles.shadow, { }]}>
+                                            <Text style={[styles.buttonSearch, { shadowColor: "#77BBFF" },]} onPress={() => { setIsFree(true) }}>Free Search</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={[{ marginTop: 5, }]}>
+                        {(isFree) ? <FreeSearch navigation={props.navigation} /> : <FavoriteCategory navigation={props.navigation} />}
+                    </View>
+                    <View style={styles.line}></View>
+                    <View style={{ flexDirection: 'row', marginTop: 20 }}>
+                        <Text style={styles.filter}>SORT BY</Text>
+                        <FontAwesome style={{ height: 30, width: 25, left: 15, top: 4 }} name="filter" size={25} color="white" />
+                    </View>
+                    <View style={{ flexDirection: 'row', padding: 10, paddingBottom: 30, }}>
+                        <TouchableOpacity style={[styles.squre, isAll && { backgroundColor: '#293241' }]} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
+                            <Text style={[styles.sortBy]}>All</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#293241' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
+                            <Text style={[styles.sortBy]}>Rating</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.squre, isCloser && { backgroundColor: '#293241' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
+                            <Text style={[styles.sortBy]}>closer meeting</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity style={styles.searchButton} onPress={onPressSearch}>
+                        <Text style={{color: "#FFF", fontWeight: '600', fontSize: 18}}>view all businesses</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
     );
 };
+
+export default SearchUserScreen;
 
 const styles = StyleSheet.create({
     container: {
+        padding: 18,
+    },
+    backgroundImage: {
         flex: 1,
-        backgroundColor: '#ffffff',
+        width: '100%',
+        height: '100%',
     },
-    header: {
-        backgroundColor: '#2D87B8',
-        paddingHorizontal: 16,
-        paddingTop: 64,
-        paddingBottom: 16,
-        marginBottom: 32,
-        borderBottomLeftRadius: 32,
-        borderBottomRightRadius: 32,
-        shadowColor: "#000",
-        elevation: 70,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      },
-      heading: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        color: '#ffffff',
-      },
-    listContainer: {
-        paddingHorizontal: 16,
-        paddingBottom: 16,
+    search: {
+        paddingTop: 30,
+        alignItems: "center",
+        padding: 15,
     },
-    appointmentContainer: {
-        backgroundColor: '#ffffff',
-        borderRadius: 16,
-        marginBottom: 16,
-        padding: 16,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        shadowColor: '#000000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    iconContainer: {
-        marginRight: 16,
-    },
-    detailsContainer: {
-        flex: 1,
-    },
-    customerNameText: {
+    buttonSearch: {
         fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 8,
-        color: '#333333',
+        top: 8,
+        height: 50,
+        fontWeight: '500',
+        color: 'white',
+        fontFamily: 'Montserrat_700Bold',
+        alignSelf: "center",
+        
     },
-    dateText: {
+    shadow: {
+        backgroundColor: "DDD",
+        shadowColor: "#DDD",
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 3,
+        borderRadius: 4,
+        width: '120%',
+
+    },
+    selectedTextStyle: {
         fontSize: 16,
-        color: '#666666',
     },
+    iconStyle: {
+        width: 20,
+        height: 20,
+    },
+    inputSearchStyle: {
+        height: 40,
+        fontSize: 16,
+    },
+    line: {
+        backgroundColor: '#d1d1d1',
+        height: 2,
+        marginTop: 30,
+    },
+    filter: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: '#fff',
+        letterSpacing: 0.2,
+    },
+    squre: {
+        backgroundColor: '#fff',
+        height: 30,
+        top: 20,
+        marginRight: 25,
+        borderRadius: 15,
+        width: 100,
+    },
+    sortBy: {
+        color: '#EEEEEE',
+        fontSize: 18,
+        textAlign: 'center',
+        top: 2,
+        fontWeight: 'bold',
+        textShadowColor: 'rgba(0, 0, 0, 1)',
+        textShadowOffset: {width: -1, height: 1},
+        textShadowRadius: 10,
+    },
+    searchButton: {
+        top: 20,
+        height: 40,
+        borderRadius: 10,
+        width: "50%",
+        marginBottom: 25,
+        shadowColor: "#000",
+        elevation: 5,
+        justifyContent: "center",
+        alignItems: "center",
+        alignSelf: "center",
+        backgroundColor: "#293241",
+    },
+    vi: {
+        height: 60,
+        width: 50,
+        alignSelf: "center",
+    },
+
+
 });
-
-
-
-export default ProviderPage;
