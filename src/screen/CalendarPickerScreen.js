@@ -114,12 +114,9 @@ const CalendarPickerScreen = props => {
     return (
         <View style={styles.container}>
             <LinearGradient
-                colors={['#1a75ff','#b3c6ff']}
-                style={{
-                    flex:1,
-                }}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 0, y: 1 }}
+            colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
             >
                 <View style={styles.calendarView}>
                     <CalendarPicker
@@ -136,23 +133,22 @@ const CalendarPickerScreen = props => {
                     disabledDates={disabledDates()}
                     textStyle={{
                         color: '#FFFFFF',
-                        fontSize: 20,
+                        fontSize: 21,
                         fontWeight: 'normal',
                     }}
                     />
                 </View>
             
                 <View>
-                    <Text style={styles.dateStr}>Selected Date : { selectedDate }</Text>
                     <TouchableOpacity onPress={showTimePicker} style={styles.clock}>
-                        <MaterialCommunityIcons name="clock-edit-outline" size={70} color="#002080" style={styles.vi}/>
+                        <MaterialCommunityIcons name="clock-edit-outline" size={70} color="#ffc266"/>
                     </TouchableOpacity>
                     <Modal visible={isTimePickerVisible} animationType="slide">
                         <LinearGradient
-                            colors={['#1a75ff','#b3c6ff']}
-                            style={styles.modalContainer}
+                            colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
                             start={{ x: 0, y: 0 }}
-                            end={{ x: 0, y: 1 }}
+                            end={{ x: 1, y: 1 }}
+                            style={styles.modalContainer}
                         >
                             <View style={styles.modalContent}>
                             <ScrollView contentContainerStyle={styles.timeOptions}>
@@ -169,10 +165,10 @@ const CalendarPickerScreen = props => {
                         </LinearGradient>
                     </Modal>
 
-                    <Text style={styles.timeStr}>Selected Time : {selectedTime}</Text>
+                    <Text style={styles.timeStr}>Selected Meeting :  <Text style={styles.innerTime}>{ selectedDate }  {selectedTime}</Text></Text>
 
                     <TouchableOpacity style={styles.viButton}>
-                        <MaterialCommunityIcons name="check" size={100} color="#39e600" style={styles.vi}/>
+                        <MaterialCommunityIcons name="check" size={90} color="#39e600" style={styles.vi}/>
                     </TouchableOpacity>
                 </View>
         </LinearGradient>
@@ -191,35 +187,31 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   clock: {
-    top: 25,
+    top: 10,
     left:170,
 },
   viButton: {
-    top: 0,
+    top: 5,
     left: 160,
-    height: 100,
+    height: 160,
     borderRadius: 50,
     width: 105,
     marginBottom: 40,
-    shadowColor: "#FFF",
-    elevation: 20,
     justifyContent: "center",
 },
 vi: {
     height: 120,
-},
-dateStr: {
-    left: 10,
-    top: 5,
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "black",
+    top:40,
 },
 timeStr: {
+    top: 40,
     left: 10,
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: "bold",
-    color: "black",
+    color: "white",
+},
+innerTime: {
+    color: "#39e600",
 },
 modalContainer: {
 flex: 1,
