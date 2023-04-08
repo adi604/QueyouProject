@@ -162,7 +162,6 @@ const styles = StyleSheet.create({
         elevation: 3,
         borderRadius: 4,
         width: '120%',
-
     },
     selectedTextStyle: {
         fontSize: 16,

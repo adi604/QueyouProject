@@ -55,7 +55,7 @@ const LoginScreen = props => {
           </Image>
           <View style={{ marginTop: -10, left: 50, padding: 20 }}>
             <Text style={{ fontSize: 60, fontWeight: "bold", color: "#555", textShadowColor: 'rgba(0, 0, 0, 0.8)', textShadowOffset: { width: -1, height: 1 }, textShadowRadius: 5 }}>Hello</Text>
-            <Text style={{ color: "#AAA", fontSize: 18, bottom: 10, fontWeight: '500' }}>Sign up to your account</Text>
+            <Text style={{ color: "#AAA", fontSize: 18, marginBottom: 5, fontWeight: '500' }}>Sign up to your account</Text>
           </View>
           <View style={styles.inputView}>
             <TextInput
@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
   },
   forgot_button: {
     height: 30,
-    bottom: 38,
-    marginLeft: '38%',
+    bottom: 30,
+    alignSelf: "center",
     marginTop: '4%',
     fontWeight: 'bold',
     letterSpacing: 0.5,

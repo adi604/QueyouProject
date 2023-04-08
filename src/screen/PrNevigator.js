@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, Fontisto } from '@expo/vector-icons';
 
 import SearchUserScreen from './SearchUserScreen'
-import MyAppointment from '../components/MyAppointment'
+import MyAppointment from './MyAppointment'
 import Reviews from '../components/Reviews'
 import Settings from './Settings'
 import main_temp_page from './main_temp_page'
