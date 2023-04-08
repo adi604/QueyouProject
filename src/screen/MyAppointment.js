@@ -1,9 +1,14 @@
 import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { FontAwesome5 } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import MyAppointment from './main_temp_page';
 
-const MyAppointment = props => {
+const MyAppointments = props => {
+
+    const [isPast, setIsPast] = useState(false);
+    const [isFree, setIsFree] = useState(false);
 
     const queues = [
         { provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
@@ -16,7 +21,7 @@ const MyAppointment = props => {
 
     const onPressAdd = () => {
         props.navigation.navigate('SearchUserScreen');
-      };
+    };
 
     return (
         <View style={{ backgroundColor: '#faffff', height: '110%' }}>
@@ -24,76 +29,94 @@ const MyAppointment = props => {
                 <LinearGradient
                     colors={['#64b5f6', '#6CC3ED', '#6CC3ED']}
                     style={{
-                        width: 450, height: 120, right: 20, padding: 20, bottom: 18, shadowColor: '#000', shadowOffset: { width: 1, height: 1 },
-                        shadowOpacity: 0.4,
-                        shadowRadius: 3,
-                        elevation: 5,
+                        width: 450, height: 150, right: 20, padding: 20, bottom: 18,
                     }}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 0, y: 1 }}
                 >
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row', alignSelf: "center", padding: 20, top: 20, }}>
                         <Text style={styles.heading}>My Appointment</Text>
-                        <Image style={{ height: 28, width: 28, top: 40, left: 150}} source={require('./../../assets/calender3.png')}></Image>
+                        <AntDesign style={{ top: 3, left: 10 }} name="calendar" size={24} color="white" />
                     </View>
-                    <View style={{
-                        backgroundColor: '#6CC3ED',
-                        width: 450, height: 1, top: 30, shadowColor: '#000', shadowOffset: { width: -2, height: 5 },
-                        shadowOpacity: 0.4,
-                        shadowRadius: 3,
-                        elevation: 10,
-                    }}>
+                    <View style={{ height: 1, marginTop: 15, backgroundColor: "#DDD", shadowColor: '#FFF', elevation: 10 }}></View>
+                    <View style={{ alignItems: 'center', flexDirection: 'row', }}>
+                        <TouchableOpacity style={[styles.filter, !isPast && styles.underLine]}>
+                            <Text style={[styles.textFilter]} onPress={() => { setIsPast(false) }}>UPCOMING</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.filter, isPast && styles.underLine]}>
+                            <Text style={[styles.textFilter]} onPress={() => { setIsPast(true) }}>PAST</Text>
+                        </TouchableOpacity>
                     </View>
+                    <View style={{ backgroundColor: '#6CC3ED', height: 1, shadowColor: '#000', elevation: 10, }}></View>
                 </LinearGradient>
             </View>
             <FlatList
                 data={queues}
                 renderItem={({ item }) =>
-                    <View style={styles.box}>
-                        <View style={{ flexDirection: 'row', padding: 7, }}>
-                            <View style={{ flexDirection: 'column', width: 60}}>
-                                <Image style={styles.icon} source={item.icon}></Image>
-                                <Text style={styles.category}>{item.category}</Text>
-                            </View>
-                            <View style={styles.verticalLine} />
-                            <View style={[{ left: 16 }]}>
-                                <Text style={styles.provider}>{item.provider}</Text>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <Text style={styles.day}>{item.day} in hour</Text>
-                                    <Text style={styles.hour}>{item.hour}</Text>
-                                    <Text style={styles.date}>{item.date}</Text>
-                                    <FontAwesome5 style={{transform: [{ rotate: '30deg'}], bottom: 30, right: 10}} name="thumbtack" size={32} color="red" />
+                    <TouchableOpacity style={{}} onPress={() => props.navigation.navigate('ADNevigator')}>
+                        <View style={styles.box}>
+                            <View style={{ flexDirection: 'row', padding: 7, }}>
+                                <View style={{ flexDirection: 'column', width: 60 }}>
+                                    <Image style={styles.icon} source={item.icon}></Image>
+                                    <Text style={styles.category}>{item.category}</Text>
+                                </View>
+                                <View style={styles.verticalLine} />
+                                <View style={[{ left: 16 }]}>
+                                    <Text style={styles.provider}>{item.provider}</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={styles.day}>{item.day} in hour</Text>
+                                        <Text style={styles.hour}>{item.hour}</Text>
+                                        <Text style={styles.date}>{item.date}</Text>
+                                        <FontAwesome5 style={{ transform: [{ rotate: '30deg' }], bottom: 30, right: 10 }} name="thumbtack" size={32} color="red" />
+                                    </View>
                                 </View>
                             </View>
                         </View>
-                    </View>}
+                    </TouchableOpacity>}
             />
             <LinearGradient
-                    colors={['#ff6a65', '#f3afbf']}
-                    style={styles.addbtn}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}
-                >
-            <TouchableOpacity style={styles.btn} onPress={onPressAdd}>
-                <Text style={{fontSize: 30, color: 'white'}}>+</Text>
-            </TouchableOpacity>
+                colors={['#ff6a65', '#f3afbf']}
+                style={styles.addbtn}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 1 }}
+            >
+                <TouchableOpacity style={styles.btn} onPress={onPressAdd}>
+                    <Text style={{ fontSize: 30, color: 'white' }}>+</Text>
+                </TouchableOpacity>
             </LinearGradient>
         </View>
     )
 };
 
 
-export default MyAppointment
+export default MyAppointments
 
 
 const styles = StyleSheet.create({
     heading: {
-        fontSize: 22,
-        left: 10,
-        top: 20,
+        fontSize: 25,
+        alignSelf: "center",
+        textAlign: "center",
         color: 'white',
-        padding: 20,
+        fontFamily: 'Montserrat_700Bold',
+    },
+    filter: {
+        width: "50%",
+        alignSelf: "center",
+    },
+    textFilter: {
+        height: 40,
+        padding: 10,
+        fontSize: 17.5,
         fontWeight: '500',
+        color: 'white',
+        fontFamily: 'Montserrat_700Bold',
+        alignSelf: "center",
+    },
+    underLine: {
+        borderBottomColor: '#FFF',
+        borderBottomWidth: 2,
+        bottom: 1,
     },
     icon: {
         marginTop: 5,
@@ -113,7 +136,7 @@ const styles = StyleSheet.create({
     box: {
         backgroundColor: '#FFF',
         shadowColor: "#000",
-        elevation: 15,
+        elevation: 10,
         height: 100,
         marginTop: 5,
         width: 370,

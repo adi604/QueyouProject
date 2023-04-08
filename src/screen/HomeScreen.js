@@ -20,40 +20,40 @@ const HomeScreen = props => {
 
 
   return (
-    <View style={{backgroundColor: "white", height: "100%"}}>
-    <LinearGradient
-      colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
-      style={[{ height: "70%",}]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-    >
-      <View>
-        <Image
-          source={require('../../assets/logo7.png')}
-          style={styles.logo}
-          resizeMode="contain">
-        </Image>
-        <Image
-          source={require('../../assets/back1.png')}
-          style={styles.queyou}
-          resizeMode="contain">
-        </Image>
+    <View style={{ backgroundColor: "white", height: "100%" }}>
+      <LinearGradient
+        colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
+        style={[{ height: "70%", }]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+      >
+        <View>
+          <Image
+            source={require('../../assets/logo7.png')}
+            style={styles.logo}
+            resizeMode="contain">
+          </Image>
+          <Image
+            source={require('../../assets/back1.png')}
+            style={styles.queyou}
+            resizeMode="contain">
+          </Image>
 
-        <View style={{ flexDirection: 'row', marginTop: -110, alignSelf: "center" }}>
-          <TouchableOpacity style={[styles.client]} onPress={() => { setIsClient(true); }}>
-            <Text style={[{ fontSize: 25, color: 'white'}, isClient && styles.shadow]}>Client</Text>
-          </TouchableOpacity>
+          <View style={{ flexDirection: 'row', marginTop: -110, alignSelf: "center" }}>
+            <TouchableOpacity style={[styles.client]} onPress={() => { setIsClient(true); }}>
+              <Text style={[{ fontSize: 25, color: 'white' }, isClient && styles.shadow]}>Client</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.provider]} onPress={() => { setIsClient(false); }}>
-            <Text style={[{ fontSize: 25 ,color: 'white', }, !isClient && styles.shadow]}>Provider</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={[styles.provider]} onPress={() => { setIsClient(false); }}>
+              <Text style={[{ fontSize: 25, color: 'white', }, !isClient && styles.shadow]}>Provider</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ backgroundColor: "white", top: 20, borderTopLeftRadius: 50, borderBottomRightRadius: 50, width: "90%", alignSelf: "center", height: "35%", shadowColor: "#000", elevation: 20 }}>
+            {(isClient) ? <HomeClient navigation={props.navigation} /> : <HomeProvider navigation={props.navigation} />}
+          </View>
         </View>
-
-        <View style={{backgroundColor: "white", top: 20, borderTopLeftRadius: 50, borderBottomRightRadius: 50, width: "90%", alignSelf: "center", height: "35%", shadowColor: "#000", elevation: 20}}>
-          {(isClient) ? <HomeClient navigation={props.navigation} /> : <HomeProvider navigation={props.navigation} />}
-        </View>
-      </View>
-    </LinearGradient>
+      </LinearGradient>
     </View>
   );
 }

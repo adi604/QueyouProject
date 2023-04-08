@@ -1,212 +1,183 @@
-import { ScrollView, StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
-import { FontAwesome } from '@expo/vector-icons';
-import {
-    useFonts,
-    Montserrat_100Thin,
-    Montserrat_200ExtraLight,
-    Montserrat_300Light,
-    Montserrat_400Regular,
-    Montserrat_500Medium,
-    Montserrat_600SemiBold,
-    Montserrat_700Bold,
-    Montserrat_800ExtraBold,
-    Montserrat_900Black,
-    Montserrat_100Thin_Italic,
-    Montserrat_200ExtraLight_Italic,
-    Montserrat_300Light_Italic,
-    Montserrat_400Regular_Italic,
-    Montserrat_500Medium_Italic,
-    Montserrat_600SemiBold_Italic,
-    Montserrat_700Bold_Italic,
-    Montserrat_800ExtraBold_Italic,
-    Montserrat_900Black_Italic,
-} from '@expo-google-fonts/montserrat';
-import AppLoading from 'expo-app-loading';
+import { sendRequest, validateSignUpDetails } from '../utils/utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as strings from '../utils/strings';
+import ModalSlide from '../components/ModalSlide';
 
-import FavoriteCategory from "../components/FavoriteCategory"
-import FreeSearch from "../components/FreeSearch"
-import AvailableAppointments from './AvailableAppointments'
+const SignUpScreen = props => {
 
-const SearchUserScreen = props => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
+  const [isSelected, setSelection] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
-    let [fontsLoaded] = useFonts({
-        Montserrat_100Thin,
-        Montserrat_200ExtraLight,
-        Montserrat_300Light,
-        Montserrat_400Regular,
-        Montserrat_500Medium,
-        Montserrat_600SemiBold,
-        Montserrat_700Bold,
-        Montserrat_800ExtraBold,
-        Montserrat_900Black,
-        Montserrat_100Thin_Italic,
-        Montserrat_200ExtraLight_Italic,
-        Montserrat_300Light_Italic,
-        Montserrat_400Regular_Italic,
-        Montserrat_500Medium_Italic,
-        Montserrat_600SemiBold_Italic,
-        Montserrat_700Bold_Italic,
-        Montserrat_800ExtraBold_Italic,
-        Montserrat_900Black_Italic,
-    });
 
-    const [isFree, setIsFree] = useState(false);
-
-    const [isAll, setIsAll] = useState(true);
-    const [isRate, setIsRate] = useState(false);
-    const [isCloser, setIsCloser] = useState(false);
-
-    const onPressSearch = () => {
-        props.navigation.navigate('AvailableAppointments');
-    };
-
-    if (!fontsLoaded) {
-        return <AppLoading />;
+  const onPressSignUp = async () => {
+    const signUpDetails = {
+      username: username,
+      email: email,
+      password: password,
+      repeatPassword: repeatPassword
     }
 
-    return (
-            <ScrollView style={{ backgroundColor: "#98c1d9" }}>
-                <View style={styles.container}>
-                    <View>
-                        <View style={{ justifyContent: 'center', }}>
-                            <View style={{ width: "100%" }}>
-                                <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
-                                    <TouchableOpacity style={styles.search}>
-                                        <View style={[!isFree && styles.shadow, { }]}>
-                                            <Text style={[styles.buttonSearch, { shadowColor: "#0080FF", },]} onPress={() => { setIsFree(false) }}>Advance Search</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.search}>
-                                        <View style={[isFree && styles.shadow, { }]}>
-                                            <Text style={[styles.buttonSearch, { shadowColor: "#77BBFF" },]} onPress={() => { setIsFree(true) }}>Free Search</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View>
-                    </View>
-                    <View style={[{ marginTop: 5, }]}>
-                        {(isFree) ? <FreeSearch navigation={props.navigation} /> : <FavoriteCategory navigation={props.navigation} />}
-                    </View>
-                    <View style={styles.line}></View>
-                    <View style={{ flexDirection: 'row', marginTop: 20 }}>
-                        <Text style={styles.filter}>SORT BY</Text>
-                        <FontAwesome style={{ height: 30, width: 25, left: 15, top: 4 }} name="filter" size={25} color="white" />
-                    </View>
-                    <View style={{ flexDirection: 'row', padding: 10, paddingBottom: 30, }}>
-                        <TouchableOpacity style={[styles.squre, isAll && { backgroundColor: '#293241' }]} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
-                            <Text style={[styles.sortBy]}>All</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#293241' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
-                            <Text style={[styles.sortBy]}>Rating</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.squre, isCloser && { backgroundColor: '#293241' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
-                            <Text style={[styles.sortBy]}>closer meeting</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity style={styles.searchButton} onPress={onPressSearch}>
-                        <Text style={{color: "#FFF", fontWeight: '600', fontSize: 18}}>view all businesses</Text>
-                    </TouchableOpacity>
-                </View>
-            </ScrollView>
+    const isValid = validateSignUpDetails(signUpDetails,
+      (errorMsg) => {
+        setModalMessage(errorMsg);
+        setModalVisible(true);
+      }
     );
-};
+    if (!isValid) {
+      return;
+    }
 
-export default SearchUserScreen;
+    const body = {
+      username: username,
+      password: password,
+      mail: email
+    }
+    const url = `${strings.serverBaseUrl}/users/signUpCustomers`;
+    const response = await sendRequest(url, 'POST', body);
+    if (!response.ok) {
+      setModalMessage(response.body.message);
+      setModalVisible(true);
+      return;
+    }
+    // login succeeded
+    await AsyncStorage.setItem('token', response.body.token);
+    props.navigation.navigate('Nevigator');
+  }
+
+  return (
+    <ImageBackground
+      source={require('../../assets/back3.jpg')}
+      style={styles.background}
+    >
+      <View>
+        <ModalSlide
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          message={modalMessage}
+          buttonText="OK"
+        />
+        <Text style={styles.signUp}>
+          Sign Up
+        </Text>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Username"
+            onChangeText={(username) => setUsername(username)}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Email"
+            onChangeText={(email) => setEmail(email)}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Password"
+            onChangeText={(password) => setPassword(password)}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Repeat Password"
+            onChangeText={(repeatPassword) => setRepeatPassword(repeatPassword)}
+          />
+        </View>
+        <View style={styles.Checkbox}>
+          <Checkbox
+            value={isSelected}
+            onValueChange={setSelection}
+            title="Music"
+            isChecked={isSelected}
+          />
+          <Text style={styles.agree}>I agree to the Terms of Service</Text>
+        </View>
+        <TouchableOpacity style={styles.signBtn} onPress={onPressSignUp}>
+          <Text style={styles.signBtnText}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
+  );
+}
+
+export default SignUpScreen
+
 
 const styles = StyleSheet.create({
-    container: {
-        padding: 18,
-    },
-    backgroundImage: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-    },
-    search: {
-        paddingTop: 30,
-        alignItems: "center",
-        padding: 15,
-    },
-    buttonSearch: {
-        fontSize: 20,
-        top: 8,
-        height: 50,
-        fontWeight: '500',
-        color: 'white',
-        fontFamily: 'Montserrat_700Bold',
-        alignSelf: "center",
-        
-    },
-    shadow: {
-        backgroundColor: "DDD",
-        shadowColor: "#DDD",
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 3,
-        borderRadius: 4,
-        width: '120%',
-
-    },
-    selectedTextStyle: {
-        fontSize: 16,
-    },
-    iconStyle: {
-        width: 20,
-        height: 20,
-    },
-    inputSearchStyle: {
-        height: 40,
-        fontSize: 16,
-    },
-    line: {
-        backgroundColor: '#d1d1d1',
-        height: 2,
-        marginTop: 30,
-    },
-    filter: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: '#fff',
-        letterSpacing: 0.2,
-    },
-    squre: {
-        backgroundColor: '#fff',
-        height: 30,
-        top: 20,
-        marginRight: 25,
-        borderRadius: 15,
-        width: 100,
-    },
-    sortBy: {
-        color: '#EEEEEE',
-        fontSize: 18,
-        textAlign: 'center',
-        top: 2,
-        fontWeight: 'bold',
-        textShadowColor: 'rgba(0, 0, 0, 1)',
-        textShadowOffset: {width: -1, height: 1},
-        textShadowRadius: 10,
-    },
-    searchButton: {
-        top: 20,
-        height: 40,
-        borderRadius: 10,
-        width: "50%",
-        marginBottom: 25,
-        shadowColor: "#000",
-        elevation: 5,
-        justifyContent: "center",
-        alignItems: "center",
-        alignSelf: "center",
-        backgroundColor: "#293241",
-    },
-    vi: {
-        height: 60,
-        width: 50,
-        alignSelf: "center",
-    },
-
-
+  background: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#a9a9a9'
+  },
+  signUp: {
+    fontSize: 50,
+    fontWeight: 'bold',
+    alignSelf: "center",
+    marginTop: '15%',
+    marginBottom: '5%',
+    textShadowColor: 'rgba(0, 0, 0, 0.6)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+    color: "white",
+  },
+  inputView: {
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    alignSelf: "center",
+    width: "70%",
+    height: 45,
+    alignItems: "center",
+    marginTop: '7%',
+    shadowColor: "#000",
+    elevation: 10,
+  },
+  TextInput: {
+    height: 50,
+    flex: 1,
+    fontWeight: 'bold',
+    fontSize: 17,
+  },
+  Checkbox: {
+    flexDirection: 'row',
+    alignSelf: "center",
+    marginTop: '8%',
+  },
+  agree: {
+    fontWeight: 'bold',
+    marginLeft: '3%',
+    color: "#222",
+    fontSize: 15,
+  },
+  signBtn: {
+    marginTop: '12%',
+    width: "55%",
+    borderRadius: 45,
+    height: 50,
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    backgroundColor: "#9370db",
+    shadowColor: "#000",
+    elevation: 10,
+  },
+  signBtnText: {
+    fontWeight: 'bold',
+    color: "white",
+    fontSize: 25,
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+  }
 });
