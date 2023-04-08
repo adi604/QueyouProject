@@ -60,7 +60,7 @@ const LoginScreen = props => {
           <View style={styles.inputView}>
             <TextInput
               style={styles.TextInput}
-              placeholder="Username"
+              placeholder="User name"
               onChangeText={(username) => setUsername(username)}
             />
           </View>

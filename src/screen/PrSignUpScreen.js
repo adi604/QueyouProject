@@ -1,11 +1,19 @@
-import * as strings from "../utils/strings"
-import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
+import { StyleSheet, Text, ScrollView,Pressable, Button, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
 import { sendRequest, validateSignUpDetails } from '../utils/utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as strings from '../utils/strings';
 import ModalSlide from '../components/ModalSlide';
+import { AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
 
-const PrSignUpScreen = props => {
+const SignUpScreen = props => {
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -14,6 +22,7 @@ const PrSignUpScreen = props => {
   const [isSelected, setSelection] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const [image, setImage] = useState(null);
 
   const onPressSignUp = async () => {
     const signUpDetails = {
@@ -35,13 +44,10 @@ const PrSignUpScreen = props => {
 
     const body = {
       username: username,
-      name: username,
       password: password,
-      address: "1111",
-      mail: email,
-      description: "11111"
+      mail: email
     }
-    const url = `${strings.serverBaseUrl}/users/signUpProviders`;
+    const url = `${strings.serverBaseUrl}/users/signUpCustomers`;
     const response = await sendRequest(url, 'POST', body);
     if (!response.ok) {
       setModalMessage(response.body.message);
@@ -50,51 +56,116 @@ const PrSignUpScreen = props => {
     }
     // login succeeded
     await AsyncStorage.setItem('token', response.body.token);
-    props.navigation.navigate('Temp');
+    props.navigation.navigate('Nevigator');
   }
 
+  const chooseImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync();
+    if (!result.cancelled) {
+      setImage(result);
+    }
+  };
+
   return (
-    <ImageBackground
-      source={require('../../assets/back3.jpg')}
-      style={styles.background}
-    >
-      <View>
-      <ModalSlide
+    <ScrollView style={{ backgroundColor: "#FFF", height: "100%" }}>
+      <LinearGradient
+        colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
+        style={[{ height: 160, }]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }} >
+        <ModalSlide
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           message={modalMessage}
           buttonText="OK"
         />
         <Text style={styles.signUp}>
-          Provider Sign Up
+          Sign Up
         </Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Username"
-            onChangeText={(username) => setUsername(username)}
-          />
+      </LinearGradient>
+      <View style={{ backgroundColor: "#FFF", marginTop: -15, width: "94%", alignSelf: "center", borderRadius: 15, }}>
+        <View style={{ flexDirection: "column", marginTop: 15 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <AntDesign name="user" size={26} color="#888" />
+            <Text style={styles.title}>Provider name</Text>
+          </View>
+          <View style={{ marginTop: 10, }}>
+            <TextInput
+              style={styles.TextInput}
+              onChangeText={(email) => setUsername(email)}
+            />
+          </View>
         </View>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Email"
-            onChangeText={(email) => setEmail(email)}
-          />
+        <View style={{ flexDirection: "column", marginTop: 15 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <MaterialCommunityIcons name="email-edit-outline" size={24} color="#888" />
+            <Text style={styles.title}>Email</Text>
+          </View>
+          <View style={{ marginTop: 10, }}>
+            <TextInput
+              style={styles.TextInput}
+              onChangeText={(username) => setUsername(username)}
+            />
+          </View>
         </View>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Password"
-            onChangeText={(password) => setPassword(password)}
-          />
+        <View style={{ flexDirection: "column", marginTop: 15 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <Feather name="phone-call" size={22} color="#888" />
+            <Text style={styles.title}>Phone Number</Text>
+          </View>
+          <View style={{ marginTop: 10, }}>
+            <TextInput
+              style={styles.TextInput}
+              onChangeText={(repeatPassword) => setUsername(repeatPassword)}
+            />
+          </View>
         </View>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Repeat Password"
-            onChangeText={(repeatPassword) => setRepeatPassword(repeatPassword)}
-          />
+        <View style={{ flexDirection: "column", marginTop: 15 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <SimpleLineIcons name="picture" size={22} color="#888" />
+            <Text style={styles.title}>Profile Picture</Text>
+          </View>
+          <View style={{ marginTop: 10, }}>
+            <Pressable style={styles.ImageInput} title="Choose Image" onPress={chooseImage} >
+            <AntDesign name="clouduploado" size={30} color="white" />
+            </Pressable>
+          </View>
+        </View>
+        <View style={{ flexDirection: "column", marginTop: 15 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <Ionicons name="location-outline" size={25} color="#888" />
+            <Text style={styles.title}>Address</Text>
+          </View>
+          <View style={{ marginTop: 10, }}>
+            <TextInput
+              style={styles.TextInput}
+              onChangeText={(repeatPassword) => setUsername(repeatPassword)}
+            />
+          </View>
+        </View>
+        <View style={{ flexDirection: "column", marginTop: 15 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <Feather name="lock" size={24} color="#888" />
+            <Text style={styles.title}>Password</Text>
+          </View>
+          <View style={{ marginTop: 10, }}>
+            <TextInput
+              style={styles.TextInput}
+              onChangeText={(password) => setUsername(password)}
+            />
+          </View>
+        </View>
+        <View style={{ flexDirection: "column", marginTop: 15 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <Feather name="lock" size={24} color="#888" />
+            <Text style={styles.title}>Repeat Password</Text>
+          </View>
+          <View style={{ marginTop: 10, }}>
+            <TextInput
+              style={styles.TextInput}
+              onChangeText={(repeatPassword) => setUsername(repeatPassword)}
+            />
+          </View>
         </View>
         <View style={styles.Checkbox}>
           <Checkbox
@@ -109,89 +180,76 @@ const PrSignUpScreen = props => {
           <Text style={styles.signBtnText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
-    </ImageBackground>
+    </ScrollView>
   );
 }
 
-export default PrSignUpScreen
+export default SignUpScreen
 
 
 const styles = StyleSheet.create({
-  background: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#a9a9a9'
-  },
   signUp: {
-    fontSize: 30,
+    fontSize: 50,
     fontWeight: 'bold',
-    marginLeft: '22%',
-    marginTop: '18%',
-    marginBottom: '3%',
-    textShadowColor: 'rgba(0, 0, 0, 0.6)',
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 10,
+    alignSelf: "center",
+    marginTop: '12%',
+    marginBottom: '8%',
     color: "white",
   },
-  inputView: {
-    backgroundColor: '#ffffff',
-    borderRadius: 30,
-    width: "60%",
-    height: 45,
-    alignItems: "center",
-    marginLeft: '19%',
-    marginTop: '8%',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 10,
+  title: {
+    fontWeight: '500',
+    fontSize: 18,
+    color: "#888",
+    left: 10,
   },
   TextInput: {
-    height: 50,
-    flex: 1,
-    padding: 10,
-    marginLeft: 20,
-    fontWeight: 'bold',
-    fontSize: 17,
+    backgroundColor: "#FFF",
+    width: "80%",
+    alignSelf: "center",
+    borderRadius: 10,
+    height: 45,
+    shadowColor: "#000",
+    elevation: 10,
+  },
+  ImageInput: {
+    backgroundColor: "#4FA4E5",
+    width: "20%",
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 30,
+    height: 45,
+    shadowColor: "#000",
+    elevation: 10,
   },
   Checkbox: {
     flexDirection: 'row',
-    marginLeft: '20%',
-    marginTop: '8%',
+    alignSelf: "center",
+    marginTop: '5%',
   },
   agree: {
     fontWeight: 'bold',
-    letterSpacing: 0.5,
     marginLeft: '3%',
+    color: "#666",
     fontSize: 15,
   },
   signBtn: {
-    marginTop: '12%',
-    width: "62%",
-    borderRadius: 45,
-    marginLeft: '19%',
-    height: 60,
+    width: "55%",
+    borderRadius: 15,
+    marginTop: 30,
+    marginBottom: 30,
+    height: 50,
     alignItems: "center",
+    alignSelf: "center",
     justifyContent: "center",
-    backgroundColor: "#9370db",
+    backgroundColor: "#4FA4E5",
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
     elevation: 10,
   },
   signBtnText: {
     fontWeight: 'bold',
     color: "white",
-    fontSize: 20,
-    letterSpacing: 2,
+    fontSize: 25,
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,

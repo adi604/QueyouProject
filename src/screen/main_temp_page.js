@@ -1,177 +1,183 @@
-import { ScrollView, FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
-import { LinearGradient } from 'expo-linear-gradient';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
+import { sendRequest, validateSignUpDetails } from '../utils/utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as strings from '../utils/strings';
+import ModalSlide from '../components/ModalSlide';
+
+const SignUpScreen = props => {
+
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
+  const [isSelected, setSelection] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
 
-const AppointmentDetails = props => {
+  const onPressSignUp = async () => {
+    const signUpDetails = {
+      username: username,
+      email: email,
+      password: password,
+      repeatPassword: repeatPassword
+    }
 
-    const [isPast, setIsPast] = useState(false);
+    const isValid = validateSignUpDetails(signUpDetails,
+      (errorMsg) => {
+        setModalMessage(errorMsg);
+        setModalVisible(true);
+      }
+    );
+    if (!isValid) {
+      return;
+    }
 
-    const queues = [
-        { provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
-        { provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
-        { provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
-        { provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
-        { provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
-        { provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
-    ];
+    const body = {
+      username: username,
+      password: password,
+      mail: email
+    }
+    const url = `${strings.serverBaseUrl}/users/signUpCustomers`;
+    const response = await sendRequest(url, 'POST', body);
+    if (!response.ok) {
+      setModalMessage(response.body.message);
+      setModalVisible(true);
+      return;
+    }
+    // login succeeded
+    await AsyncStorage.setItem('token', response.body.token);
+    props.navigation.navigate('Nevigator');
+  }
 
-    const onPressAdd = () => {
-        props.navigation.navigate('SearchUserScreen');
-    };
+  return (
+    <ImageBackground
+      source={require('../../assets/back3.jpg')}
+      style={styles.background}
+    >
+      <View>
+        <ModalSlide
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          message={modalMessage}
+          buttonText="OK"
+        />
+        <Text style={styles.signUp}>
+          Sign Up
+        </Text>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Username"
+            onChangeText={(username) => setUsername(username)}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Email"
+            onChangeText={(email) => setEmail(email)}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Password"
+            onChangeText={(password) => setPassword(password)}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Repeat Password"
+            onChangeText={(repeatPassword) => setRepeatPassword(repeatPassword)}
+          />
+        </View>
+        <View style={styles.Checkbox}>
+          <Checkbox
+            value={isSelected}
+            onValueChange={setSelection}
+            title="Music"
+            isChecked={isSelected}
+          />
+          <Text style={styles.agree}>I agree to the Terms of Service</Text>
+        </View>
+        <TouchableOpacity style={styles.signBtn} onPress={onPressSignUp}>
+          <Text style={styles.signBtnText}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
+  );
+}
 
-    return (
-        <ScrollView style={styles.card}>
-            <View style={{ height: 2, backgroundColor: "#EEE", marginTop: 5, marginBottom: 25, }}></View>
-            <View style={{ flexDirection: "row", }}>
-                <Ionicons style={{ top: 7 }} name="person" size={23} color="#777" />
-                <View style={{ flexDirection: "column", left: 25 }}>
-                    <Text style={styles.provider}>Devin Aviv</Text>
-                    <Text style={styles.phon}>0569871548</Text>
-                </View>
-            </View>
-            <View style={{ height: 2, backgroundColor: "#EEE" }}></View>
-            <View style={{ flexDirection: "column", marginTop: 50 }}>
-                <View style={{ flexDirection: "row" }}>
-                    <FontAwesome5 name="calendar-alt" size={24} color="#444" />
-                    <View style={styles.details}>
-                        <Text style={styles.title}>10:00</Text>
-                        <Text style={styles.subtitle}>Monday, 23/9/2019</Text>
-                    </View>
-                </View>
-                <View style={{ flexDirection: "row", marginTop: 30, }}>
-                    <MaterialCommunityIcons name="calendar-blank-multiple" size={25} color="#444" />
-                    <View style={styles.details}>
-                        <Text style={styles.title}>dental checkout</Text>
-                        <Text style={styles.subtitle}>Regular Visit, 30$</Text>
-                    </View>
-                </View>
-                <View style={{ flexDirection: "row", marginTop: 30, }}>
-                    <Entypo name="location" size={24} color="#444" />
-                    <View style={styles.details}>
-                        <Text style={styles.title}>Herzel 78</Text>
-                        <Text style={styles.subtitle}>Givatyim</Text>
-                    </View>
-                </View>
-                <View style={{ height: 2, backgroundColor: "#EEE", marginTop: 30, }}></View>
-                <TouchableOpacity>
-                    <View style={{ flexDirection: "row", marginTop: 30, }}>
-                        <AntDesign name="edit" size={24} color="#000" />
-                        <View style={styles.details}>
-                            <Text style={[styles.title, { color: "#000" }]}>Edit</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-            </View>
-        </ScrollView>
-    )
-};
-
-
-export default AppointmentDetails
+export default SignUpScreen
 
 
 const styles = StyleSheet.create({
-    card: {
-        padding: 30,
-        backgroundColor: "#FFF",
-        height: "100%",
-    },
-    icon: {
-        marginTop: 5,
-        left: 20,
-        top: 10,
-        height: 45,
-        width: 45,
-    },
-    details: {
-        flexDirection: "column",
-        left: 20,
-    },
-    title: {
-        fontSize: 19,
-        fontWeight: "800",
-        height: 30,
-        color: "#555",
-    },
-    subtitle: {
-        fontSize: 18,
-        fontWeight: "400",
-        color: "#999"
-    },
-    category: {
-        left: 19,
-        fontSize: 15,
-        height: 30,
-        color: `#696969`,
-        top: 10,
-        fontWeight: '400',
-    },
-    verticalLine: {
-        top: 5,
-        width: 2,
-        backgroundColor: `#dcdcdc`,
-        height: "90%",
-        marginLeft: 40,
-
-    },
-    date: {
-        bottom: 30,
-        right: 45,
-        fontSize: 12,
-        fontWeight: '600',
-        color: "#c0c0c0",
-
-    },
-    day: {
-        bottom: 8,
-        left: 10,
-        fontSize: 17,
-        color: "#c0c0c0",
-        fontWeight: '400',
-
-    },
-    hour: {
-        bottom: 8,
-        left: 14,
-        fontSize: 17,
-        fontWeight: '400',
-        color: "#c0c0c0",
-    },
-    provider: {
-        fontSize: 24,
-        height: 40,
-        color: `#333`,
-        fontWeight: "800",
-    },
-    phon: {
-        fontSize: 15,
-        letterSpacing: 1,
-        height: 50,
-        color: `#888`,
-        fontWeight: "bold",
-    },
-    addbtn: {
-        bottom: 90,
-        right: 20,
-        width: 70,
-        height: 70,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 100,
-        alignSelf: 'flex-end',
-    },
-    btn: {
-        width: 70,
-        height: 70,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 100,
-        alignSelf: 'flex-end'
-    },
+  background: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#a9a9a9'
+  },
+  signUp: {
+    fontSize: 50,
+    fontWeight: 'bold',
+    alignSelf: "center",
+    marginTop: '15%',
+    marginBottom: '5%',
+    textShadowColor: 'rgba(0, 0, 0, 0.6)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+    color: "white",
+  },
+  inputView: {
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    alignSelf: "center",
+    width: "70%",
+    height: 45,
+    alignItems: "center",
+    marginTop: '7%',
+    shadowColor: "#000",
+    elevation: 10,
+  },
+  TextInput: {
+    height: 50,
+    flex: 1,
+    fontWeight: 'bold',
+    fontSize: 17,
+  },
+  Checkbox: {
+    flexDirection: 'row',
+    alignSelf: "center",
+    marginTop: '8%',
+  },
+  agree: {
+    fontWeight: 'bold',
+    marginLeft: '3%',
+    color: "#222",
+    fontSize: 15,
+  },
+  signBtn: {
+    marginTop: '12%',
+    width: "55%",
+    borderRadius: 45,
+    height: 50,
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    backgroundColor: "#9370db",
+    shadowColor: "#000",
+    elevation: 10,
+  },
+  signBtnText: {
+    fontWeight: 'bold',
+    color: "white",
+    fontSize: 25,
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+  }
 });

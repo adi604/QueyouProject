@@ -5,8 +5,6 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import MyAppointment from './main_temp_page';
 
-import AppointmentDetails from "./AppointmentDetails"
-
 const MyAppointments = props => {
 
     const [isPast, setIsPast] = useState(false);
@@ -55,7 +53,7 @@ const MyAppointments = props => {
             <FlatList
                 data={queues}
                 renderItem={({ item }) =>
-                    <TouchableOpacity style={{}}>
+                    <TouchableOpacity style={{}} onPress={() => props.navigation.navigate('ADNevigator')}>
                         <View style={styles.box}>
                             <View style={{ flexDirection: 'row', padding: 7, }}>
                                 <View style={{ flexDirection: 'column', width: 60 }}>
