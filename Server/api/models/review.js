@@ -5,7 +5,7 @@ const reviewSchema = mongoose.Schema({
     name: {type: String, required: false, default: "anonymous"},
     content: {type: String, required: true},
     score: {type: Number, required: true},
-    targetProviderName: {type: String, required: true} // can add 'ref' for populate.
+    targetProviderUserName: {type: String, required: true} // can add 'ref' for populate.
 });
 
 module.exports = mongoose.model('Review', reviewSchema);

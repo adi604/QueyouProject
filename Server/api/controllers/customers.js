@@ -11,11 +11,11 @@ module.exports = {
     },
     // ##### Get customer by username. #####
     getCustomer : (req, res) => {
-        const customerUsername = req.params.customerUsername;
-        Customer.findOne({username: customerUsername}).then((c) => {
+        const customerUserName = req.params.customerUserName;
+        Customer.findOne({username: customerUserName}).then((c) => {
             if(c == null) {
                 res.status(404).json({
-                    message: `customer ${customerUsername} not found !`
+                    message: `customer ${customerUserName} not found !`
                 });
             }
             else {
@@ -27,15 +27,15 @@ module.exports = {
     },
     // ##### Update customer by username. #####
     updateCustomer : (req, res) => {
-        const customerUsername = req.params.customerUsername;
-        Customer.findOneAndUpdate({username: customerUsername}, req.body).then((c) => {
+        const customerUserName = req.params.customerUserName;
+        Customer.findOneAndUpdate({username: customerUserName}, req.body).then((c) => {
             if (c != null) {
                 res.status(200).json({
-                    message: `customer ${customerUsername} updated !`
+                    message: `customer ${customerUserName} updated !`
                 })
             } else {
                 res.status(404).json({
-                    message: `${customerUsername} not found !`
+                    message: `${customerUserName} not found !`
                 })
             }
         }).catch(error => {
@@ -44,16 +44,16 @@ module.exports = {
     },
     // ##### Delete customer by username. #####
     deleteCustomer : (req, res) => {
-        const customerUsername = req.params.customerUsername;
-        Customer.findOneAndDelete({username: customerUsername}).then((c) => {
+        const customerUserName = req.params.customerUserName;
+        Customer.findOneAndDelete({username: customerUserName}).then((c) => {
             if (c != null) {
                 res.status(200).json({
                     // * delete his appointments ? *
-                    message: `customer ${customerUsername} deleted !`
+                    message: `customer ${customerUserName} deleted !`
                 })
             } else {
                 res.status(404).json({
-                    message: `${customerUsername} not found !`
+                    message: `${customerUserName} not found !`
                 })
             }
         }).catch(error => {

@@ -12,8 +12,8 @@ module.exports = {
     },
     // ##### Get all the meetings objects of provider by name. #####
     getProviderMeetings : (req, res) => {
-        const providerName = req.params.providerName;
-        Meeting.find({providerName: providerName}).then((meetings) => {
+        const providerUserName = req.params.providerUserName;
+        Meeting.find({providerUserName: providerUserName}).then((meetings) => {
             res.status(200).json(meetings)
         }).catch(error => {
             res.status(500).json({error});
@@ -21,8 +21,8 @@ module.exports = {
     },
     // ##### Get all the meetings objects of customer by name. #####
     getCustomerMeetings : (req, res) => {
-        const customerName = req.params.customerName;
-        Meeting.find({customerName: customerName}).then((meetings) => {
+        const customerUserName = req.params.customerUserName;
+        Meeting.find({customerUserName: customerUserName}).then((meetings) => {
             res.status(200).json(meetings)
         }).catch(error => {
             res.status(500).json({error});
@@ -30,14 +30,15 @@ module.exports = {
     },
     // ##### Create new meeting. #####
     createMeeting : (req, res) => {
-        const {dateAndTime, providerName, customerName} = req.body
+        const {date, time, providerUserName, customerUserName} = req.body
         // We assume here that providerName,customerName exists,
         // And that there is no conflict in the dateAndTime.
         const meeting = new Meeting({
             _id: new mongoose.Types.ObjectId(),
-            dateAndTime: dateAndTime,
-            providerName: providerName,
-            customerName: customerName
+            date: date,
+            time: time,
+            providerUserName: providerUserName,
+            customerUserName: customerUserName
         });
         meeting.save().then(() => {
             res.status(200).json({

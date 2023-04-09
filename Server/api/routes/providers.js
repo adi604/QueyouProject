@@ -3,8 +3,8 @@ const router = express.Router();
 const {getAllProviders, getProvider, updateProvider, deleteProvider} = require('../controllers/providers')
 
 router.get('/', getAllProviders);
-router.get('/:providerUsername', getProvider);
-router.patch('/:providerUsername', updateProvider);
-router.delete('/:providerUsername', deleteProvider);
+router.get('/:providerUserName', getProvider);
+router.patch('/:providerUserName', updateProvider);
+router.delete('/:providerUserName', deleteProvider);
 
 module.exports = router;

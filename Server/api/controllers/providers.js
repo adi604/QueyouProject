@@ -12,11 +12,11 @@ module.exports = {
     },
     // ##### Get provider by username. #####
     getProvider : (req, res) => {
-        const providerUsername = req.params.providerUsername;
-        Provider.findOne({username: providerUsername}).then((p) => {
+        const providerUserName = req.params.providerUserName;
+        Provider.findOne({username: providerUserName}).then((p) => {
             if(p == null) {
                 res.status(404).json({
-                    message: `provider ${providerUsername} not found !`
+                    message: `provider ${providerUserName} not found !`
                 });
             }
             else {
@@ -28,15 +28,15 @@ module.exports = {
     },
     // ##### Update provider by username. #####
     updateProvider : (req, res) => {
-        const providerUsername = req.params.providerUsername;
-        Provider.findOneAndUpdate({username: providerUsername}, req.body).then((p) => {
+        const providerUserName = req.params.providerUserName;
+        Provider.findOneAndUpdate({username: providerUserName}, req.body).then((p) => {
             if (p != null) {
                 res.status(200).json({
-                    message: `provider ${providerUsername} updated !`
+                    message: `provider ${providerUserName} updated !`
                 })
             } else {
                 res.status(404).json({
-                    message: `${providerUsername} not found !`
+                    message: `${providerUserName} not found !`
                 })
             }
         }).catch(error => {
@@ -45,16 +45,16 @@ module.exports = {
     },
     // ##### Delete provider by username. #####
     deleteProvider : (req, res) => {
-        const providerUsername = req.params.providerUsername;
-        Provider.findOneAndDelete({username: providerUsername}).then((p) => {
+        const providerUserName = req.params.providerUserName;
+        Provider.findOneAndDelete({username: providerUserName}).then((p) => {
             if (p != null) {
                 res.status(200).json({
                     // * delete his appointments ? *
-                    message: `provider ${providerUsername} deleted !`
+                    message: `provider ${providerUserName} deleted !`
                 })
             } else {
                 res.status(404).json({
-                    message: `${providerUsername} not found !`
+                    message: `${providerUserName} not found !`
                 })
             }
         }).catch(error => {

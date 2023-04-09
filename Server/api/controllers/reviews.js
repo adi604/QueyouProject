@@ -13,8 +13,8 @@ module.exports = {
     },
     // ##### Get all the reviews objects about provider by name. #####
     getProviderReviewes : (req, res) => {
-        const providerName = req.params.providerName;
-        Review.find({targetProviderName: providerName}).then((reviews) => {
+        const providerUserName = req.params.providerUserName;
+        Review.find({targetProviderUserName: providerUserName}).then((reviews) => {
             res.status(200).json(reviews)
         }).catch(error => {
             res.status(500).json({error});
@@ -22,11 +22,11 @@ module.exports = {
     },
     // ##### Create new review. #####
     createReview : (req, res) => {
-        const {name, content, targetProviderName} = req.body
-        Provider.findOne({name: targetProviderName}).then((p) => {
+        const {name, content, score, targetProviderUserName} = req.body
+        Provider.findOne({username: targetProviderUserName}).then((p) => {
             if(p == null) {
                 res.status(404).json({
-                    message: `provider ${targetProviderName} not found !`
+                    message: `provider ${targetProviderUserName} not found !`
                 });
             }
             else {
@@ -34,11 +34,12 @@ module.exports = {
                     _id: new mongoose.Types.ObjectId(),
                     name: name,
                     content: content,
-                    targetProviderName: targetProviderName
+                    score: score,
+                    targetProviderUserName: targetProviderUserName
                 });
                 review.save().then(() => {
                     res.status(200).json({
-                        message: `new review about ${targetProviderName} created !`,
+                        message: `new review about ${targetProviderUserName} created !`,
                         review
                     });
                 });

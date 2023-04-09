@@ -70,7 +70,9 @@ module.exports = {
     },
     // Sign up - create new user of provider.
     signUpProviders : (req, res) => {
-        const {username, name, password, address, mail, description, phoneNumber, city} = req.body
+        // Add members : maxDate, durationMeeting, openTime, closeTime, disabledDays, disabledDates.
+        // Or change the insert of this members to another screen and function.
+        const {username, name, password, address, city, mail, phoneNumber, description} = req.body
         Provider.findOne({username: username}).then((p) => {
             if(p != null) {
                 return res.status(409).json({
@@ -87,10 +89,10 @@ module.exports = {
                     name: name,
                     password: hash,
                     address: address,
+                    city: city,
                     mail: mail,
-                    description: description,
                     phoneNumber: phoneNumber,
-                    city: city
+                    description: description,
                 });
                 provider.save().then(() => {
                     res.status(200).json({
