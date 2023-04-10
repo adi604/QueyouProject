@@ -1,183 +1,162 @@
-import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
-import Checkbox from 'expo-checkbox';
+import { ScrollView, TouchableOpacity, Image, FlatList, StyleSheet, Text, View, Linking } from 'react-native';
 import React, { useState } from 'react';
-import { sendRequest, validateSignUpDetails } from '../utils/utils';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as strings from '../utils/strings';
-import ModalSlide from '../components/ModalSlide';
+import { LinearGradient } from 'expo-linear-gradient';
+import { MaterialIcons } from '@expo/vector-icons';
+import { Fontisto } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons'; 
 
-const SignUpScreen = props => {
+import Reviews from '../components/Reviews'
 
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
-  const [isSelected, setSelection] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
+const AvailableAppointments = props => {
 
+  const [isFilter, setIsFilter] = useState(true);
 
-  const onPressSignUp = async () => {
-    const signUpDetails = {
-      username: username,
-      email: email,
-      password: password,
-      repeatPassword: repeatPassword
-    }
+  const onPressSchedule = () => {
+    props.navigation.navigate('CalendarPickerScreen');
+  };
 
-    const isValid = validateSignUpDetails(signUpDetails,
-      (errorMsg) => {
-        setModalMessage(errorMsg);
-        setModalVisible(true);
-      }
-    );
-    if (!isValid) {
-      return;
-    }
-
-    const body = {
-      username: username,
-      password: password,
-      mail: email
-    }
-    const url = `${strings.serverBaseUrl}/users/signUpCustomers`;
-    const response = await sendRequest(url, 'POST', body);
-    if (!response.ok) {
-      setModalMessage(response.body.message);
-      setModalVisible(true);
-      return;
-    }
-    // login succeeded
-    await AsyncStorage.setItem('token', response.body.token);
-    props.navigation.navigate('Nevigator');
+  const onPressLocation = (address) => {
+    const url = `https://www.google.com/maps/search/?api=1&query=${address}`;
+    Linking.openURL(url);
   }
 
-  return (
-    <ImageBackground
-      source={require('../../assets/back3.jpg')}
-      style={styles.background}
-    >
-      <View>
-        <ModalSlide
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          message={modalMessage}
-          buttonText="OK"
-        />
-        <Text style={styles.signUp}>
-          Sign Up
-        </Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Username"
-            onChangeText={(username) => setUsername(username)}
-          />
-        </View>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Email"
-            onChangeText={(email) => setEmail(email)}
-          />
-        </View>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Password"
-            onChangeText={(password) => setPassword(password)}
-          />
-        </View>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Repeat Password"
-            onChangeText={(repeatPassword) => setRepeatPassword(repeatPassword)}
-          />
-        </View>
-        <View style={styles.Checkbox}>
-          <Checkbox
-            value={isSelected}
-            onValueChange={setSelection}
-            title="Music"
-            isChecked={isSelected}
-          />
-          <Text style={styles.agree}>I agree to the Terms of Service</Text>
-        </View>
-        <TouchableOpacity style={styles.signBtn} onPress={onPressSignUp}>
-          <Text style={styles.signBtnText}>Sign Up</Text>
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
-  );
-}
 
-export default SignUpScreen
+  const queues = [
+    { provider: "Devin1", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+    { provider: "Devin2", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+    { provider: "Devin3", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+    { provider: "Devin4", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+    { provider: "Devin5", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+    { provider: "Devin6", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+    { provider: "Devin7", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+    { provider: "Devin8", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+    { provider: "Devin9", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+    { provider: "Devin10", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
+  ];
+
+  const onPressReview = () => {
+    props.navigation.navigate('Reviews');
+  };
+
+
+  return (
+    <View style={[{ backgroundColor: "white", top: 25, height: "100%" }]}>
+      <FlatList style={[{ top: 20 }]}
+        data={queues}
+        renderItem={({ item }) =>
+          <View style={styles.box}>
+            <MaterialIcons style={{ alignSelf: "center", marginLeft: 10 }} name="person-pin" size={50} color="black" />
+            <View style={[{ left: 20, flexDirection: "column", bottom: 10 }]}>
+              <View style={[{ flexDirection: 'row', top: 10, }]}>
+                <Text style={styles.provider}>{item.provider}</Text>
+                <TouchableOpacity style={styles.provider} onPress={onPressReview}>
+                  <Fontisto style={{ marginLeft: 70, }} name="preview" size={28} color="black" />
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.category}>{item.category}</Text>
+              <TouchableOpacity onPress={() => onPressLocation(item.address)}>
+                <View style={[{ flexDirection: 'row', bottom: 5 }]}>
+                  <Entypo name="location" size={20} color="black" />
+                  <Text style={styles.address}>{item.address}</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity style={styles.continuebtn} onPress={onPressSchedule}>
+            <MaterialIcons name="navigate-next" size={40} color="black" />
+            </TouchableOpacity>
+          </View>}
+      />
+    </View>
+  )
+};
+
+
+export default AvailableAppointments
 
 
 const styles = StyleSheet.create({
-  background: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#a9a9a9'
+  resultsFound: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 20,
+    padding: 10,
+    letterSpacing: 1,
+    left: 10,
+    top: 30,
+    fontWeight: '500',
   },
-  signUp: {
-    fontSize: 50,
-    fontWeight: 'bold',
-    alignSelf: "center",
-    marginTop: '15%',
-    marginBottom: '5%',
-    textShadowColor: 'rgba(0, 0, 0, 0.6)',
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 10,
-    color: "white",
-  },
-  inputView: {
-    backgroundColor: '#ffffff',
+  btnfilter: {
+    width: 80,
+    fontSize: 40,
+    backgroundColor: '#e9e9e9',
+    width: '50%',
+    height: 40,
     borderRadius: 20,
-    alignSelf: "center",
-    width: "70%",
-    height: 45,
-    alignItems: "center",
-    marginTop: '7%',
-    shadowColor: "#000",
-    elevation: 10,
   },
-  TextInput: {
-    height: 50,
-    flex: 1,
-    fontWeight: 'bold',
+  pressed: {
+    backgroundColor: '#9575cd',
+  },
+  pressedText: {
+    color: '#fff',
+    textShadowColor: 'rgba(255,255,255, 0.3)',
+    textShadowOffset: { width: -1, height: -1 },
+    textShadowRadius: 20,
+  },
+  box: {
+    flexDirection: "row",
+    backgroundColor: '#FFF',
+    shadowColor: "#000",
+    elevation: 15,
+    height: 80,
+    width: 380,
+    alignSelf: "center",
+    borderRadius: 50,
+    marginBottom: 30,
+  },
+  provider: {
+    fontSize: 20,
+    height: 52,
+    color: `#505050`,
+    fontWeight: "bold",
+  },
+  category: {
+    fontSize: 14,
+    height: 30,
+    color: `#808080`,
+    marginTop: -12,
+  },
+  address: {
     fontSize: 17,
+    height: 30,
+    color: `#808080`,
+    left: 3,
   },
-  Checkbox: {
-    flexDirection: 'row',
-    alignSelf: "center",
-    marginTop: '8%',
+  locationbtn: {
+    height: 28,
+    width: 28,
+    left: 3,
+    bottom: 18,
   },
-  agree: {
-    fontWeight: 'bold',
-    marginLeft: '3%',
-    color: "#222",
+  reviews: {
+    left: 35,
     fontSize: 15,
+    top: 18,
+    color: '#9575cd',
+    letterSpacing: 0.8,
+    fontWeight: '700',
   },
-  signBtn: {
-    marginTop: '12%',
-    width: "55%",
-    borderRadius: 45,
-    height: 50,
-    alignItems: "center",
+  buttonAppointment: {
+    borderRadius: 5,
+  },
+  appointment: {
+    textAlign: "center",
+    fontSize: 12,
+    letterSpacing: 0.5,
+    color: `white`,
+    fontWeight: "bold",
+  },
+  continuebtn: {
+    left: "100%",
     alignSelf: "center",
-    justifyContent: "center",
-    backgroundColor: "#9370db",
-    shadowColor: "#000",
-    elevation: 10,
   },
-  signBtnText: {
-    fontWeight: 'bold',
-    color: "white",
-    fontSize: 25,
-    textShadowColor: 'rgba(0, 0, 0, 0.3)',
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 10,
-  }
 });
