@@ -19,37 +19,37 @@ const Tab = createBottomTabNavigator();
 
 const Nevigator = props => {
   return (
-    <Tab.Navigator initialRouteName='SearchUserScreen'
+    <Tab.Navigator initialRouteName='Search'
       screenOptions={{
         headerTitleAlign: 'center',
-        tabBarStyle: { backgroundColor: "#2D87B8", borderRightWidth: 2, borderrRightColor: "white" },
-        tabBarLabelStyle: { color: "#fff" },
-        tabBarActiveBackgroundColor: "#3F9FCF"
+        tabBarStyle: { backgroundColor: "#FFF", borderRadius: 50, height: 70, bottom: 5, paddingTop: 5, paddingHorizontal: 30, },
+        tabBarItemStyle: { borderRadius: 50, },
       }}
     >
+      <Tab.Screen
+        name="My_Appointments"
+        component={MyAppointment}
+        options={{
+          tabBarLabel: 'Appointments',
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconColor = focused ? '#000' : '#999';
+            return <AntDesign name="calendar" size={32} color={iconColor} />;
+          },
+          headerShown: false,
+
+        }} />
       <Tab.Screen
         name="Search"
         component={SearchUserScreen}
         options={{
           tabBarLabel: 'Home',
-          tabBarLabelStyle: { fontSize: 12, color: 'white' },
           tabBarShowLabel: false,
           tabBarIcon: ({ color, size }) => (
-            <AntDesign name="home" size={24} color="white" />
+            <Ionicons style={{ bottom: 2 }} name="add-circle-sharp" size={60} color="#4FA4E5" />
           ),
           headerShown: false,
-        }} />
-      <Tab.Screen
-        name="My Appointments"
-        component={MyAppointment}
-        options={{
-          tabBarLabel: 'Appointments',
-          tabBarLabelStyle: { fontSize: 12, color: 'white' },
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color, size }) => (
-            <AntDesign name="calendar" size={24} color="white" />
-          ),
-          headerShown: false,
+
         }} />
 
       <Tab.Screen
@@ -57,23 +57,22 @@ const Nevigator = props => {
         component={Settings}
         options={{
           tabBarLabel: 'Settings',
-          tabBarLabelStyle: { fontSize: 12, color: 'white' },
           tabBarShowLabel: false,
-          tabBarIcon: ({ color, size }) => (
-            <AntDesign name="setting" size={24} color="white" />),
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconColor = focused ? '#000' : '#999';
+              return <AntDesign name="setting" size={32} color={iconColor} />;
+            },
           headerShown: false,
         }} />
-
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Appointment Details"
         component={main_temp_page}
         options={{
           tabBarLabel: 'main_temp_page',
-          tabBarLabelStyle: { fontSize: 12, color: 'white' },
           tabBarShowLabel: false,
           tabBarIcon: ({ color, size }) => (
-            <AntDesign name="setting" size={24} color="white" />),
-          headerShown: true,
+            <AntDesign name="setting" size={30} color="#AAA" />),
+          headerShown: false,
           headerStyle: {
             backgroundColor: '#2D87B8',
           },
@@ -87,7 +86,7 @@ const Nevigator = props => {
             </TouchableOpacity>
 
           ),
-        }} />
+        }} /> */}
     </Tab.Navigator>
   )
 }

@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
-import MyAppointment from './main_temp_page';
 
 const MyAppointments = props => {
 
