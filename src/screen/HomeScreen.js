@@ -10,14 +10,6 @@ const HomeScreen = props => {
 
   const [isClient, setIsClient] = useState(true);
 
-  const onPressLogin = () => {
-    props.navigation.navigate('LoginScreen');
-  };
-
-  const onPressSignUp = () => {
-    props.navigation.navigate('SignUpScreen');
-  };
-
 
   return (
     <View style={{ backgroundColor: "white", height: "100%" }}>

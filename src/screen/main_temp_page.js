@@ -1,162 +1,104 @@
-import { ScrollView, TouchableOpacity, Image, FlatList, StyleSheet, Text, View, Linking } from 'react-native';
-import React, { useState } from 'react';
-import { LinearGradient } from 'expo-linear-gradient';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Fontisto } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons'; 
+import React from "react";
+import { createDrawerNavigator, IconComponent } from "@react-navigation/drawer";
+import { DrawerActions } from '@react-navigation/native';
+import { Icon, ScrollView, StyleSheet, Text, Button, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { AntDesign, Fontisto } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
+import SearchUserScreen from './SearchUserScreen'
+import MyAppointment from './MyAppointment'
 import Reviews from '../components/Reviews'
+import Settings from './Settings'
+import main_temp_page from './main_temp_page'
 
-const AvailableAppointments = props => {
+const Drawer = createDrawerNavigator();
 
-  const [isFilter, setIsFilter] = useState(true);
-
-  const onPressSchedule = () => {
-    props.navigation.navigate('CalendarPickerScreen');
-  };
-
-  const onPressLocation = (address) => {
-    const url = `https://www.google.com/maps/search/?api=1&query=${address}`;
-    Linking.openURL(url);
-  }
+const Tab = createBottomTabNavigator();
 
 
-  const queues = [
-    { provider: "Devin1", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-    { provider: "Devin2", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-    { provider: "Devin3", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-    { provider: "Devin4", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-    { provider: "Devin5", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-    { provider: "Devin6", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-    { provider: "Devin7", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-    { provider: "Devin8", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-    { provider: "Devin9", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-    { provider: "Devin10", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-  ];
-
-  const onPressReview = () => {
-    props.navigation.navigate('Reviews');
-  };
-
-
+const Nevigator = props => {
   return (
-    <View style={[{ backgroundColor: "white", top: 25, height: "100%" }]}>
-      <FlatList style={[{ top: 20 }]}
-        data={queues}
-        renderItem={({ item }) =>
-          <View style={styles.box}>
-            <MaterialIcons style={{ alignSelf: "center", marginLeft: 10 }} name="person-pin" size={50} color="black" />
-            <View style={[{ left: 20, flexDirection: "column", bottom: 10 }]}>
-              <View style={[{ flexDirection: 'row', top: 10, }]}>
-                <Text style={styles.provider}>{item.provider}</Text>
-                <TouchableOpacity style={styles.provider} onPress={onPressReview}>
-                  <Fontisto style={{ marginLeft: 70, }} name="preview" size={28} color="black" />
-                </TouchableOpacity>
-              </View>
-              <Text style={styles.category}>{item.category}</Text>
-              <TouchableOpacity onPress={() => onPressLocation(item.address)}>
-                <View style={[{ flexDirection: 'row', bottom: 5 }]}>
-                  <Entypo name="location" size={20} color="black" />
-                  <Text style={styles.address}>{item.address}</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity style={styles.continuebtn} onPress={onPressSchedule}>
-            <MaterialIcons name="navigate-next" size={40} color="black" />
+    <Tab.Navigator initialRouteName='Search'
+      screenOptions={{
+        headerTitleAlign: 'center',
+        tabBarStyle: { backgroundColor: "#FFF", borderRadius: 50, height: 70, bottom: 5, paddingTop: 5, paddingHorizontal: 30, },
+        tabBarItemStyle: { borderRadius: 50, },
+      }}
+    >
+      <Tab.Screen
+        name="My_Appointments"
+        component={MyAppointment}
+        options={{
+          tabBarLabel: 'Appointments',
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => {
+            <AntDesign name="calendar" size={35} color="#3F9FCF" />
+          },
+          headerShown: false,
+
+        }} />
+      <Tab.Screen
+        name="Search"
+        component={SearchUserScreen}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons style={{ bottom: 2 }} name="add-circle-sharp" size={60} color="#3F9FCF" />
+          ),
+          headerShown: false,
+
+        }} />
+
+      <Tab.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          tabBarLabel: 'Settings',
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => {
+            <AntDesign name="setting" size={35} color="3F9FCF" />
+          },
+          headerShown: false,
+        }} />
+
+      <Tab.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          tabBarLabel: 'Settings',
+          tabBarLabelStyle: { fontSize: 12, color: 'white' },
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="setting" size={24} color="white" />),
+          headerShown: false,
+        }} />
+      {/* <Tab.Screen
+        name="Appointment Details"
+        component={main_temp_page}
+        options={{
+          tabBarLabel: 'main_temp_page',
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="setting" size={30} color="#AAA" />),
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#2D87B8',
+          },
+          headerTintColor: "white",
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
+              <Ionicons style={{left: 10}} name="arrow-back" size={24} color="white" />
             </TouchableOpacity>
-          </View>}
-      />
-    </View>
+
+          ),
+        }} /> */}
+    </Tab.Navigator>
   )
-};
+}
 
-
-export default AvailableAppointments
-
-
-const styles = StyleSheet.create({
-  resultsFound: {
-    textAlign: 'center',
-    color: 'white',
-    fontSize: 20,
-    padding: 10,
-    letterSpacing: 1,
-    left: 10,
-    top: 30,
-    fontWeight: '500',
-  },
-  btnfilter: {
-    width: 80,
-    fontSize: 40,
-    backgroundColor: '#e9e9e9',
-    width: '50%',
-    height: 40,
-    borderRadius: 20,
-  },
-  pressed: {
-    backgroundColor: '#9575cd',
-  },
-  pressedText: {
-    color: '#fff',
-    textShadowColor: 'rgba(255,255,255, 0.3)',
-    textShadowOffset: { width: -1, height: -1 },
-    textShadowRadius: 20,
-  },
-  box: {
-    flexDirection: "row",
-    backgroundColor: '#FFF',
-    shadowColor: "#000",
-    elevation: 15,
-    height: 80,
-    width: 380,
-    alignSelf: "center",
-    borderRadius: 50,
-    marginBottom: 30,
-  },
-  provider: {
-    fontSize: 20,
-    height: 52,
-    color: `#505050`,
-    fontWeight: "bold",
-  },
-  category: {
-    fontSize: 14,
-    height: 30,
-    color: `#808080`,
-    marginTop: -12,
-  },
-  address: {
-    fontSize: 17,
-    height: 30,
-    color: `#808080`,
-    left: 3,
-  },
-  locationbtn: {
-    height: 28,
-    width: 28,
-    left: 3,
-    bottom: 18,
-  },
-  reviews: {
-    left: 35,
-    fontSize: 15,
-    top: 18,
-    color: '#9575cd',
-    letterSpacing: 0.8,
-    fontWeight: '700',
-  },
-  buttonAppointment: {
-    borderRadius: 5,
-  },
-  appointment: {
-    textAlign: "center",
-    fontSize: 12,
-    letterSpacing: 0.5,
-    color: `white`,
-    fontWeight: "bold",
-  },
-  continuebtn: {
-    left: "100%",
-    alignSelf: "center",
-  },
-});
+export default Nevigator;

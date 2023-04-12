@@ -1,149 +1,177 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text, StyleSheet, ImageBackground } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useFonts } from 'expo-font';
 import { Dropdown } from 'react-native-element-dropdown';
-
+import { Feather } from '@expo/vector-icons';
+import {
+  useFonts,
+  Montserrat_100Thin,
+  Montserrat_200ExtraLight,
+  Montserrat_300Light,
+  Montserrat_400Regular,
+  Montserrat_500Medium,
+  Montserrat_600SemiBold,
+  Montserrat_700Bold,
+  Montserrat_800ExtraBold,
+  Montserrat_900Black,
+  Montserrat_100Thin_Italic,
+  Montserrat_200ExtraLight_Italic,
+  Montserrat_300Light_Italic,
+  Montserrat_400Regular_Italic,
+  Montserrat_500Medium_Italic,
+  Montserrat_600SemiBold_Italic,
+  Montserrat_700Bold_Italic,
+  Montserrat_800ExtraBold_Italic,
+  Montserrat_900Black_Italic,
+} from '@expo-google-fonts/montserrat';
+import AppLoading from 'expo-app-loading';
 
 const MainPage = () => {
-  const [loaded] = useFonts({
-    'Montserrat-Bold': require('./../../assets/fonts/Montserrat-Bold.ttf'),
-    'Montserrat-Regular': require('./../../assets/fonts/Montserrat-Regular.ttf'),
+  let [fontsLoaded] = useFonts({
+    Montserrat_100Thin,
+    Montserrat_200ExtraLight,
+    Montserrat_300Light,
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_700Bold,
+    Montserrat_800ExtraBold,
+    Montserrat_900Black,
+    Montserrat_100Thin_Italic,
+    Montserrat_200ExtraLight_Italic,
+    Montserrat_300Light_Italic,
+    Montserrat_400Regular_Italic,
+    Montserrat_500Medium_Italic,
+    Montserrat_600SemiBold_Italic,
+    Montserrat_700Bold_Italic,
+    Montserrat_800ExtraBold_Italic,
+    Montserrat_900Black_Italic,
   });
 
 
+  const [valueCity, setValueCity] = useState(null);
+  const [isFocusCity, setIsFocusCity] = useState(false);
 
-  const [barbershop, setBarbershop] = useState(false);
-    const [bank, setBank] = useState(false);
-    const [cosmetician, setCosmetician] = useState(false);
-    const [ministry, setMinistry] = useState(false);
-    const [valueCat, setValueCat] = useState(null);
-    const [valueCity, setValueCity] = useState(null);
-    const [isFocusCity, setIsFocusCity] = useState(false);
-    const [isFocusCat, setIsFocusCat] = useState(false);
+  const categories = [
+    { label: 'Barber', value: '1' },
+    { label: 'Dentist', value: '2' },
+    { label: 'Cosmetic', value: '3' },
+    { label: 'Ministry', value: '4' },
+  ];
 
-    const categories = [
-        { label: 'Barber', value: '1' },
-        { label: 'Dentist', value: '2' },
-        { label: 'Cosmetic', value: '3' },
-        { label: 'Ministry', value: '4' },
-    ];
+  const cities = [
+    { label: 'Tel Aviv', value: '1' },
+    { label: 'Ramat Gan', value: '2' },
+    { label: 'Petah Tikva', value: '3' },
+    { label: 'Modiin', value: '4' },
+    { label: 'Beer Sheva', value: '5' },
+    { label: 'Haifa', value: '6' },
+  ];
 
-    const cities = [
-        { label: 'Tel Aviv', value: '1' },
-        { label: 'Ramat Gan', value: '2' },
-        { label: 'Petah Tikva', value: '3' },
-        { label: 'Modiin', value: '4' },
-        { label: 'Beer Sheva', value: '5' },
-        { label: 'Haifa', value: '6' },
-    ];
-
-    if (!loaded) {
-        return null;
-      }
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   return (
     <ScrollView style={styles.container}>
-        <View style={styles.contentContainer}>
-        <Text style={[styles.heading, { top: 10 }]}>What service are you looking for?</Text>                    
-          <View style={styles.categoryContainer}>
-            <View style={[styles.categoryItem, {backgroundColor: '#4FA4E5'}]}>
-              <MaterialCommunityIcons name="hair-dryer" size={48} color="#fff" />
-              <Text style={[styles.categoryText, {color: '#fff', fontFamily: 'Montserrat-Regular'}]}>Barber</Text>
+      <View style={styles.contentContainer}>
+        <Text style={styles.popular}>Most Popular Services</Text>
+        <View style={{ flexDirection: "row", width: "85%", alignSelf: "center" }}>
+          <View style={{}}>
+            <View style={[styles.categoryItem, { backgroundColor: '#4FA4E5', shadowColor: "#4FA4E5" }]}>
+              <MaterialCommunityIcons name="hair-dryer" size={30} color="#fff" />
             </View>
-            <View style={[styles.categoryItem, {backgroundColor: '#6CC3ED'}]}>
-              <MaterialCommunityIcons name="home-heart" size={48} color="#fff" />
-              <Text style={[styles.categoryText, {color: '#fff', fontFamily: 'Montserrat-Regular'}]}>Ministry</Text>
-            </View>
-            <View style={[styles.categoryItem, {backgroundColor: '#2D87B8'}]}>
-              <MaterialCommunityIcons name="bank" size={48} color="#fff" />
-              <Text style={[styles.categoryText, {color: '#fff', fontFamily: 'Montserrat-Regular'}]}>Bank</Text>
-            </View>
-            <View style={[styles.categoryItem, {backgroundColor: '#0080C8'}]}>
-              <MaterialCommunityIcons name="face-woman-shimmer-outline" size={48} color="#fff" />
-              <Text style={[styles.categoryText, {color: '#fff', fontFamily: 'Montserrat-Regular'}]}>Cosmetic</Text>
-            </View>
+            <Text style={[styles.categoryText,]}>Barber</Text>
           </View>
-          <View style={styles.more}>
-            <View style={[styles.section, {bottom: 20}]}>
-                <Dropdown
-                    style={[styles.dropdown, isFocusCat && { borderColor: 'white' }]}
-                    placeholderStyle={styles.placeholderStyle}
-                    selectedTextStyle={styles.selectedTextStyle}
-                    inputSearchStyle={styles.inputSearchStyle}
-                    iconStyle={styles.iconStyle}
-                    data={categories}
-                    search
-                    maxHeight={300}
-                    labelField="label"
-                    valueField="value"
-                    placeholder={'More Categories'}
-                    searchPlaceholder="Search..."
-                    value={valueCat}
-                    onFocus={() => setIsFocusCat(true)}
-                    onBlur={() => setIsFocusCat(false)}
-                    onChange={item => {
-                        setValueCat(item.value);
-                        setIsFocusCat(false);
-                    }}
-                />
+          <View style={{ marginLeft: "12%", }}>
+            <View style={[styles.categoryItem, { backgroundColor: '#6CC3ED', shadowColor: "#6CC3ED" }]}>
+              <MaterialCommunityIcons name="home-heart" size={35} color="#fff" />
             </View>
-            <View style={styles.section}>
-                <Dropdown
-                    style={[styles.dropdown, isFocusCity && { borderColor: 'white' }]}
-                    placeholderStyle={styles.placeholderStyle}
-                    selectedTextStyle={styles.selectedTextStyle}
-                    inputSearchStyle={styles.inputSearchStyle}
-                    iconStyle={styles.iconStyle}
-                    data={cities}
-                    search
-                    maxHeight={300}
-                    labelField="label"
-                    valueField="value"
-                    placeholder={'City'}
-                    placeholderTextColor="white"
-                    searchPlaceholder="Search..."
-                    value={valueCity}
-                    onFocus={() => setIsFocusCity(true)}
-                    onBlur={() => setIsFocusCity(false)}
-                    onChange={item => {
-                        setValueCity(item.value);
-                        setIsFocusCity(false);
-                    }}
-                />
+            <Text style={[styles.categoryText,]}>Ministry</Text>
+          </View>
+          <View style={{ marginLeft: "12%", }}>
+            <View style={[styles.categoryItem, { backgroundColor: '#2D87B8', shadowColor: "#2D87B8" }]}>
+              <MaterialCommunityIcons name="bank" size={30} color="#fff" />
             </View>
+            <Text style={[styles.categoryText,]}>Bank</Text>
+          </View>
+          <View style={{ marginLeft: "12%", }}>
+            <View style={[styles.categoryItem, { backgroundColor: '#0080C8', shadowColor: "#0080C8" }]}>
+              <Feather name="more-horizontal" size={30} color="#fff" />
+            </View>
+            <Text style={[styles.categoryText,]}>more</Text>
+          </View>
         </View>
+        <Text style={[styles.popular, { marginTop: 20 }]}>Close To me</Text>
+        <View style={{ flexDirection: "row", width: "90%", alignSelf: "center" }}>
+          <View style={[styles.closetItem,]}>
+            <View style={styles.iconCloser}>
+              <MaterialCommunityIcons name="hair-dryer" size={26} color="#35557f" />
+            </View>
+            <Text style={styles.closerProvider}>Adi Aviv</Text>
+            <Text style={styles.closerDetails}>open now | 1.7 km</Text>
+          </View>
+          <View style={[styles.closetItem, { left: 12 }]}>
+            <View style={styles.iconCloser}>
+              <MaterialCommunityIcons name="home-heart" size={26} color="#35557f" />
+            </View>
+            <Text style={styles.closerProvider}>Adi Aviv</Text>
+            <Text style={styles.closerDetails}>open now | 1.7 km</Text>
+          </View>
         </View>
+        <View style={{ flexDirection: "row", width: "90%", alignSelf: "center", marginTop: 10 }}>
+          <View style={[styles.closetItem,]}>
+            <View style={styles.iconCloser}>
+              <MaterialCommunityIcons name="bank" size={26} color="#35557f" />
+            </View>
+            <Text style={styles.closerProvider}>Adi Aviv</Text>
+            <Text style={styles.closerDetails}>open now | 1.7 km</Text>
+          </View>
+          <View style={[styles.closetItem, { left: 12 }]}>
+            <View style={styles.iconCloser}>
+              <Feather name="more-horizontal" size={26} color="#35557f" />
+            </View>
+            <Text style={styles.closerProvider}>Adi Aviv</Text>
+            <Text style={styles.closerDetails}>open now | 1.7 km</Text>
+          </View>
+        </View>
+        <View style={{ flexDirection: "row", width: "90%", alignSelf: "center", marginTop: 10 }}>
+          <View style={[styles.closetItem,]}>
+            <View style={styles.iconCloser}>
+              <MaterialCommunityIcons name="bank" size={26} color="#35557f" />
+            </View>
+            <Text style={styles.closerProvider}>Adi Aviv</Text>
+            <Text style={styles.closerDetails}>open now | 1.7 km</Text>
+          </View>
+          <View style={[styles.closetItem, { left: 12 }]}>
+            <View style={styles.iconCloser}>
+              <Feather name="more-horizontal" size={26} color="#35557f" />
+            </View>
+            <Text style={styles.closerProvider}>Adi Aviv</Text>
+            <Text style={styles.closerDetails}>open now | 1.7 km</Text>
+          </View>
+        </View>
+      </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
-    borderRadius: 30,
-    width: "109%",
-    right: "4.5%", 
-    marginTop: "2%",
-    elevation: 12,
-    shadowColor: '#000',
-
+    borderRadius: 20,
   },
   contentContainer: {
     flex: 1,
     paddingVertical: 25,
   },
-  heading: {
-    fontSize: 20,
-    color: '#293241',
-    fontWeight: '500',
-    fontFamily: 'Montserrat_700Bold_Italic',
-    textShadowColor: 'rgba(0, 0, 0, 0.3)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10,
+  popular: {
+    fontSize: 19,
+    paddingBottom: 30,
     paddingLeft: 30,
-},
+    color: "#000",
+    fontFamily: "Montserrat_700Bold",
+  },
   categoryContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -151,67 +179,51 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   categoryItem: {
-    width: 140,
-    height: 120,
-    margin: 16,
-    borderRadius: 16,
+    width: 55,
+    height: 55,
+    borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center',
+    elevation: 30,
   },
   categoryText: {
-    fontSize: 20,
+    fontSize: 15,
+    bottom: 10,
     fontWeight: 'bold',
     marginTop: 16,
     textAlign: 'center',
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10,
+    color: "#999",
   },
-  more: {
-    width: 350,
-    backgroundColor: '#fff',
-    alignSelf: 'center',
-    borderRadius: 10,
-    padding: 40,
-    marginTop: 25,
-},
-section: {
-    marginTop: 15,
-},
-dropdown: {
-    height: 55,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    color: 'white',
-    backgroundColor: 'white',
-    shadowColor: "#000",
-    shadowOffset: {
-        width: 0,
-        height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 20,
-},
-labelCat: {
-    fontWeight: 'bold',
-    backgroundColor: 'gray',
-    fontSize: 14,
-    borderRadius: 8,
-    color: 'black',
-    alignItems: 'center',
-},
-labelCity: {
-    fontWeight: 'bold',
-    color: 'white',
-    backgroundColor: 'gray',
-    fontSize: 14,
-    borderRadius: 8,
-},
-placeholderStyle: {
+  closetItem: {
+    marginTop: 5,
+    width: "49%",
+    paddingTop: 10,
+    paddingLeft: 15,
+    height: 120,
+    borderRadius: 20,
+    backgroundColor: '#f6f8ff',
+  },
+  iconCloser: {
+    marginTop: 5,
+    backgroundColor: "#FFF",
+    height: 40,
+    width: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 50,
+  },
+  closerProvider: {
+    marginTop: 5,
+    fontSize: 17,
+    color: "#454545",
+    fontFamily: "Montserrat_600SemiBold",
+  },
+  closerDetails: {
     fontSize: 16,
-    color: '#001933',
-},
+    color: "#bdc3cb",
+    shadowColor: "#21476c",
+    fontWeight: "700",
+  },
 });
 
 export default MainPage;

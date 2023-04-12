@@ -1,6 +1,14 @@
 import { ScrollView, StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
+import { Searchbar } from 'react-native-paper';
 import React, { useState } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
+import { Dropdown } from 'react-native-element-dropdown';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
+
 import {
     useFonts,
     Montserrat_100Thin,
@@ -25,8 +33,50 @@ import {
 import AppLoading from 'expo-app-loading';
 
 import FavoriteCategory from "../components/FavoriteCategory"
-import FreeSearch from "../components/FreeSearch"
-import AvailableAppointments from './AvailableAppointments'
+
+
+const SearchList = ({ categories, valueCat, setValueCat }) => {
+    return (
+        <Dropdown
+            style={[styles.dropdown,]}
+            placeholderStyle={{ fontSize: 16, color: "#777", left: 15, fontFamily: 'Montserrat_700Bold', }}
+            selectedTextStyle={styles.selectedTextStyle}
+            containerStyle={{ bottom: 23, borderRadius: 20, }}
+            itemTextStyle={{ fontSize: 16, color: "#333", left: 15, bottom: 15, fontWeight: "500", fontFamily: 'Montserrat_600SemiBold', letterSpacing: -0.2 }}
+            inputSearchStyle={styles.inputSearchStyle}
+            data={categories}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={'Search for services'}
+            searchPlaceholder="Search..."
+            value={valueCat}
+            onChange={item => {
+                setValueCat(item.value);
+            }}
+            renderLeftIcon={() => (
+                <FontAwesome name="search" size={22} color="#777" />
+            )}
+        />
+    );
+};
+
+const FreeSearch = ({ onChangeSearch, searchQuery }) => {
+    return (
+        <View style={[styles.dropdown, {flexDirection: "row", alignItems: "center",}]}>
+            <FontAwesome name="search" size={22} color="#777" />
+            <TextInput
+                style={{ width: "100%", fontSize: 16, color: "#777", left: 15, fontFamily: 'Montserrat_700Bold', }}
+                placeholder="Example: barber in Holon"
+                placeholderTextColor="#777"
+                value={searchQuery}
+                onChangeText={onChangeSearch}
+            />
+        </View>
+    );
+};
+
 
 const SearchUserScreen = props => {
 
@@ -56,6 +106,18 @@ const SearchUserScreen = props => {
     const [isAll, setIsAll] = useState(true);
     const [isRate, setIsRate] = useState(false);
     const [isCloser, setIsCloser] = useState(false);
+    const [valueCat, setValueCat] = useState(null);
+    const [valueCity, setValueCity] = useState(null);
+    const [searchQuery, setSearchQuery] = React.useState('');
+
+    const onChangeSearch = query => setSearchQuery(query);
+
+    const categories = [
+        { label: 'Barber', value: '1' },
+        { label: 'Dentist', value: '2' },
+        { label: 'Cosmetic', value: '3' },
+        { label: 'Ministry', value: '4' },
+    ];
 
     const onPressSearch = () => {
         props.navigation.navigate('AvailableAppointments');
@@ -66,118 +128,130 @@ const SearchUserScreen = props => {
     }
 
     return (
-        <View
-            source={require('./../../assets/calendar.png')}
-            style={{backgroundColor: "#98c1d9"}}
-            resizeMode="cover"
-            blurRadius={2}
-        >
-            <ScrollView style={{ }}>
-                <View style={styles.container}>
-                    <View>
-                        <View style={{ justifyContent: 'center', }}>
-                            <Text style={[styles.heading, { fontSize: 40, fontWeight: '400', fontFamily: 'Montserrat_500Medium_Italic', }]}>Hey Adi,</Text>
-                            <View style={{ marginTop: 20, width: "100%" }}>
-                                <View style={{ alignItems: 'center', flexDirection: 'row', }}>
-                                    <TouchableOpacity style={styles.search}>
-                                        <View style={[!isFree && styles.shadow, { }]}>
-                                            <Text style={[styles.buttonSearch, { shadowColor: "#0080FF", },]} onPress={() => { setIsFree(false) }}>Advance Search</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.search}>
-                                        <View style={[isFree && styles.shadow, { }]}>
-                                            <Text style={[styles.buttonSearch, { shadowColor: "#77BBFF" },]} onPress={() => { setIsFree(true) }}>Free Search</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
+        <ScrollView style={{ backgroundColor: "#fff" }}>
+            <View style={{}}>
+                <LinearGradient
+                    colors={['#6CC3ED', '#4FA4E5',]}
+                    style={[{ paddingBottom: 50, paddingTop: "20%", }]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }} >
+                    <View style={{ flexDirection: "row" }}>
+                        <Text style={[styles.heading,]}>Get your services</Text>
+                        <TouchableOpacity style={{ marginLeft: 'auto', right: 10, }} onPress={() => { setIsFree(!isFree) }}>
+                            <Ionicons name="search-circle-sharp" size={50} color="white" />
+                            <Text style={styles.FreeSearch}>free</Text>
+                            <Text style={styles.FreeSearch}>search</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={[styles.heading, { marginTop: -30 }]}>done without</Text>
+                    <Text style={[styles.heading,]}>any hassie</Text>
+                    {(!isFree) ?
+                        <SearchList categories={categories} valueCat={valueCat} setValueCat={setValueCat}></SearchList> :
+                        <FreeSearch onChangeSearch={onChangeSearch} searchQuery={searchQuery}></FreeSearch>
+                    }
+                </LinearGradient>
+                <View style={[{ marginTop: -15, width: "100%", alignSelf: "center" }]}>
+                    <FavoriteCategory navigation={props.navigation} />
+                </View>
+                <View style={styles.line}></View>
+                <ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ flexDirection: 'row', paddingBottom: 40, }}>
+                    <TouchableOpacity style={[styles.squre, { marginLeft: 20, }, isAll && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
+                        <Text style={[styles.sortBy, isAll && { color: '#FFF' }]}>All</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
+                        <Text style={[styles.sortBy, isRate && { color: '#FFF' }]}>Rating</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.squre, isCloser && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
+                        <Text style={[styles.sortBy, isCloser && { color: '#FFF' }]}>closer meeting</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
+                        <Text style={[styles.sortBy, isRate && { color: '#FFF' }]}>Rating</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.squre, { marginRight: 20, }, isCloser && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
+                        <Text style={[styles.sortBy, isCloser && { color: '#FFF' }]}>closer meeting</Text>
+                    </TouchableOpacity>
+                </ScrollView>
+                <View>
+                    <View style={{ flexDirection: "row", width: "92%" }}>
+                        <Text style={styles.clientDetails}>Client Details</Text>
+                        <Ionicons style={{ marginLeft: 'auto', }} name="information-circle-outline" size={25} color="#999" />
+                    </View>
+                    <View style={styles.clientDetailsView}>
+                        <View style={styles.inputView}>
+                            <Feather name="user" size={25} color="#19364D" />
+                            <TextInput
+                                style={styles.TextInput}
+                                placeholder="Your Name"
+                                placeholderTextColor="#444"
+                            />
+                        </View>
+                        <View style={styles.inputView}>
+                            <FontAwesome name="location-arrow" size={25} color="#19364D" />
+                            <TextInput
+                                style={styles.TextInput}
+                                placeholder="City"
+                                placeholderTextColor="#444"
+                            />
                         </View>
                     </View>
-                    <View style={[{ marginTop: 10, }]}>
-                        {(isFree) ? <FreeSearch navigation={props.navigation} /> : <FavoriteCategory navigation={props.navigation} />}
-                    </View>
-                    <View style={styles.line}></View>
-                    <View style={{ flexDirection: 'row', marginTop: 20 }}>
-                        <Text style={styles.filter}>SORT BY</Text>
-                        <FontAwesome style={{ height: 30, width: 25, left: 15, top: 4 }} name="filter" size={25} color="white" />
-                    </View>
-                    <View style={{ flexDirection: 'row', padding: 10, paddingBottom: 30, }}>
-                        <TouchableOpacity style={[styles.squre, isAll && { backgroundColor: '#293241' }]} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
-                            <Text style={[styles.sortBy]}>All</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#293241' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
-                            <Text style={[styles.sortBy]}>Rating</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.squre, isCloser && { backgroundColor: '#293241' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
-                            <Text style={[styles.sortBy]}>closer meeting</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity style={styles.searchButton} onPress={onPressSearch}>
-                        <Text style={{color: "#FFF", fontWeight: '600', fontSize: 18}}>view all businesses</Text>
-                    </TouchableOpacity>
                 </View>
-            </ScrollView>
-        </View>
+                <TouchableOpacity style={styles.searchButton} onPress={onPressSearch}>
+                    <Text style={{ color: "#FFF", fontWeight: '600', fontSize: 18 }}>Next</Text>
+                </TouchableOpacity>
+            </View>
+        </ScrollView>
     );
 };
 
 export default SearchUserScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        padding: 18,
-    },
-    backgroundImage: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-    },
     heading: {
-        top: 25,
-        marginTop: 10,
-        fontSize: 18,
-        color: 'white',
+        marginTop: 5,
         left: 40,
-        fontWeight: '500',
+        fontSize: 30,
+        color: 'white',
         fontFamily: 'Montserrat_700Bold_Italic',
     },
-    search: {
-        paddingTop: 40,
-        marginLeft: "8%",
-    },
-    buttonSearch: {
-        fontSize: 17.5,
-        top: 8,
-        height: 40,
-        fontWeight: '500',
-        color: 'white',
+    FreeSearch: {
+        fontSize: 11,
+        color: '#fff',
         fontFamily: 'Montserrat_700Bold',
-        left: "8%",
+        textAlign: "center",
     },
-    shadow: {
-        backgroundColor: "DDD",
-        shadowColor: "#DDD",
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 3,
-        borderRadius: 4,
-        width: '120%',
+    dropdown: {
+        marginTop: 60,
+        height: 60,
+        width: "85%",
+        borderRadius: 18,
+        paddingHorizontal: 30,
+        backgroundColor: '#FDFDFD',
+        shadowColor: "#000",
+        elevation: 20,
+        alignSelf: "center",
+    },
+    search: {
+        paddingTop: 20,
+        marginLeft: "8%",
     },
     selectedTextStyle: {
         fontSize: 16,
-    },
-    iconStyle: {
-        width: 20,
-        height: 20,
+        color: "#333",
+        left: 15,
+        fontFamily: 'Montserrat_700Bold_Italic',
     },
     inputSearchStyle: {
-        height: 40,
         fontSize: 16,
+        color: "#333",
+        borderColor: "#FFF",
+        left: 5,
     },
     line: {
-        backgroundColor: '#d1d1d1',
+        backgroundColor: '#DDD',
         height: 2,
-        marginTop: 30,
+        width: "90%",
+        alignSelf: "center",
+        marginBottom: 25,
     },
     filter: {
         fontSize: 25,
@@ -187,39 +261,67 @@ const styles = StyleSheet.create({
     },
     squre: {
         backgroundColor: '#fff',
-        height: 30,
-        top: 20,
-        marginRight: 25,
-        borderRadius: 15,
-        width: 100,
+        height: 55,
+        borderRadius: 20,
+        marginLeft: 7,
+        marginRight: 7,
+        paddingHorizontal: 25,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#e6e8ef",
+        flex: 1,
+        alignSelf: 'stretch',
     },
     sortBy: {
-        color: '#EEEEEE',
-        fontSize: 18,
+        color: '#35557f',
+        fontSize: 15,
         textAlign: 'center',
-        top: 2,
-        fontWeight: 'bold',
-        textShadowColor: 'rgba(0, 0, 0, 1)',
-        textShadowOffset: {width: -1, height: 1},
-        textShadowRadius: 10,
+        fontWeight: '700',
+    },
+    clientDetails: {
+        marginLeft: 30,
+        fontSize: 17,
+        color: "#BBB",
+        fontWeight: "500",
+    },
+    clientDetailsView: {
+        backgroundColor: "#FFF",
+        borderRadius: 20,
+        paddingHorizontal: 30,
+        shadowColor: "#555",
+        elevation: 20,
+        width: "90%",
+        alignSelf: "center",
+        marginTop: 15,
+        paddingBottom: 30,
+    },
+    inputView: {
+        borderWidth: 2,
+        borderRadius: 22,
+        borderColor: "#EEE",
+        paddingHorizontal: 20,
+        paddingVertical: 12,
+        marginTop: 30,
+        width: "100%",
+        alignSelf: "center",
+        flexDirection: "row",
+    },
+    TextInput: {
+        fontSize: 15,
+        left: 20,
+        fontWeight: "bold",
+        width: "100%",
     },
     searchButton: {
-        top: 20,
-        height: 40,
-        borderRadius: 10,
-        width: "50%",
-        marginBottom: 25,
-        shadowColor: "#000",
-        elevation: 5,
+        borderRadius: 18,
+        width: "80%",
+        marginBottom: 50,
+        height: 55,
+        marginTop: 50,
         justifyContent: "center",
         alignItems: "center",
         alignSelf: "center",
-        backgroundColor: "#293241",
-    },
-    vi: {
-        height: 60,
-        width: 50,
-        alignSelf: "center",
+        backgroundColor: "#4FA4E5",
     },
 
 
