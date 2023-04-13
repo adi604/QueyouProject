@@ -22,9 +22,11 @@ const Nevigator = props => {
     <Tab.Navigator initialRouteName='Search'
       screenOptions={{
         headerTitleAlign: 'center',
-        tabBarStyle: { backgroundColor: "#FFF", borderRadius: 50, height: 70, bottom: 5, paddingTop: 5, paddingHorizontal: 30, },
+        tabBarStyle: { backgroundColor: "#FFF", borderRadius: 50, height: 70, bottom: 5, paddingTop: 5, paddingHorizontal: 30, position: "absolute" },
         tabBarItemStyle: { borderRadius: 50, },
+        tabBarHideOnKeyboard: true
       }}
+      
     >
       <Tab.Screen
         name="My_Appointments"
@@ -58,13 +60,13 @@ const Nevigator = props => {
         options={{
           tabBarLabel: 'Settings',
           tabBarShowLabel: false,
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconColor = focused ? '#000' : '#999';
-              return <AntDesign name="setting" size={32} color={iconColor} />;
-            },
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconColor = focused ? '#000' : '#999';
+            return <AntDesign name="setting" size={32} color={iconColor} />;
+          },
           headerShown: false,
         }} />
-      {/* <Tab.Screen
+       {/* <Tab.Screen
         name="Appointment Details"
         component={main_temp_page}
         options={{
@@ -86,7 +88,7 @@ const Nevigator = props => {
             </TouchableOpacity>
 
           ),
-        }} /> */}
+        }} />  */}
     </Tab.Navigator>
   )
 }

@@ -1,13 +1,10 @@
 import { ScrollView, StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
-import { Searchbar } from 'react-native-paper';
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 import { Dropdown } from 'react-native-element-dropdown';
-import AntDesign from '@expo/vector-icons/AntDesign';
 import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
 
 import {
     useFonts,
@@ -315,7 +312,7 @@ const styles = StyleSheet.create({
     searchButton: {
         borderRadius: 18,
         width: "80%",
-        marginBottom: 50,
+        marginBottom: 100,
         height: 55,
         marginTop: 50,
         justifyContent: "center",
