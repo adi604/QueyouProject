@@ -5,11 +5,16 @@ import { serverBaseUrl } from '../utils/strings';
 import { sendRequest } from '../utils/utils'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ModalSlide from '../components/ModalSlide';
+import { FontAwesome } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 const LoginScreen = props => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+
+  const [isHidden, setIsHidden] = useState(true);
 
 
   const onPressLogin = async () => {
@@ -29,14 +34,14 @@ const LoginScreen = props => {
   };
 
   return (
-    <ScrollView style={{ backgroundColor: "white", height: "100%" }}>
-      <LinearGradient
-        colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
-        style={[{ height: "38%", borderBottomLeftRadius: 60, borderBottomRightRadius: 60, shadowColor: "#000", elevation: 40, }]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-      >
-        <View>
+    <View style={{ backgroundColor: "white", height: "100%" }}>
+      <ScrollView style={{}}>
+        <LinearGradient
+          colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
+          style={[{ height: 230, borderBottomLeftRadius: 60, borderBottomRightRadius: 60, shadowColor: "#000", elevation: 40, }]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+        >
           <ModalSlide
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
@@ -53,41 +58,52 @@ const LoginScreen = props => {
             style={styles.queyou}
             resizeMode="contain">
           </Image>
-          <View style={{ marginTop: -10, left: 50, padding: 20 }}>
-            <Text style={{ fontSize: 60, fontWeight: "bold", color: "#555", textShadowColor: 'rgba(0, 0, 0, 0.8)', textShadowOffset: { width: -1, height: 1 }, textShadowRadius: 5 }}>Hello</Text>
-            <Text style={{ color: "#AAA", fontSize: 18, marginBottom: 5, fontWeight: '500' }}>Sign up to your account</Text>
-          </View>
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="User name"
-              onChangeText={(username) => setUsername(username)}
-            />
-          </View>
-          <View style={styles.inputView}>
-            <TextInput
+        </LinearGradient>
+        <View style={{ left: 50, padding: 20, marginBottom: 20 }}>
+          <Text style={{ fontSize: 60, fontWeight: "bold", color: "#555", textShadowColor: 'rgba(0, 0, 0, 0.8)', textShadowOffset: { width: -1, height: 1 }, textShadowRadius: 5 }}>Hello</Text>
+          <Text style={{ color: "#AAA", fontSize: 18, marginBottom: 5, fontWeight: '500' }}>Sign up to your account</Text>
+        </View>
+        <View style={styles.inputView}>
+          <FontAwesome name="user" size={20} color="#BBB" />
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Username"
+            placeholderTextColor={"#BBB"}
+            onChangeText={(username) => setUsername(username)}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <FontAwesome name="lock" size={20} color="#BBB" />
+          <TextInput
               style={styles.TextInput}
               placeholder="Password"
+              secureTextEntry={isHidden}
+              placeholderTextColor={"#BBB"}
               onChangeText={(password) => setPassword(password)}
             />
-          </View>
-          <TouchableOpacity>
-            <Text style={styles.forgot_button}>Forgot Password?</Text>
-          </TouchableOpacity>
-          <LinearGradient
-            colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
-            start={{ x: 0, y: -1 }}
-            end={{ x: 1, y: 0.5 }}
-            style={styles.linearGradient}
-          >
-            <TouchableOpacity style={styles.loginBtn} onPress={onPressLogin}>
-              <Text style={styles.loginText}>LOGIN</Text>
+            <TouchableOpacity style={{marginLeft: "auto"}} onPress={() => setIsHidden(!isHidden)}>
+              <Icon
+                name={isHidden ? 'eye-slash' : 'eye'}
+                size={22}
+                color="#BBB"
+              />
             </TouchableOpacity>
-          </LinearGradient>
-
         </View>
-      </LinearGradient>
-    </ScrollView>
+        <TouchableOpacity>
+          <Text style={styles.forgot_button}>Forgot Password?</Text>
+        </TouchableOpacity>
+        <LinearGradient
+          colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
+          start={{ x: 0, y: -1 }}
+          end={{ x: 1, y: 0.5 }}
+          style={styles.linearGradient}
+        >
+          <TouchableOpacity style={styles.loginBtn} onPress={onPressLogin}>
+            <Text style={styles.loginText}>LOGIN</Text>
+          </TouchableOpacity>
+        </LinearGradient>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -95,10 +111,6 @@ export default LoginScreen
 
 
 const styles = StyleSheet.create({
-  background: {
-    width: '100%',
-    height: '100%',
-  },
   logo: {
     width: 200,
     height: 150,
@@ -110,11 +122,6 @@ const styles = StyleSheet.create({
     height: 100,
     alignSelf: 'center',
   },
-  text: {
-    fontSize: 26,
-    color: '#ffffff',
-    fontWeight: 'bold',
-  },
   inputView: {
     backgroundColor: '#ffffff',
     borderRadius: 30,
@@ -122,36 +129,36 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     alignSelf: "center",
-    marginTop: 22,
+    marginTop: 20,
     shadowColor: "#777",
-    elevation: 20,
-    bottom: 30
+    elevation: 15,
+    bottom: 30,
+    flexDirection: "row",
+    paddingHorizontal: 20,
   },
   TextInput: {
-    height: 50,
-    flex: 1,
-    padding: 10,
-    marginLeft: 20,
     fontWeight: 'bold',
     fontSize: 17,
+    marginLeft: 15,
   },
   forgot_button: {
     height: 30,
     bottom: 30,
     alignSelf: "center",
-    marginTop: '4%',
+    marginTop: 15,
     fontWeight: 'bold',
     letterSpacing: 0.5,
     color: "#777",
   },
   linearGradient: {
-    width: "55%",
+    width: "50%",
     height: 50,
     borderRadius: 35,
     alignSelf: "center",
     justifyContent: "center",
     shadowColor: "#000",
-    elevation: 50,
+    elevation: 5,
+    marginBottom: 10,
   },
   loginBtn: {
     alignItems: "center",
