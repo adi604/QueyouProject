@@ -1,227 +1,173 @@
-import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { serverBaseUrl } from '../utils/strings';
+import { sendRequest } from '../utils/utils'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ModalSlide from '../components/ModalSlide';
+import { FontAwesome } from '@expo/vector-icons';
 
-import {
-  useFonts,
-  Montserrat_100Thin,
-  Montserrat_200ExtraLight,
-  Montserrat_300Light,
-  Montserrat_400Regular,
-  Montserrat_500Medium,
-  Montserrat_600SemiBold,
-  Montserrat_700Bold,
-  Montserrat_800ExtraBold,
-  Montserrat_900Black,
-  Montserrat_100Thin_Italic,
-  Montserrat_200ExtraLight_Italic,
-  Montserrat_300Light_Italic,
-  Montserrat_400Regular_Italic,
-  Montserrat_500Medium_Italic,
-  Montserrat_600SemiBold_Italic,
-  Montserrat_700Bold_Italic,
-  Montserrat_800ExtraBold_Italic,
-  Montserrat_900Black_Italic,
-} from '@expo-google-fonts/montserrat';
-import AppLoading from 'expo-app-loading';
+const LoginScreen = props => {
 
-const MyAppointments = props => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const [isPast, setIsPast] = useState(false);
-  let [fontsLoaded] = useFonts({
-    Montserrat_100Thin,
-    Montserrat_200ExtraLight,
-    Montserrat_300Light,
-    Montserrat_400Regular,
-    Montserrat_500Medium,
-    Montserrat_600SemiBold,
-    Montserrat_700Bold,
-    Montserrat_800ExtraBold,
-    Montserrat_900Black,
-    Montserrat_100Thin_Italic,
-    Montserrat_200ExtraLight_Italic,
-    Montserrat_300Light_Italic,
-    Montserrat_400Regular_Italic,
-    Montserrat_500Medium_Italic,
-    Montserrat_600SemiBold_Italic,
-    Montserrat_700Bold_Italic,
-    Montserrat_800ExtraBold_Italic,
-    Montserrat_900Black_Italic,
-});
 
-  const queues = [
-    { id: "1", provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
-    { id: "2", provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
-    { id: "3", provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
-    { id: "4", provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
-    { id: "5", provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
-    { id: "6", provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
-  ];
-
-  const renderItem = ({ item, index }) => {
-    const isLastItem = index === queues.length - 1;
-    return (
-      <TouchableOpacity style={{}} onPress={() => props.navigation.navigate('ADNevigator')}>
-        <View style={[styles.box, isLastItem && { marginBottom: 120, }]}>
-          <View style={{ flexDirection: 'row', }}>
-            <View style={{ flexDirection: 'column', width: 60 }}>
-              <Image style={styles.icon} source={item.icon}></Image>
-              <Text style={styles.category}>{item.category}</Text>
-            </View>
-            <View style={styles.verticalLine} />
-            <View style={[{ left: 16 }]}>
-              <Text style={styles.provider}>{item.provider}</Text>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.day}>{item.day} in hour</Text>
-                <Text style={styles.hour}>{item.hour}</Text>
-                <Text style={styles.date}>{item.date}</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
+  const onPressLogin = async () => {
+    const body = {
+      username: username,
+      password: password
+    }
+    const url = `${serverBaseUrl}/users/loginCustomers`;
+    const response = await sendRequest(url, 'POST', body);
+    if (!response.ok) {
+      setModalVisible(true);
+      return;
+    }
+    // login succeeded
+    await AsyncStorage.setItem('token', response.body.token);
+    props.navigation.navigate('Nevigator');
   };
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
-
   return (
-    <View style={{ backgroundColor: '#faffff', height: '100%', }}>
-      <View>
-        <LinearGradient
-          colors={['#64b5f6', '#6CC3ED', '#6CC3ED']}
-          style={{
-            width: "100%", shadowColor: "#000", elevation: 50, height: 210,
-          }}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
-        >
-          <View style={{ marginTop: 30, marginBottom: 10, flexDirection: "row", width: "105%" }}>
-            <Image
-              source={require('../../assets/profile.jpg')}
-              style={{ width: 90, height: 90, borderRadius: 50, marginLeft: 'auto' }}
-            />
-            {(isPast) ?
-              <TouchableOpacity style={{ marginLeft: "auto", right: 40, top: 10 }} onPress={() => { setIsPast(!isPast) }}>
-                <MaterialCommunityIcons name="filter-check" size={30} color="white" />
-              </TouchableOpacity> :
-              <TouchableOpacity style={{ marginLeft: "auto", right: 40, top: 10 }} onPress={() => { setIsPast(!isPast) }}>
-                <MaterialCommunityIcons name="filter-check-outline" size={30} color="white" />
-              </TouchableOpacity>}
+    <View style={{ backgroundColor: "white", height: "100%" }}>
+      <LinearGradient
+        colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
+        style={[{ height: 230, borderBottomLeftRadius: 60, borderBottomRightRadius: 60, shadowColor: "#000", elevation: 40, }]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+      >
+        <View>
+          <ModalSlide
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            message="Invalid username or password, please try again."
+            buttonText="OK"
+          />
+          <Image
+            source={require('../../assets/logo7.png')}
+            style={styles.logo}
+            resizeMode="contain">
+          </Image>
+          <Image
+            source={require('../../assets/back1.png')}
+            style={styles.queyou}
+            resizeMode="contain">
+          </Image>
+          <View style={{ marginTop: -20, left: 50, padding: 20, marginBottom: 20 }}>
+            <Text style={{ fontSize: 60, fontWeight: "bold", color: "#555", textShadowColor: 'rgba(0, 0, 0, 0.8)', textShadowOffset: { width: -1, height: 1 }, textShadowRadius: 5 }}>Hello</Text>
+            <Text style={{ color: "#AAA", fontSize: 18, marginBottom: 5, fontWeight: '500' }}>Sign up to your account</Text>
           </View>
-          <View style={{ height: 1, width: "70%", backgroundColor: "#FFF", shadowColor: '#FFF', elevation: 10, alignSelf: "center" }}></View>
-          {(isPast) ?
-            <View style={{ alignSelf: "center", top: 5}}>
-              <Text style={{ color: "#FFF", fontSize: 20, fontFamily: 'Montserrat_700Bold', }} >Passed Meeting</Text>
-            </View> :
-            <View style={{ alignSelf: "center", top: 5 }}>
-              <Text style={{ color: "#FFF", fontSize: 20, fontFamily: 'Montserrat_700Bold', }} >My Meeting</Text>
+          <View style={styles.inputView}>
+            <View>
+              <FontAwesome name="user" size={20} color="#BBB" />
             </View>
-          }
-        </LinearGradient>
-      </View>
-      <FlatList
-        style={[styles.list,]}
-        data={queues}
-        renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
-      />
+            <View>
+              <TextInput
+                style={styles.TextInput}
+                placeholder="User name"
+                placeholderTextColor={"#BBB"}
+                onChangeText={(username) => setUsername(username)}
+              />
+            </View>
+          </View>
+          <View style={styles.inputView}>
+            <View>
+              <FontAwesome name="lock" size={20} color="#BBB" />
+            </View>
+            <View>
+              <TextInput
+                style={styles.TextInput}
+                placeholder="Password"
+                placeholderTextColor={"#BBB"}
+                onChangeText={(password) => setPassword(password)}
+              />
+            </View>
+          </View>
+          <TouchableOpacity>
+            <Text style={styles.forgot_button}>Forgot Password?</Text>
+          </TouchableOpacity>
+          <LinearGradient
+            colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
+            start={{ x: 0, y: -1 }}
+            end={{ x: 1, y: 0.5 }}
+            style={styles.linearGradient}
+          >
+            <TouchableOpacity style={styles.loginBtn} onPress={onPressLogin}>
+              <Text style={styles.loginText}>LOGIN</Text>
+            </TouchableOpacity>
+          </LinearGradient>
+
+        </View>
+      </LinearGradient>
     </View>
-  )
-};
+  );
+}
 
-
-export default MyAppointments
+export default LoginScreen
 
 
 const styles = StyleSheet.create({
-  icon: {
-    marginTop: 5,
-    left: 20,
-    top: 10,
-    height: 45,
-    width: 45,
+  logo: {
+    width: 200,
+    height: 150,
+    alignSelf: 'center',
   },
-  category: {
-    left: 19,
-    fontSize: 15,
-    height: 30,
-    color: `#696969`,
-    top: 10,
-    fontWeight: '400',
+  queyou: {
+    bottom: 20,
+    width: 250,
+    height: 100,
+    alignSelf: 'center',
   },
-  list: {
-    marginTop: -40,
-    backgroundColor: "#FFF",
-    width: "100%",
-    shadowColor: "#000",
-    elevation: 5,
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    alignSelf: "center",
-    borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,
-  },
-  box: {
-    backgroundColor: '#FFF',
-    shadowColor: "#000",
-    borderColor: "#EEE",
-    borderWidth: 4,
-    height: 115,
-    width: "90%",
-    borderRadius: 2,
-    marginBottom: 30,
-    borderRadius: 50,
-    alignSelf: "center",
+  inputView: {
+    backgroundColor: '#ffffff',
+    borderRadius: 30,
+    width: "75%",
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
+    alignSelf: "center",
+    marginTop: 20,
+    shadowColor: "#777",
+    elevation: 20,
+    bottom: 30,
+    flexDirection: "row"
   },
-  verticalLine: {
-    top: 5,
-    width: 2,
-    backgroundColor: `#dcdcdc`,
-    height: "90%",
-    marginLeft: 40,
-  },
-  date: {
-    bottom: 32,
-    right: 45,
-    fontSize: 12,
-    fontWeight: '600',
-    color: "#c0c0c0",
-
-  },
-  day: {
-    bottom: 5,
-    left: 10,
+  TextInput: {
+    fontWeight: 'bold',
     fontSize: 17,
-    color: "#c0c0c0",
-    fontWeight: '400',
-
+    marginLeft: 15,
   },
-  hour: {
-    bottom: 5,
-    left: 14,
-    fontSize: 17,
-    fontWeight: '400',
-    color: "#c0c0c0",
+  forgot_button: {
+    height: 30,
+    bottom: 30,
+    alignSelf: "center",
+    marginTop: '4%',
+    fontWeight: 'bold',
+    letterSpacing: 0.5,
+    color: "#777",
   },
-  provider: {
-    padding: 10,
-    fontSize: 21,
+  linearGradient: {
+    width: "55%",
     height: 50,
-    color: `#696969`,
-    fontWeight: "bold",
+    borderRadius: 35,
+    alignSelf: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    elevation: 50,
   },
-  btn: {
-    width: 70,
-    height: 70,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100,
-    alignSelf: 'flex-end'
+  loginBtn: {
+    alignItems: "center",
+    justifyContent: "center",
   },
+  loginText: {
+    fontWeight: 'bold',
+    color: "white",
+    fontSize: 20,
+    letterSpacing: 2,
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+  }
 });
