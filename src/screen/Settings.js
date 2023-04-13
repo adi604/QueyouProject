@@ -32,7 +32,7 @@ const Settings = props => {
 
 
   return (
-    <ScrollView  style={[{ backgroundColor: "white", top: 25, height: "100%" }]}>
+    <ScrollView  style={[{ backgroundColor: "white", top: 25, height: "100%", marginBottom: 30, }]}>
       <View style={{
         shadowColor: '#000',
         elevation: 45,
