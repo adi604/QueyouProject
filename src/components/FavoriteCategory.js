@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     height: 120,
     borderRadius: 20,
-    backgroundColor: '#f6f8ff',
+    backgroundColor: '#f5f5f5',
   },
   iconCloser: {
     marginTop: 5,
