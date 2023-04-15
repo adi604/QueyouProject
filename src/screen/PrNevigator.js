@@ -30,6 +30,7 @@ const Nevigator = props => {
       <Tab.Screen
         name="Appointments"
         component={PrAppointments}
+        initialParams={props.route.params}
         options={{
           tabBarLabel: 'Home',
           tabBarLabelStyle: { fontSize: 12, color: 'white' },

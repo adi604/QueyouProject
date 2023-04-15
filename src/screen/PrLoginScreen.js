@@ -13,7 +13,7 @@ const PrLoginScreen = props => {
 
 
   const onPressLogin = async () => {
-    props.navigation.navigate('PrNevigator');
+    //props.navigation.navigate('PrNevigator');
     const body = {
       username: username,
       password: password
@@ -25,8 +25,10 @@ const PrLoginScreen = props => {
       return;
     }
     // login succeeded
-    await AsyncStorage.setItem('token', response.body.token);
-    props.navigation.navigate('PrNevigator');
+    // await AsyncStorage.setItem('token', response.body.token);
+    props.navigation.navigate('PrNevigator', {
+      providerUserName: username,
+    });
   };
 
   return (

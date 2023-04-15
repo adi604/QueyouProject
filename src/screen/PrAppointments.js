@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { serverBaseUrl } from '../utils/strings';
+import { sendRequest } from '../utils/utils'
+
 
 const AppointmentList = ({ appointments, onDeleteAppointment }) => {
     return (
@@ -16,8 +19,9 @@ const AppointmentList = ({ appointments, onDeleteAppointment }) => {
                     <View style={styles.detailsContainer}>
                         <Text style={styles.customerNameText}>{item.customerName}</Text>
                         <Text style={styles.dateText}>{item.date}</Text>
+                        <Text style={styles.timeText}>{item.time}</Text>
                     </View>
-                    <TouchableOpacity onPress={() => onDeleteAppointment(item.id)}>
+                    <TouchableOpacity onPress={() => onDeleteAppointment(item.key)}>
                         <AntDesign name="delete" size={24} color="#ff0000" />
                     </TouchableOpacity>
                 </View>
@@ -29,60 +33,40 @@ const AppointmentList = ({ appointments, onDeleteAppointment }) => {
     );
 };
 
-const ProviderPage = () => {
+const ProviderPage = props => {
     const [appointments, setAppointments] = useState([]);
+    const [providerUserName, setProviderUserName] = useState(props.route.params.providerUserName)
 
     useEffect(() => {
-        // Fetch appointments from API or local storage
-        const appointmentsData = [
-            {
-                id: '1',
-                customerName: 'John Doe',
-                date: '2023-03-24T10:30:00Z',
-            },
-            {
-                id: '2',
-                customerName: 'Jane Smith',
-                date: '2023-03-25T14:00:00Z',
-            },
-            {
-                id: '2',
-                customerName: 'Jane Smith',
-                date: '2023-03-25T14:00:00Z',
-            },
-            {
-                id: '2',
-                customerName: 'Jane Smith',
-                date: '2023-03-25T14:00:00Z',
-            },
-            {
-                id: '2',
-                customerName: 'Jane Smith',
-                date: '2023-03-25T14:00:00Z',
-            },
-            {
-                id: '2',
-                customerName: 'Jane Smith',
-                date: '2023-03-25T14:00:00Z',
-            },
-            {
-                id: '2',
-                customerName: 'Jane Smith',
-                date: '2023-03-25T14:00:00Z',
-            },
-            {
-                id: '2',
-                customerName: 'Jane Smith',
-                date: '2023-03-25T14:00:00Z',
-            },
-            // Add more appointments as needed
-        ];
-        setAppointments(appointmentsData);
+        async function fetchMeetings() {
+            // Fetch appointments from API or local storage
+            const url = `${serverBaseUrl}/meetings/providerMeetings/${providerUserName}`;
+            const response = await sendRequest(url, 'GET');
+            if(!response.ok) {
+            console.log("Fetch Meetings Faild !")
+            }
+            // Fetch succeeded
+            // save response.body
+            const data = response.body
+            const appointmentsData = []
+            data.forEach((item) => {
+                appointmentsData.push({
+                    key: item._id,
+                    customerName: item.customerUserName,
+                    date: item.date,
+                    time: item.time,
+                })
+              });
+            setAppointments(appointmentsData);
+        }
+        
+        fetchMeetings()
+
     }, []);
 
-    const handleDeleteAppointment = (id) => {
+    const handleDeleteAppointment = (key) => {
         setAppointments((prevAppointments) =>
-            prevAppointments.filter((appointment) => appointment.id !== id)
+            prevAppointments.filter((appointment) => appointment.key != key)
         );
     };
 
@@ -145,6 +129,10 @@ const styles = StyleSheet.create({
         color: '#333333',
     },
     dateText: {
+        fontSize: 16,
+        color: '#666666',
+    },
+    timeText: {
         fontSize: 16,
         color: '#666666',
     },
