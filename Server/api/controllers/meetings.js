@@ -10,7 +10,7 @@ module.exports = {
             res.status(500).json({error});
         });
     },
-    // ##### Get all the meetings objects of provider by name. #####
+    // ##### Get all the meetings objects of provider by providerUserName. #####
     getProviderMeetings : (req, res) => {
         const providerUserName = req.params.providerUserName;
         Meeting.find({providerUserName: providerUserName}).then((meetings) => {
@@ -19,7 +19,7 @@ module.exports = {
             res.status(500).json({error});
         });
     },
-    // ##### Get all the meetings objects of customer by name. #####
+    // ##### Get all the meetings objects of customer by customerUserName. #####
     getCustomerMeetings : (req, res) => {
         const customerUserName = req.params.customerUserName;
         Meeting.find({customerUserName: customerUserName}).then((meetings) => {
@@ -30,7 +30,7 @@ module.exports = {
     },
     // ##### Create new meeting. #####
     createMeeting : (req, res) => {
-        const {date, time, providerUserName, customerUserName} = req.body
+        const {date, time, providerUserName, customerUserName, providerName, customerName} = req.body
         // We assume here that providerName,customerName exists,
         // And that there is no conflict in the dateAndTime.
         const meeting = new Meeting({
@@ -38,7 +38,9 @@ module.exports = {
             date: date,
             time: time,
             providerUserName: providerUserName,
-            customerUserName: customerUserName
+            customerUserName: customerUserName,
+            providerName: providerName,
+            customerName: customerName
         });
         meeting.save().then(() => {
             res.status(200).json({

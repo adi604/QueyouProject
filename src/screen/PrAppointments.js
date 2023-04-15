@@ -52,7 +52,7 @@ const ProviderPage = props => {
             data.forEach((item) => {
                 appointmentsData.push({
                     key: item._id,
-                    customerName: item.customerUserName,
+                    customerName: item.customerName,
                     date: item.date,
                     time: item.time,
                 })
@@ -65,6 +65,7 @@ const ProviderPage = props => {
     }, []);
 
     const handleDeleteAppointment = (key) => {
+        // * Delete from the server *
         setAppointments((prevAppointments) =>
             prevAppointments.filter((appointment) => appointment.key != key)
         );
