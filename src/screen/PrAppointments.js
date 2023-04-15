@@ -43,32 +43,41 @@ const ProviderPage = props => {
             const url = `${serverBaseUrl}/meetings/providerMeetings/${providerUserName}`;
             const response = await sendRequest(url, 'GET');
             if(!response.ok) {
-            console.log("Fetch Meetings Faild !")
+                console.log("Fetch Meetings Faild !")
+            } else {
+                // Fetch succeeded
+                const data = response.body
+                const appointmentsData = []
+                data.forEach((item) => {
+                    appointmentsData.push({
+                        key: item._id,
+                        customerName: item.customerName,
+                        date: item.date,
+                        time: item.time,
+                    })
+                });
+                setAppointments(appointmentsData);
             }
-            // Fetch succeeded
-            // save response.body
-            const data = response.body
-            const appointmentsData = []
-            data.forEach((item) => {
-                appointmentsData.push({
-                    key: item._id,
-                    customerName: item.customerName,
-                    date: item.date,
-                    time: item.time,
-                })
-              });
-            setAppointments(appointmentsData);
         }
         
         fetchMeetings()
 
     }, []);
 
-    const handleDeleteAppointment = (key) => {
-        // * Delete from the server *
-        setAppointments((prevAppointments) =>
-            prevAppointments.filter((appointment) => appointment.key != key)
-        );
+    async function handleDeleteAppointment (key) {
+        // Delete from the server
+        const url = `${serverBaseUrl}/meetings/${key}`;
+        const response = await sendRequest(url, 'DELETE');
+        if(!response.ok) {
+            console.log("Delete Meeting Faild !")
+        } else {
+            // Fetch succeeded
+            console.log("Delete Meeting succeeded !")
+            // Delete from the client
+            setAppointments((prevAppointments) =>
+                prevAppointments.filter((appointment) => appointment.key != key)
+            );
+        }
     };
 
     return (
