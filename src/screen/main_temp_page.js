@@ -1,173 +1,159 @@
-import { ScrollView, StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
+import { ScrollView, TouchableOpacity, Image, FlatList, StyleSheet, Text, View, Linking } from 'react-native';
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { serverBaseUrl } from '../utils/strings';
-import { sendRequest } from '../utils/utils'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import ModalSlide from '../components/ModalSlide';
-import { FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import { Fontisto } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
-const LoginScreen = props => {
+const ServicesList = props => {
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
+  const [isFilter, setIsFilter] = useState(true);
 
-
-  const onPressLogin = async () => {
-    const body = {
-      username: username,
-      password: password
-    }
-    const url = `${serverBaseUrl}/users/loginCustomers`;
-    const response = await sendRequest(url, 'POST', body);
-    if (!response.ok) {
-      setModalVisible(true);
-      return;
-    }
-    // login succeeded
-    await AsyncStorage.setItem('token', response.body.token);
-    props.navigation.navigate('Nevigator');
+  const onPressSchedule = () => {
+    props.navigation.navigate('CalendarPickerScreen');
   };
 
-  return (
-    <View style={{ backgroundColor: "white", height: "100%" }}>
-      <LinearGradient
-        colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
-        style={[{ height: 230, borderBottomLeftRadius: 60, borderBottomRightRadius: 60, shadowColor: "#000", elevation: 40, }]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-      >
-        <View>
-          <ModalSlide
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-            message="Invalid username or password, please try again."
-            buttonText="OK"
-          />
-          <Image
-            source={require('../../assets/logo7.png')}
-            style={styles.logo}
-            resizeMode="contain">
-          </Image>
-          <Image
-            source={require('../../assets/back1.png')}
-            style={styles.queyou}
-            resizeMode="contain">
-          </Image>
-          <View style={{ marginTop: -20, left: 50, padding: 20, marginBottom: 20 }}>
-            <Text style={{ fontSize: 60, fontWeight: "bold", color: "#555", textShadowColor: 'rgba(0, 0, 0, 0.8)', textShadowOffset: { width: -1, height: 1 }, textShadowRadius: 5 }}>Hello</Text>
-            <Text style={{ color: "#AAA", fontSize: 18, marginBottom: 5, fontWeight: '500' }}>Sign up to your account</Text>
-          </View>
-          <View style={styles.inputView}>
-            <View>
-              <FontAwesome name="user" size={20} color="#BBB" />
-            </View>
-            <View>
-              <TextInput
-                style={styles.TextInput}
-                placeholder="User name"
-                placeholderTextColor={"#BBB"}
-                onChangeText={(username) => setUsername(username)}
-              />
-            </View>
-          </View>
-          <View style={styles.inputView}>
-            <View>
-              <FontAwesome name="lock" size={20} color="#BBB" />
-            </View>
-            <View>
-              <TextInput
-                style={styles.TextInput}
-                placeholder="Password"
-                placeholderTextColor={"#BBB"}
-                onChangeText={(password) => setPassword(password)}
-              />
-            </View>
-          </View>
-          <TouchableOpacity>
-            <Text style={styles.forgot_button}>Forgot Password?</Text>
-          </TouchableOpacity>
-          <LinearGradient
-            colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
-            start={{ x: 0, y: -1 }}
-            end={{ x: 1, y: 0.5 }}
-            style={styles.linearGradient}
-          >
-            <TouchableOpacity style={styles.loginBtn} onPress={onPressLogin}>
-              <Text style={styles.loginText}>LOGIN</Text>
-            </TouchableOpacity>
-          </LinearGradient>
+  const onPressLocation = (address) => {
+    const url = `https://www.google.com/maps/search/?api=1&query=${address}`;
+    Linking.openURL(url);
+  }
 
-        </View>
-      </LinearGradient>
-    </View>
+  const services = [
+    { name: 'Service 1', time: '1 hour', price: '$50' },
+    { name: 'Service 2', time: '2 hours', price: '$100' },
+    { name: 'Service 3', time: '30 minutes', price: '$25' },
+    { name: 'Service 4', time: '1 hour', price: '$50' },
+    { name: 'Service 5', time: '2 hours', price: '$100' },
+    { name: 'Service 6', time: '30 minutes', price: '$25' },
+    { name: 'Service 7', time: '1 hour', price: '$50' },
+    { name: 'Service 8', time: '2 hours', price: '$100' },
+    { name: 'Service 9', time: '30 minutes', price: '$25' },
+    // Add more services as needed
+  ];
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity style={styles.itemContainer} onPress={onPressSchedule}>
+      <View style={styles.itemInfo}>
+        <Text style={styles.itemName}>{item.name}</Text>
+        <Text style={styles.itemTime}>{item.time}</Text>
+      </View>
+      <Text style={styles.itemPrice}>{item.price}</Text>
+    </TouchableOpacity>
   );
-}
 
-export default LoginScreen
+
+  return (
+    <View style={[{ backgroundColor: 'rgba(204, 217, 255, 0.255)', top: 25, height: "100%" }]}>
+      <LinearGradient
+        colors={['#4FA4E5', '#0069BA',]}
+        style={{
+          width: '100%', height: 100, borderBottomLeftRadius: 30, borderBottomRightRadius: 30, padding: 20, bottom: 25,
+          shadowColor: '#000',
+          elevation: 30,
+        }}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 1 }}
+      >
+        <Text style={styles.resultsFound}>89 results were found</Text>
+        <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
+          <Ionicons style={{ top: 15, }} name="arrow-back" size={24} color="white" />
+        </TouchableOpacity>
+      </LinearGradient>
+      <FlatList
+          data={services}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.name}
+          contentContainerStyle={styles.listContainer}
+          style={styles.list}
+          showsVerticalScrollIndicator={false}
+        />
+    </View>
+  )
+};
+
+
+export default ServicesList
 
 
 const styles = StyleSheet.create({
-  logo: {
-    width: 200,
-    height: 150,
-    alignSelf: 'center',
+  resultsFound: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 19,
+    top: 40,
+    letterSpacing: 1,
+    fontWeight: '500',
   },
-  queyou: {
-    bottom: 20,
-    width: 250,
-    height: 100,
-    alignSelf: 'center',
-  },
-  inputView: {
-    backgroundColor: '#ffffff',
-    borderRadius: 30,
-    width: "75%",
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    marginTop: 20,
-    shadowColor: "#777",
-    elevation: 20,
-    bottom: 30,
-    flexDirection: "row"
-  },
-  TextInput: {
-    fontWeight: 'bold',
-    fontSize: 17,
-    marginLeft: 15,
-  },
-  forgot_button: {
-    height: 30,
-    bottom: 30,
-    alignSelf: "center",
-    marginTop: '4%',
-    fontWeight: 'bold',
-    letterSpacing: 0.5,
-    color: "#777",
-  },
-  linearGradient: {
-    width: "55%",
-    height: 50,
-    borderRadius: 35,
-    alignSelf: "center",
-    justifyContent: "center",
+  btnfilter: {
+    fontSize: 40,
+    backgroundColor: '#e9e9e9',
+    width: '50%',
+    height: 35,
+    borderRadius: 20,
+    justifyContent: 'center',
+    elevation: 10,
     shadowColor: "#000",
-    elevation: 50,
   },
-  loginBtn: {
-    alignItems: "center",
-    justifyContent: "center",
+  pressed: {
+    backgroundColor: '#0069BA',
   },
-  loginText: {
-    fontWeight: 'bold',
-    color: "white",
+  textfilter: {
     fontSize: 20,
-    letterSpacing: 2,
-    textShadowColor: 'rgba(0, 0, 0, 0.3)',
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 10,
-  }
+    color: 'black',
+    textAlign: 'center',
+    fontWeight: "500",
+  },
+  pressedText: {
+    color: '#fff',
+    textShadowColor: 'rgba(255,255,255, 0.3)',
+    textShadowOffset: { width: -1, height: -1 },
+    textShadowRadius: 20,
+  },
+  list: {
+    backgroundColor: "#FFF",
+    paddingHorizontal: 30,
+    paddingVertical: 30,
+    width: "80%",
+    alignSelf: "center",
+    marginBottom: 120,
+    borderRadius: 10,
+  },
+  service: {
+    fontSize: 20,
+    color: `#777`,
+    fontWeight: "bold",
+  },
+  listContainer: {
+    paddingBottom: 40,
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+  itemInfo: {
+    flex: 1,
+  },
+  itemName: {
+    fontSize: 19,
+    fontWeight: 'bold',
+    color: '#444',
+    marginBottom: 5,
+  },
+  itemTime: {
+    fontSize: 15,
+    color: '#AAA',
+    fontWeight: 'bold',
+  },
+  itemPrice: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#4FA4E5',
+  },
+
 });
