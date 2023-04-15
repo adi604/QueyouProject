@@ -26,7 +26,7 @@ const Nevigator = props => {
         tabBarItemStyle: { borderRadius: 50, },
         tabBarHideOnKeyboard: true
       }}
-      
+
     >
       <Tab.Screen
         name="My_Appointments"
@@ -66,7 +66,7 @@ const Nevigator = props => {
           },
           headerShown: false,
         }} />
-       {/* <Tab.Screen
+      <Tab.Screen
         name="Appointment Details"
         component={main_temp_page}
         options={{
@@ -84,11 +84,11 @@ const Nevigator = props => {
           },
           headerLeft: () => (
             <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
-              <Ionicons style={{left: 10}} name="arrow-back" size={24} color="white" />
+              <Ionicons style={{ left: 10 }} name="arrow-back" size={24} color="white" />
             </TouchableOpacity>
 
           ),
-        }} />  */}
+        }} />
     </Tab.Navigator>
   )
 }
