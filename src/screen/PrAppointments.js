@@ -12,7 +12,7 @@ const AppointmentList = ({ appointments, onDeleteAppointment }) => {
             style={{backgroundColor: "#FFF", marginTop: "-22%", shadowColor: "#000", elevation: 40, width: "93%", alignSelf: "center",}}
             data={appointments}
             renderItem={({ item }) => (
-                <View style={styles.appointmentContainer}>
+                <View key={item.key} style={styles.appointmentContainer}>
                     <View style={styles.iconContainer}>
                         <MaterialCommunityIcons name="calendar-clock" size={32} color="#2D87B8" />
                     </View>
