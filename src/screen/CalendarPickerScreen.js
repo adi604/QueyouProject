@@ -171,7 +171,7 @@ const CalendarPickerScreen = props => {
                         <Text style={{ height: 11, width: 11, backgroundColor: "#2D87B8", borderRadius: 50, alignSelf: "center", marginRight: 20, bottom: 10 }}></Text>
                         <View style={{}}>
                             <Text style={styles.timeStr}>Selected Meeting :</Text>
-                            <Text style={styles.innerTime}>{selectedDate}  |  {selectedTime}</Text>
+                            <Text style={styles.innerTime}>{selectedDate}{(selectedDate != "" && selectedTime != "") ? <Text>  |  </Text> : null}{selectedTime}</Text>
                         </View>
                     </View>
                     <TouchableOpacity style={styles.viButton}>

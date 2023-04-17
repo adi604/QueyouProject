@@ -102,13 +102,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#2D87B8',
         height: "40%",
         shadowColor: "#000",
-        elevation: 70,
+        elevation: 50,
         width: "100%",
     },
     heading: {
         fontSize: 30,
         fontWeight: 'bold',
         color: '#ffffff',
+        alignSelf: "center",
     },
     listContainer: {
         top: 20,
