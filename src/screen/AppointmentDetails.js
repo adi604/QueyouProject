@@ -1,29 +1,47 @@
 import { ScrollView, FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import { serverBaseUrl } from '../utils/strings';
+import { sendRequest } from '../utils/utils'
 
 
 const AppointmentDetails = props => {
+    const [meeting, setMeeting] = useState(props.route.params.meeting)
+    const [providerDetails, setProviderDetails] = useState({phoneNumber:"",address:"",city:"",description:""})
 
-    const [isPast, setIsPast] = useState(false);
 
-    const queues = [
-        { provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
-        { provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
-        { provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
-        { provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
-        { provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
-        { provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
-    ];
+    useEffect(() => {
+          async function fetchProviderDetails() {
+              // Fetch appointments from API or local storage
+              const url = `${serverBaseUrl}/providers/${meeting.providerUserName}`;
+              const response = await sendRequest(url, 'GET');
+              if(!response.ok) {
+                  console.log("Fetch details Faild !")
+              } else {
+                  // Fetch succeeded
+                  const data = response.body
+                  const details = {}
+                  details.phoneNumber = data.phoneNumber
+                  details.address = data.address
+                  details.city = data.city
+                  details.description = data.description
+                  console.log(details)
+                  setProviderDetails(details);
+              }
+          }
+          fetchProviderDetails()
+        }, []);
 
-    const onPressAdd = () => {
-        props.navigation.navigate('SearchUserScreen');
-    };
+        async function handleDeleteAppointment (key) {
+            props.route.params.deleteAppointment(key);
+            props.navigation.goBack();
+        };
+
 
     return (
         <ScrollView style={styles.card}>
@@ -31,8 +49,8 @@ const AppointmentDetails = props => {
             <View style={{ flexDirection: "row", }}>
                 <Ionicons style={{ top: 7 }} name="person" size={23} color="#777" />
                 <View style={{ flexDirection: "column", left: 25 }}>
-                    <Text style={styles.provider}>Devin Aviv</Text>
-                    <Text style={styles.phon}>0569871548</Text>
+                    <Text style={styles.provider}>{meeting.provider}</Text>
+                    <Text style={styles.phon}>{providerDetails.phoneNumber}</Text>
                 </View>
             </View>
             <View style={{ height: 2, backgroundColor: "#EEE" }}></View>
@@ -40,30 +58,30 @@ const AppointmentDetails = props => {
                 <View style={{ flexDirection: "row" }}>
                     <FontAwesome5 name="calendar-alt" size={24} color="#444" />
                     <View style={styles.details}>
-                        <Text style={styles.title}>10:00</Text>
-                        <Text style={styles.subtitle}>Monday, 23/9/2019</Text>
+                        <Text style={styles.title}>{meeting.hour}</Text>
+                        <Text style={styles.subtitle}>{meeting.day}, {meeting.date}</Text>
                     </View>
                 </View>
                 <View style={{ flexDirection: "row", marginTop: 30, }}>
                     <MaterialCommunityIcons name="calendar-blank-multiple" size={25} color="#444" />
                     <View style={styles.details}>
-                        <Text style={styles.title}>dental checkout</Text>
-                        <Text style={styles.subtitle}>Regular Visit, 30$</Text>
+                        <Text style={styles.title}>{providerDetails.description}</Text>
+                        <Text style={styles.subtitle}>Service?, Cost?</Text>
                     </View>
                 </View>
                 <View style={{ flexDirection: "row", marginTop: 30, }}>
                     <Entypo name="location" size={24} color="#444" />
                     <View style={styles.details}>
-                        <Text style={styles.title}>Herzel 78</Text>
-                        <Text style={styles.subtitle}>Givatyim</Text>
+                        <Text style={styles.title}>{providerDetails.address}</Text>
+                        <Text style={styles.subtitle}>{providerDetails.city}</Text>
                     </View>
                 </View>
                 <View style={{ height: 2, backgroundColor: "#EEE", marginTop: 30, }}></View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => handleDeleteAppointment(meeting.key)}>
                     <View style={{ flexDirection: "row", marginTop: 30, }}>
-                        <AntDesign name="edit" size={24} color="#000" />
+                        <AntDesign name="delete" size={24} color="red" />
                         <View style={styles.details}>
-                            <Text style={[styles.title, { color: "#000" }]}>Edit</Text>
+                            <Text style={[styles.title, { color: "red" }]}>Delete</Text>
                         </View>
                     </View>
                 </TouchableOpacity>

@@ -30,7 +30,9 @@ const LoginScreen = props => {
     }
     // login succeeded
     await AsyncStorage.setItem('token', response.body.token);
-    props.navigation.navigate('Nevigator');
+    props.navigation.navigate('Nevigator', {
+      customerUserName: username,
+    });
   };
 
   return (

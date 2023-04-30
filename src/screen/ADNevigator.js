@@ -5,7 +5,6 @@ import { Icon, ScrollView, StyleSheet, Text, Button, View, ImageBackground, Imag
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-
 import SearchUserScreen from './SearchUserScreen'
 import MyAppointment from './MyAppointment'
 import Reviews from '../components/Reviews'
@@ -14,7 +13,6 @@ import main_temp_page from './main_temp_page'
 import AppointmentDetails from './AppointmentDetails'
 
 const Drawer = createDrawerNavigator();
-
 const Tab = createBottomTabNavigator();
 
 
@@ -28,6 +26,7 @@ const ADNevigator = props => {
       <Tab.Screen
         name="Appointment Details"
         component={AppointmentDetails}
+        initialParams={props.route.params}
         options={{
           tabBarLabel: 'AppointmentDetails',
           tabBarLabelStyle: { fontSize: 12, color: 'white' },

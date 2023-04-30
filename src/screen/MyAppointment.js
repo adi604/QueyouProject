@@ -1,7 +1,11 @@
 import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
+import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { serverBaseUrl } from '../utils/strings';
+import { sendRequest } from '../utils/utils'
+const moment = require('moment');
 
 import {
   useFonts,
@@ -27,6 +31,8 @@ import {
 import AppLoading from 'expo-app-loading';
 
 const MyAppointments = props => {
+  const [appointments, setAppointments] = useState([]);
+  const [customerUserName, setCustomerUserName] = useState(props.route.params.customerUserName)
 
   const [isPast, setIsPast] = useState(false);
   let [fontsLoaded] = useFonts({
@@ -50,24 +56,77 @@ const MyAppointments = props => {
     Montserrat_900Black_Italic,
 });
 
-  const queues = [
-    { id: "1", provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
-    { id: "2", provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
-    { id: "3", provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
-    { id: "4", provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
-    { id: "5", provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
-    { id: "6", provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
-  ];
+const getDay = (dateStr) => {
+  const dateObj = moment(dateStr, 'MM-DD-YYYY');
+  return dateObj.format('dddd');
+}
+
+async function handleDeleteAppointment (key) {
+  // Delete from the server
+  const url = `${serverBaseUrl}/meetings/${key}`;
+  const response = await sendRequest(url, 'DELETE');
+  if(!response.ok) {
+      console.log("Delete Meeting Faild !")
+  } else {
+      // Fetch succeeded
+      console.log("Delete Meeting succeeded !")
+      // Delete from the client
+      setAppointments((prevAppointments) =>
+          prevAppointments.filter((appointment) => appointment.key != key)
+      );
+  }
+};
+
+
+useEffect(() => {
+    async function fetchMeetings() {
+        // Fetch appointments from API or local storage
+        const url = `${serverBaseUrl}/meetings/customerMeetings/${customerUserName}`;
+        const response = await sendRequest(url, 'GET');
+        if(!response.ok) {
+            console.log("Fetch Meetings Faild !")
+        } else {
+            // Fetch succeeded
+            const data = response.body
+            const appointmentsData = []
+            data.forEach((item) => {
+                appointmentsData.push({
+                    key: item._id,
+                    id: item._id,
+                    provider: item.providerName,
+                    providerUserName: item.providerUserName,
+                    date: item.date,
+                    hour: item.time,
+                    day: getDay(item.date)
+                })
+            });
+            setAppointments(appointmentsData);
+        }
+    }
+  fetchMeetings()
+  }, []);
+
+
+
+  // const queues = [
+  //   { id: "1", provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
+  //   { id: "2", provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
+  //   { id: "3", provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
+  //   { id: "4", provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
+  //   { id: "5", provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
+  //   { id: "6", provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
+  // ];
 
   const renderItem = ({ item, index }) => {
-    const isLastItem = index === queues.length - 1;
+    const isLastItem = index === appointments.length - 1;
     return (
-      <TouchableOpacity style={{}} onPress={() => props.navigation.navigate('ADNevigator')}>
+      <TouchableOpacity style={{}} onPress={() => props.navigation.navigate('ADNevigator', {meeting: item,deleteAppointment:handleDeleteAppointment})}>
         <View style={[styles.box, isLastItem && { marginBottom: 120, }]}>
           <View style={{ flexDirection: 'row', }}>
             <View style={{ flexDirection: 'column', width: 60 }}>
-              <Image style={styles.icon} source={item.icon}></Image>
-              <Text style={styles.category}>{item.category}</Text>
+              <MaterialCommunityIcons name="account-circle-outline" size={45} color="#6CC3ED" style={styles.icon} />
+              {/* <Image style={styles.icon} source={item.icon}></Image> */}
+              {/* <Text style={styles.category}>{item.category}</Text> */}
             </View>
             <View style={styles.verticalLine} />
             <View style={[{ left: 16 }]}>
@@ -125,7 +184,7 @@ const MyAppointments = props => {
       </View>
       <FlatList
         style={[styles.list,]}
-        data={queues}
+        data={appointments}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
       />
@@ -192,6 +251,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
     color: "#c0c0c0",
+    marginLeft:10,
 
   },
   day: {
