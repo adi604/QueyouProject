@@ -18,7 +18,7 @@ const AppointmentDetails = props => {
     useEffect(() => {
           async function fetchProviderDetails() {
               // Fetch appointments from API or local storage
-              const url = `${serverBaseUrl}/providers/${meeting.providerUserName}`;
+              const url = `${serverBaseUrl}/providers/username/${meeting.providerUserName}`;
               const response = await sendRequest(url, 'GET');
               if(!response.ok) {
                   console.log("Fetch details Faild !")
