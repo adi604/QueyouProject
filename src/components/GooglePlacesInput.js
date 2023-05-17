@@ -11,7 +11,41 @@ const GooglePlacesInput = (styles) => {
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={{ flexGrow: 1 }}>
             <GooglePlacesAutocomplete
-                styles={styles}
+                styles={{
+                    row: {
+                        backgroundColor: "#FFF",
+                        //borderRadius: 10,
+                        //height: 45,
+                        //shadowColor: "#000",
+                        //elevation: 10,
+                    },
+                    textInputContainer: {
+                        backgroundColor: "#FFF",
+                        width: "80%",
+                        alignSelf: "center",
+                        borderRadius: 10,
+                        height: 45,
+                        shadowColor: "#000",
+                        elevation: 10,
+                    },
+                    textInput: {
+                        backgroundColor: "#FFF",
+                        alignSelf: "center",
+                        borderRadius: 10,
+                        height: 45,
+                        shadowColor: "#000",
+                        elevation: 10,
+                    },
+                    predefinedPlacesDescription: {
+                        backgroundColor: "#FFF",
+                        width: "80%",
+                        alignSelf: "center",
+                        borderRadius: 10,
+                        height: 45,
+                        shadowColor: "#000",
+                        elevation: 10,
+                    },
+                }}
                 ref={ref}
                 placeholder='Search'
                 onPress={(data, details = null) => {
