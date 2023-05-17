@@ -7,7 +7,7 @@ export async function sendRequest(url, method, body) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(body)
+            body: body !== undefined ? JSON.stringify(body) : undefined
         });
         const res = await response.json();
         return { body: res, ok: response.ok };
