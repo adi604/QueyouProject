@@ -12,22 +12,27 @@ import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import GooglePlacesInput from '../components/GooglePlacesInput';
 
 const SignUpScreen = props => {
 
+  const [name, setName] = useState('');
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const [mail, setMail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState({});
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+  const [image, setImage] = useState(null);
+
   const [isSelected, setSelection] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [image, setImage] = useState(null);
 
   const onPressSignUp = async () => {
     const signUpDetails = {
       username: username,
-      email: email,
+      email: mail,
       password: password,
       repeatPassword: repeatPassword
     }
@@ -45,9 +50,9 @@ const SignUpScreen = props => {
     const body = {
       username: username,
       password: password,
-      mail: email
+      mail: mail
     }
-    const url = `${strings.serverBaseUrl}/users/signUpCustomers`;
+    const url = `${strings.serverBaseUrl}/users/signUpProviders`;
     const response = await sendRequest(url, 'POST', body);
     if (!response.ok) {
       setModalMessage(response.body.message);
@@ -61,7 +66,7 @@ const SignUpScreen = props => {
 
   const chooseImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync();
-    if (!result.cancelled) {
+    if (!result.canceled) {
       setImage(result);
     }
   };
@@ -92,7 +97,7 @@ const SignUpScreen = props => {
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(email) => setUsername(email)}
+              onChangeText={(name) => setName(name)}
             />
           </View>
         </View>
@@ -104,7 +109,7 @@ const SignUpScreen = props => {
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(username) => setUsername(username)}
+              onChangeText={(email) => setMail(email)}
             />
           </View>
         </View>
@@ -116,7 +121,7 @@ const SignUpScreen = props => {
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(repeatPassword) => setUsername(repeatPassword)}
+              onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
             />
           </View>
         </View>
@@ -137,10 +142,7 @@ const SignUpScreen = props => {
             <Text style={styles.title}>Address</Text>
           </View>
           <View style={{ marginTop: 10, }}>
-            <TextInput
-              style={styles.TextInput}
-              onChangeText={(repeatPassword) => setUsername(repeatPassword)}
-            />
+            <GooglePlacesInput setAddress={setAddress}/>
           </View>
         </View>
         <View style={{ flexDirection: "column", marginTop: 15 }}>
@@ -151,7 +153,7 @@ const SignUpScreen = props => {
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(password) => setUsername(password)}
+              onChangeText={(password) => setPassword(password)}
             />
           </View>
         </View>
@@ -163,7 +165,7 @@ const SignUpScreen = props => {
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(repeatPassword) => setUsername(repeatPassword)}
+              onChangeText={(repeatPassword) => setRepeatPassword(repeatPassword)}
             />
           </View>
         </View>

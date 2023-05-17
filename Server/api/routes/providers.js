@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {getAllProviders, getProvider, updateProvider, deleteProvider} = require('../controllers/providers')
+const {getAllProviders, getProvider, updateProvider, deleteProvider, getFilteredProviders} = require('../controllers/providers')
 
 router.get('/', getAllProviders);
-router.get('/:providerUserName', getProvider);
-router.patch('/:providerUserName', updateProvider);
-router.delete('/:providerUserName', deleteProvider);
+router.get('/username/:providerUserName', getProvider);
+router.get('/filter', getFilteredProviders);
+router.patch('/username/:providerUserName', updateProvider);
+router.delete('/username/:providerUserName', deleteProvider);
 
 module.exports = router;

@@ -3,3 +3,5 @@ export const INVALID_PASSWORD_MSG = "Password needs to conatin atleast 8 charact
 export const INVALID_EMAIL_MSG = "Invalid email.";
 export const INVALID_LOGIN_MSG = "Invalid username or password, please try again.";
 export const REPEAT_PASSWORD_MSG = "Passwords do not match.";
+export const GOOGLE_PLACES_API_KEY = "AIzaSyDLU7ME7Ck5nykTBrfNidv-w1-Uua-0dUM";
+export const GOOGLE_PLACES_DETAILS_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=";
