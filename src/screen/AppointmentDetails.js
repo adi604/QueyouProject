@@ -58,27 +58,24 @@ const AppointmentDetails = props => {
                 <View style={{ flexDirection: "row" }}>
                     <FontAwesome5 name="calendar-alt" size={24} color="#444" />
                     <View style={styles.details}>
-                        <Text style={styles.title}>{meeting.hour}</Text>
-                        <Text style={styles.subtitle}>{meeting.day}, {meeting.date}</Text>
+                        <Text style={styles.title}>{meeting.day} {meeting.date} {meeting.hour}</Text>
                     </View>
                 </View>
                 <View style={{ flexDirection: "row", marginTop: 30, }}>
                     <MaterialCommunityIcons name="calendar-blank-multiple" size={25} color="#444" />
                     <View style={styles.details}>
                         <Text style={styles.title}>{providerDetails.description}</Text>
-                        <Text style={styles.subtitle}>Service?, Cost?</Text>
                     </View>
                 </View>
                 <View style={{ flexDirection: "row", marginTop: 30, }}>
                     <Entypo name="location" size={24} color="#444" />
                     <View style={styles.details}>
                         <Text style={styles.title}>{providerDetails.address}</Text>
-                        <Text style={styles.subtitle}>{providerDetails.city}</Text>
                     </View>
                 </View>
                 <View style={{ height: 2, backgroundColor: "#EEE", marginTop: 30, }}></View>
                 <TouchableOpacity onPress={() => handleDeleteAppointment(meeting.key)}>
-                    <View style={{ flexDirection: "row", marginTop: 30, }}>
+                    <View style={{ flexDirection: "row", marginTop: 70, }}>
                         <AntDesign name="delete" size={24} color="red" />
                         <View style={styles.details}>
                             <Text style={[styles.title, { color: "red" }]}>Delete</Text>

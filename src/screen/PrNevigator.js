@@ -50,18 +50,6 @@ const Nevigator = props => {
           headerShown: false,
         }} />
 
-        <Tab.Screen
-        name="Temp"
-        component={main_temp_page}
-        options={{
-          tabBarLabel: 'Settings',
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconColor = focused ? '#000' : '#999';
-            return <MaterialIcons name="schedule" size={32} color={iconColor} />;
-          },
-          headerShown: false,
-        }} />
 
     </Tab.Navigator>
   )

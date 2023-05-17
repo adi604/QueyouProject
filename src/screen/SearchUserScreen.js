@@ -5,6 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Dropdown } from 'react-native-element-dropdown';
 import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import Checkbox from 'expo-checkbox';
 
 import {
     useFonts,
@@ -106,6 +107,7 @@ const SearchUserScreen = props => {
     const [valueCat, setValueCat] = useState(null);
     const [valueCity, setValueCity] = useState(null);
     const [searchQuery, setSearchQuery] = React.useState('');
+    const [isSelected, setSelection] = useState(false);
 
     const onChangeSearch = query => setSearchQuery(query);
 
@@ -133,71 +135,47 @@ const SearchUserScreen = props => {
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }} >
                     <View style={{ flexDirection: "row" }}>
-                        <Text style={[styles.heading,]}>Get your services</Text>
-                        <TouchableOpacity style={{ marginLeft: 'auto', right: 10, }} onPress={() => { setIsFree(!isFree) }}>
-                            <Ionicons name="search-circle-sharp" size={50} color="white" />
-                            <Text style={styles.FreeSearch}>free</Text>
-                            <Text style={styles.FreeSearch}>search</Text>
-                        </TouchableOpacity>
+                    <Text style={[styles.heading,]}>Get your services</Text>  
                     </View>
-                    <Text style={[styles.heading, { marginTop: -30 }]}>done without</Text>
-                    <Text style={[styles.heading,]}>any hassie</Text>
-                    {(!isFree) ?
-                        <SearchList categories={categories} valueCat={valueCat} setValueCat={setValueCat}></SearchList> :
-                        <FreeSearch onChangeSearch={onChangeSearch} searchQuery={searchQuery}></FreeSearch>
-                    }
+                    <Text style={[styles.heading,]}>without any hassle</Text>
+                    
+                    <SearchList categories={categories} valueCat={valueCat} setValueCat={setValueCat}></SearchList>
+                    
                 </LinearGradient>
-                <View style={[{ marginTop: -15, width: "100%", alignSelf: "center" }]}>
-                    <FavoriteCategory navigation={props.navigation} />
-                </View>
+                
                 <View style={styles.line}></View>
 
-                {/*
-                    <ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ flexDirection: 'row', paddingBottom: 40, }}>
-                        <TouchableOpacity style={[styles.squre, { marginLeft: 20, }, isAll && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
-                            <Text style={[styles.sortBy, isAll && { color: '#FFF' }]}>All</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
-                            <Text style={[styles.sortBy, isRate && { color: '#FFF' }]}>Rating</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.squre, isCloser && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
-                            <Text style={[styles.sortBy, isCloser && { color: '#FFF' }]}>closer meeting</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
-                            <Text style={[styles.sortBy, isRate && { color: '#FFF' }]}>Rating</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.squre, { marginRight: 20, }, isCloser && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
-                            <Text style={[styles.sortBy, isCloser && { color: '#FFF' }]}>closer meeting</Text>
-                        </TouchableOpacity>
-                    </ScrollView>
-                */}
 
                 <View>
-                    <View style={{ flexDirection: "row", width: "92%" }}>
-                        <Text style={styles.clientDetails}>Client Details</Text>
-                        <Ionicons style={{ marginLeft: 'auto', }} name="information-circle-outline" size={25} color="#999" />
-                    </View>
                     <View style={styles.clientDetailsView}>
                         <View style={styles.inputView}>
                             <Feather name="user" size={25} color="#19364D" />
                             <TextInput
                                 style={styles.TextInput}
-                                placeholder="Your Name"
+                                placeholder="Provider Name"
                                 placeholderTextColor="#444"
                             />
                         </View>
                         <View style={styles.inputView}>
-                            <FontAwesome name="location-arrow" size={25} color="#19364D" />
+                            {/*<FontAwesome name="location-arrow" size={25} color="#19364D" />*/}
+                            <View style={styles.Checkbox}>
+                                <Checkbox  
+                                    title="closer"  
+                                    value={isSelected}
+                                    onValueChange={setSelection}
+                                    isChecked={isSelected} 
+                                />
+                            </View>
                             <TextInput
                                 style={styles.TextInput}
-                                placeholder="City"
+                                placeholder="Closer To Me"
                                 placeholderTextColor="#444"
                             />
                         </View>
                     </View>
                 </View>
                 <TouchableOpacity style={styles.searchButton} onPress={onPressSearch}>
-                    <Text style={{ color: "#FFF", fontWeight: '600', fontSize: 18 }}>Next</Text>
+                    <Text style={{ color: "#FFF", fontWeight: '600', fontSize: 18 }}>Search</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>
@@ -214,6 +192,12 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'Montserrat_700Bold_Italic',
     },
+    Checkbox: {
+        flexDirection: 'row',
+        alignSelf: "center",
+        marginTop: '1%',
+        marginLeft: '1%',
+      },
     FreeSearch: {
         fontSize: 11,
         color: '#fff',

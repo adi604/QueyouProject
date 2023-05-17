@@ -5,6 +5,7 @@ const reviewSchema = mongoose.Schema({
     name: {type: String, required: false, default: "anonymous"},
     content: {type: String, required: true},
     score: {type: Number, required: true},
+    date: {type: String, required: true},
     targetProviderUserName: {type: String, required: true} // can add 'ref' for populate.
 });
 

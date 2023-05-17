@@ -62,7 +62,7 @@ const PrLoginScreen = props => {
         </LinearGradient>
         <View style={{ left: 50, padding: 20, marginBottom: 20 }}>
           <Text style={{ fontSize: 60, fontWeight: "bold", color: "#555", textShadowColor: 'rgba(0, 0, 0, 0.8)', textShadowOffset: { width: -1, height: 1 }, textShadowRadius: 5 }}>Hello</Text>
-          <Text style={{ color: "#AAA", fontSize: 18, marginBottom: 5, fontWeight: '500' }}>Sign up to your account</Text>
+          <Text style={{ color: "#AAA", fontSize: 18, marginBottom: 5, fontWeight: '500' }}>Sign in to your account</Text>
         </View>
         <View style={styles.inputView}>
           <FontAwesome name="user" size={20} color="#BBB" />
@@ -90,9 +90,6 @@ const PrLoginScreen = props => {
               />
             </TouchableOpacity>
         </View>
-        <TouchableOpacity>
-          <Text style={styles.forgot_button}>Forgot Password?</Text>
-        </TouchableOpacity>
         <LinearGradient
           colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
           start={{ x: 0, y: -1 }}

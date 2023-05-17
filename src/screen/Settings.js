@@ -49,34 +49,16 @@ const Settings = props => {
             <Text style={{fontSize: 20, color: "#64b5f6", fontWeight: "500", }}>Save</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30, }]} onPress={() => { setIsUsername(!isUsername) }}>
-          <View style={styles.circle}>
-            <FontAwesome5 style={[styles.icon,]} name="user" size={18} color="#64b5f6" />
-          </View>
-          <Text style={styles.username}>Username</Text>
-          {!isUsername ? (
-            <MaterialIcons style={{ marginLeft: "auto" }} name="navigate-next" size={35} color="#AAA" />
-          ) : null}
-        </TouchableOpacity>
-        {isUsername ? (
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Username"
-              placeholderTextColor={"#DDD"}
-            />
-          </View>
-        ) : null}
-        <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 10 }]} onPress={() => { setIsPhone(!isPhone) }}>
+        
+        <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30 }]} onPress={() => { setIsPhone(!isPhone) }}>
           <View style={styles.circle}>
             <Feather style={[styles.icon,]} name="phone-call" size={18} color="#64b5f6" />
           </View>
           <Text style={[styles.username,]}>Phone Number</Text>
-          {!isPhone ? (
-            <MaterialIcons style={{ marginLeft: "auto" }} name="navigate-next" size={35} color="#AAA" />
-          ) : null}
+          
+          
         </TouchableOpacity>
-        {isPhone ? (
+        
           <View style={styles.inputView}>
             <TextInput
               style={styles.TextInput}
@@ -84,17 +66,16 @@ const Settings = props => {
               placeholderTextColor={"#DDD"}
             />
           </View>
-        ) : null}
-        <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 10 }]} onPress={() => { setIsEmail(!isEmail) }}>
+        
+        <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30 }]} onPress={() => { setIsEmail(!isEmail) }}>
           <View style={styles.circle}>
             <Fontisto style={[styles.icon,]} name="email" size={19} color="#64b5f6" />
           </View>
           <Text style={[styles.username,]}>Email</Text>
-          {!isEmail ? (
-            <MaterialIcons style={{ marginLeft: "auto" }} name="navigate-next" size={35} color="#AAA" />
-          ) : null}
+          
+         
         </TouchableOpacity>
-        {isEmail ? (
+        
           <View style={styles.inputView}>
             <TextInput
               style={styles.TextInput}
@@ -102,45 +83,9 @@ const Settings = props => {
               placeholderTextColor={"#DDD"}
             />
           </View>
-        ) : null}
-        <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 10 }]} onPress={() => { setIsPassword(!isPassword) }}>
-          <View style={styles.circle}>
-            <MaterialIcons style={[styles.icon,]} name="lock-outline" size={22} color="#64b5f6" />
-          </View>
-          <Text style={[styles.username, { left: 20, top: 4 }]}>Password</Text>
-          {!isPassword ? (
-            <MaterialIcons style={{ marginLeft: "auto" }} name="navigate-next" size={35} color="#AAA" />
-          ) : null}
-        </TouchableOpacity>
-        {isPassword ? (
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              secureTextEntry
-              placeholder="Password"
-              placeholderTextColor={"#DDD"}
-            />
-          </View>
-        ) : null}
-        <Text style={[styles.subexp, { top: 20 }]}>Data and permissions</Text>
-        <TouchableOpacity style={[{ flexDirection: 'row', left: 25, marginTop: 45, marginBottom: -15 }]} onPress={() => { setIsLocation(!isLocation) }}>
-          <View style={styles.circle}>
-            <Ionicons style={[styles.icon,]} name="location-sharp" size={25} color="#64b5f6" />
-          </View>
-          <Text style={[styles.username, { left: 20, }]}>Location</Text>
-          {!isLocation ? (
-            <MaterialIcons style={{ marginLeft: "auto" }} name="navigate-next" size={35} color="#AAA" />
-          ) : null}
-        </TouchableOpacity>
-        {isLocation ? (
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Location"
-              placeholderTextColor={"#DDD"}
-            />
-          </View>
-        ) : null}
+
+        
+        
       </View>
       <View style={styles.lastBox}>
         <TouchableOpacity style={[{ flexDirection: 'row' }]}>

@@ -5,7 +5,8 @@ module.exports = {
     // ##### Get all the providers objects. #####
     getAllProviders : (req, res) => {
         Provider.find().then((providers) => {
-            res.status(200).json(providers.map(provider => mapProvider(provider)));
+            //res.status(200).json(providers.map(provider => mapProvider(provider)));
+            res.status(200).json(providers);
         }).catch(error => {
             res.status(500).json({error});
         });

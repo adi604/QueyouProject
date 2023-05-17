@@ -51,14 +51,8 @@ const Reviews = props => {
                     </View>
                     <Text>3 out of 5</Text>
                 </View>
-                <Text style={styles.amountText}>40 customer ratings</Text>
-                <View style={{ flexDirection: "row", top: 10, }}>
-                    <View style={styles.progressMiddle}>
-                        <View style={styles.progressWrap}>
-                            <View style={[styles.progressBar, { width: "60%", },]} /></View>
-                    </View>
-                    <Text style={styles.progressPercentText}>60%</Text>
-                </View>
+                <Text style={styles.amountText}>Avarage rate by 40 customers</Text>
+                
             </View>
             <FlatList style={[{ marginTop: 70 }]}
                 data={reviews}

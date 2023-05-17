@@ -11,7 +11,7 @@ const AvailableAppointments = props => {
     const [isFilter, setIsFilter] = useState(true);
 
     const onPressServices = () => {
-        props.navigation.navigate('ServicesList');
+        props.navigation.navigate('CalendarPickerScreen');
     };
 
     const onPressLocation = (address) => {
@@ -55,14 +55,6 @@ const AvailableAppointments = props => {
                     <Ionicons style={{ top: 15, }} name="arrow-back" size={24} color="white" />
                 </TouchableOpacity>
             </LinearGradient>
-            <View style={{ flexDirection: 'row', width: '90%', alignSelf: "center", marginRight: 10, }}>
-                <TouchableOpacity style={[styles.btnfilter, isFilter && styles.pressed]} onPress={() => { setIsFilter(true); }}>
-                    <Text style={[styles.textfilter, isFilter && styles.pressedText]}>Filtered</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.btnfilter, { left: 10 }, !isFilter && styles.pressed]} onPress={() => { setIsFilter(false); }}>
-                    <Text style={[styles.textfilter, !isFilter && styles.pressedText]}>All</Text>
-                </TouchableOpacity>
-            </View>
 
             <FlatList style={[{ top: 20 }]}
                 data={queues}
