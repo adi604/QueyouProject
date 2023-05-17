@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Platform, Button, ScrollView , Modal} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Platform, Button, ScrollView, Modal } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 const CalendarPickerScreen = props => {
@@ -25,25 +26,25 @@ const CalendarPickerScreen = props => {
     // Check if date is disable
     const isDisabledDate = (date) => {
         return disabledDays.includes(date.getDay());
-      };
-    
+    };
+
     // return disable dates by disabledDatesList and disabledDays (until maxDate)
     const disabledDates = () => {
-    const dates = disabledDatesList;
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() - 1);
-    let i = 0;
-    let currentDate = new Date(startDate.getTime());
-    currentDate.setDate(currentDate.getDate() + i);
-    while (currentDate <= maxDate) {
-        currentDate = new Date(startDate.getTime());
+        const dates = disabledDatesList;
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - 1);
+        let i = 0;
+        let currentDate = new Date(startDate.getTime());
         currentDate.setDate(currentDate.getDate() + i);
-        if (isDisabledDate(currentDate)) {
-        dates.push(currentDate);
+        while (currentDate <= maxDate) {
+            currentDate = new Date(startDate.getTime());
+            currentDate.setDate(currentDate.getDate() + i);
+            if (isDisabledDate(currentDate)) {
+                dates.push(currentDate);
+            }
+            i++;
         }
-        i++;
-    }
-    return dates;
+        return dates;
     };
 
     function finishTime(duration, hour, minute) {
@@ -51,12 +52,12 @@ const CalendarPickerScreen = props => {
         while (minute >= 60) {
             hour++;
             minute -= 60;
-          }
+        }
         return [hour, minute]
-      }
-      
-      // return Possible Hours by openTime, closeTime and duration of meeting.
-      function getPossibleHours(duration, openTime, closeTime) {
+    }
+
+    // return Possible Hours by openTime, closeTime and duration of meeting.
+    function getPossibleHours(duration, openTime, closeTime) {
         const hours = [];
         let hour = parseInt(openTime.split(':')[0]);
         let minute = parseInt(openTime.split(':')[1]);
@@ -70,33 +71,33 @@ const CalendarPickerScreen = props => {
         let minuteStr = ""
         let current = ""
         while (finishH < maxHour || (finishH === maxHour && finishM <= maxMinute)) {
-          hourStr = hour.toString().padStart(2, '0');
-          minuteStr = minute.toString().padStart(2, '0');
-          current = `${hourStr}:${minuteStr}`;
-          hours.push(current);
-          next = finishTime(duration, hour, minute)
-          hour = next[0]
-          minute = next[1]
-          finish = finishTime(duration, hour, minute)
-          finishH = finish[0]
-          finishM = finish[1]
+            hourStr = hour.toString().padStart(2, '0');
+            minuteStr = minute.toString().padStart(2, '0');
+            current = `${hourStr}:${minuteStr}`;
+            hours.push(current);
+            next = finishTime(duration, hour, minute)
+            hour = next[0]
+            minute = next[1]
+            finish = finishTime(duration, hour, minute)
+            finishH = finish[0]
+            finishM = finish[1]
         }
         return hours;
-      }
-      
+    }
+
 
     const showTimePicker = () => {
         setTimePickerVisibility(true);
-      };
-    
-      const hideTimePicker = () => {
+    };
+
+    const hideTimePicker = () => {
         setTimePickerVisibility(false);
-      };
-    
-      const handleTimeSelect = (time) => {
+    };
+
+    const handleTimeSelect = (time) => {
         setSelectedTime(time);
         hideTimePicker();
-      };
+    };
 
     const formatDate = (date) => {
         const d = new Date(date);
@@ -104,7 +105,7 @@ const CalendarPickerScreen = props => {
         const month = (d.getMonth() + 1).toString().padStart(2, '0');
         const year = d.getFullYear().toString();
         return `${day}-${month}-${year}`;
-      }
+    }
 
     const onDateChangeFunc = (date) => {
         setSelectedDate(formatDate(date.toString()));
@@ -112,144 +113,143 @@ const CalendarPickerScreen = props => {
 
 
     return (
-        <View style={styles.container}>
-            <LinearGradient
-            colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            >
-                <View style={styles.calendarView}>
-                    <CalendarPicker
-                    onDateChange={onDateChangeFunc}
-                    minDate = {new Date()}
-                    maxDate={maxDate}
-                    monthTitleStyle = {{color:"#ffc266", fontWeight: 'bold', fontSize: 25,}}
-                    yearTitleStyle = {{color:"#ffc266", fontWeight: 'bold', fontSize: 25,}}
-                    previousTitleStyle = {{color:'#e6ffe6', fontWeight: 'bold',}}
-                    nextTitleStyle = {{color:'#e6ffe6', fontWeight: 'bold',}}
-                    todayBackgroundColor="#e6ffe6"
-                    selectedDayStyle={{backgroundColor:"#ffc266"}}
-                    disabledDatesTextStyle ={{color:'#666666', fontSize: 18,}}
-                    disabledDates={disabledDates()}
-                    textStyle={{
-                        color: '#FFFFFF',
-                        fontSize: 21,
-                        fontWeight: 'normal',
-                    }}
-                    />
-                </View>
-            
-                <View>
+        <ScrollView>
+            <View style={styles.container}>
+                <LinearGradient
+                    colors={['#2D87B8', '#6CC3ED', '#6CC3ED', '#2D87B8',]}
+                    style={{ height: 470, paddingTop: 20, }}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}
+                >
+                    <View style={styles.calendarView}>
+                        <CalendarPicker
+                            onDateChange={onDateChangeFunc}
+                            minDate={new Date()}
+                            maxDate={maxDate}
+                            monthTitleStyle={{ color: "#FFF", fontWeight: 'bold', fontSize: 30, }}
+                            yearTitleStyle={{ color: "#FFF", fontWeight: 'bold', fontSize: 30, left: 7 }}
+                            previousTitle={<Ionicons name="chevron-back-outline" size={25} color="#DDD" />}
+                            nextTitle={<Ionicons name="chevron-forward-outline" size={25} color="#DDD" />}
+                            todayBackgroundColor="#e6ffe6"
+                            selectedDayStyle={{ backgroundColor: "#ffc266" }}
+                            disabledDatesTextStyle={{ color: '#555', fontSize: 16, fontWeight: "400", }}
+                            disabledDates={disabledDates()}
+                            textStyle={{
+                                color: '#FFF',
+                                fontSize: 17,
+                                fontWeight: "bold",
+                            }}
+                        />
+                    </View>
                     <TouchableOpacity onPress={showTimePicker} style={styles.clock}>
-                        <MaterialCommunityIcons name="clock-edit-outline" size={70} color="#ffc266"/>
+                        <MaterialCommunityIcons name="clock-edit-outline" size={50} color="#ffc266" />
                     </TouchableOpacity>
+                </LinearGradient>
+                <View>
                     <Modal visible={isTimePickerVisible} animationType="slide">
                         <LinearGradient
-                            colors={['#6CC3ED', '#4FA4E5', '#2D87B8', '#0080C8']}
+                            colors={['#2D87B8', '#6CC3ED', '#6CC3ED', '#2D87B8',]}
                             start={{ x: 0, y: 0 }}
-                            end={{ x: 1, y: 1 }}
+                            end={{ x: 0, y: 1 }}
                             style={styles.modalContainer}
                         >
                             <View style={styles.modalContent}>
-                            <ScrollView contentContainerStyle={styles.timeOptions}>
-                                {timeOptions.map((time) => (
-                                <TouchableOpacity key={time} onPress={() => handleTimeSelect(time)} style={styles.timeOptionButton}>
-                                    <Text style={styles.timeOptionText}>{time}</Text>
+                                <ScrollView contentContainerStyle={styles.timeOptions} showsVerticalScrollIndicator={false}>
+                                    {timeOptions.map((time) => (
+                                        <TouchableOpacity key={time} onPress={() => handleTimeSelect(time)} style={styles.timeOptionButton}>
+                                            <Text style={styles.timeOptionText}>{time}</Text>
+                                        </TouchableOpacity>
+                                    ))}
+                                </ScrollView>
+                                <TouchableOpacity onPress={hideTimePicker} style={styles.closeButton}>
+                                    <Text style={styles.closeButtonText}>close</Text>
                                 </TouchableOpacity>
-                                ))}
-                            </ScrollView>
-                            <TouchableOpacity onPress={hideTimePicker} style={styles.closeButton}>
-                                <Text style={styles.closeButtonText}>Close</Text>
-                            </TouchableOpacity>
                             </View>
                         </LinearGradient>
                     </Modal>
-
-                    <Text style={styles.timeStr}>Selected Meeting :  <Text style={styles.innerTime}>{ selectedDate }  {selectedTime}</Text></Text>
-
+                    <View style={{ flexDirection: "row", width: "80%", alignContent: "center", padding: 20 }}>
+                        <Text style={{ height: 11, width: 11, backgroundColor: "#2D87B8", borderRadius: 50, alignSelf: "center", marginRight: 20, bottom: 10 }}></Text>
+                        <View style={{}}>
+                            <Text style={styles.timeStr}>Selected Meeting :</Text>
+                            <Text style={styles.innerTime}>{selectedDate}{(selectedDate != "" && selectedTime != "") ? <Text>  |  </Text> : null}{selectedTime}</Text>
+                        </View>
+                    </View>
                     <TouchableOpacity style={styles.viButton}>
-                        <MaterialCommunityIcons name="check" size={90} color="#39e600" style={styles.vi}/>
+                        <MaterialCommunityIcons name="check" size={70} color="#555" />
                     </TouchableOpacity>
                 </View>
-        </LinearGradient>
-        </View>
+            </View>
+        </ScrollView>
     )
 
 }
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    flex: 1,
-    marginTop: 25,
-  },
-  calendarView: {
-    marginTop: 25,
-    marginBottom: 10,
-  },
-  clock: {
-    top: 10,
-    left:170,
-},
-  viButton: {
-    top: 5,
-    left: 160,
-    height: 160,
-    borderRadius: 50,
-    width: 105,
-    marginBottom: 40,
-    justifyContent: "center",
-},
-vi: {
-    height: 120,
-    top:40,
-},
-timeStr: {
-    top: 40,
-    left: 10,
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "white",
-},
-innerTime: {
-    color: "#39e600",
-},
-modalContainer: {
-flex: 1,
-},
-timeOptions: {
-    padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-},
-timeOptionButton: {
-    marginBottom: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-},
-timeOptionText: {
-    fontSize: 18,
-    fontWeight: "bold",
-},
-closeButtonText: {
-    fontSize: 15,
-    fontWeight: "bold",
-},
-modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#b3c6ff',
-},
-modalContent: {
-    backgroundColor: 'rgba(204, 217, 255, 0.2)',
-    padding: 20,
-    borderRadius: 5,
-    width: '70%',
-    maxHeight: '80%',
-    maxWidth: '80%',
-    borderWidth: 2,
-    borderColor: '#FFA500',
-},
+    container: {
+
+    },
+    calendarView: {
+        marginTop: 25,
+        height: "80%",
+    },
+    clock: {
+        alignSelf: "center",
+        top: 6,
+    },
+    viButton: {
+        justifyContent: "center",
+        alignSelf: "center",
+        top: 15,
+    },
+    timeStr: {
+        fontSize: 18,
+        fontWeight: "700",
+        color: "#555",
+    },
+    innerTime: {
+        top: 3,
+        color: "#AAA",
+        fontWeight: "700",
+        fontSize: 18,
+    },
+    timeOptions: {
+        padding: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    timeOptionButton: {
+        marginBottom: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+    },
+    timeOptionText: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#FFF",
+        letterSpacing: 2,
+    },
+    closeButtonText: {
+        fontSize: 15,
+        fontWeight: "bold",
+        color: "#DDD",
+        alignSelf: "center",
+        top: 15,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#b3c6ff',
+    },
+    modalContent: {
+        backgroundColor: 'rgba(204, 217, 255, 0.255)',
+        paddingBottom: 20,
+        borderRadius: 50,
+        width: '70%',
+        maxHeight: '80%',
+        maxWidth: '80%',
+        borderWidth: 2,
+        borderColor: '#FFF',
+    },
 
 });
 

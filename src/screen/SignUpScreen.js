@@ -56,7 +56,7 @@ const SignUpScreen = props => {
     }
     // login succeeded
     await AsyncStorage.setItem('token', response.body.token);
-    props.navigation.navigate('Nevigator');
+    props.navigation.navigate('LoginScreen');
   }
 
   const chooseImage = async () => {

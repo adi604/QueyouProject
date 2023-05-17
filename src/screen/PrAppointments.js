@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { serverBaseUrl } from '../utils/strings';
+import { sendRequest } from '../utils/utils'
+
 
 const AppointmentList = ({ appointments, onDeleteAppointment }) => {
     return (
@@ -9,15 +12,16 @@ const AppointmentList = ({ appointments, onDeleteAppointment }) => {
             style={{backgroundColor: "#FFF", marginTop: "-22%", shadowColor: "#000", elevation: 40, width: "93%", alignSelf: "center",}}
             data={appointments}
             renderItem={({ item }) => (
-                <View style={styles.appointmentContainer}>
+                <View key={item.key} style={styles.appointmentContainer}>
                     <View style={styles.iconContainer}>
                         <MaterialCommunityIcons name="calendar-clock" size={32} color="#2D87B8" />
                     </View>
                     <View style={styles.detailsContainer}>
                         <Text style={styles.customerNameText}>{item.customerName}</Text>
                         <Text style={styles.dateText}>{item.date}</Text>
+                        <Text style={styles.timeText}>{item.time}</Text>
                     </View>
-                    <TouchableOpacity onPress={() => onDeleteAppointment(item.id)}>
+                    <TouchableOpacity onPress={() => onDeleteAppointment(item.key)}>
                         <AntDesign name="delete" size={24} color="#ff0000" />
                     </TouchableOpacity>
                 </View>
@@ -29,61 +33,51 @@ const AppointmentList = ({ appointments, onDeleteAppointment }) => {
     );
 };
 
-const ProviderPage = () => {
+const ProviderPage = props => {
     const [appointments, setAppointments] = useState([]);
+    const [providerUserName, setProviderUserName] = useState(props.route.params.providerUserName)
 
     useEffect(() => {
-        // Fetch appointments from API or local storage
-        const appointmentsData = [
-            {
-                id: '1',
-                customerName: 'John Doe',
-                date: '2023-03-24T10:30:00Z',
-            },
-            {
-                id: '2',
-                customerName: 'Jane Smith',
-                date: '2023-03-25T14:00:00Z',
-            },
-            {
-                id: '2',
-                customerName: 'Jane Smith',
-                date: '2023-03-25T14:00:00Z',
-            },
-            {
-                id: '2',
-                customerName: 'Jane Smith',
-                date: '2023-03-25T14:00:00Z',
-            },
-            {
-                id: '2',
-                customerName: 'Jane Smith',
-                date: '2023-03-25T14:00:00Z',
-            },
-            {
-                id: '2',
-                customerName: 'Jane Smith',
-                date: '2023-03-25T14:00:00Z',
-            },
-            {
-                id: '2',
-                customerName: 'Jane Smith',
-                date: '2023-03-25T14:00:00Z',
-            },
-            {
-                id: '2',
-                customerName: 'Jane Smith',
-                date: '2023-03-25T14:00:00Z',
-            },
-            // Add more appointments as needed
-        ];
-        setAppointments(appointmentsData);
+        async function fetchMeetings() {
+            // Fetch appointments from API or local storage
+            const url = `${serverBaseUrl}/meetings/providerMeetings/${providerUserName}`;
+            const response = await sendRequest(url, 'GET');
+            if(!response.ok) {
+                console.log("Fetch Meetings Faild !")
+            } else {
+                // Fetch succeeded
+                const data = response.body
+                const appointmentsData = []
+                data.forEach((item) => {
+                    appointmentsData.push({
+                        key: item._id,
+                        customerName: item.customerName,
+                        date: item.date,
+                        time: item.time,
+                    })
+                });
+                setAppointments(appointmentsData);
+            }
+        }
+        
+        fetchMeetings()
+
     }, []);
 
-    const handleDeleteAppointment = (id) => {
-        setAppointments((prevAppointments) =>
-            prevAppointments.filter((appointment) => appointment.id !== id)
-        );
+    async function handleDeleteAppointment (key) {
+        // Delete from the server
+        const url = `${serverBaseUrl}/meetings/${key}`;
+        const response = await sendRequest(url, 'DELETE');
+        if(!response.ok) {
+            console.log("Delete Meeting Faild !")
+        } else {
+            // Fetch succeeded
+            console.log("Delete Meeting succeeded !")
+            // Delete from the client
+            setAppointments((prevAppointments) =>
+                prevAppointments.filter((appointment) => appointment.key != key)
+            );
+        }
     };
 
     return (
@@ -108,13 +102,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#2D87B8',
         height: "40%",
         shadowColor: "#000",
-        elevation: 70,
+        elevation: 50,
         width: "100%",
     },
     heading: {
         fontSize: 30,
         fontWeight: 'bold',
         color: '#ffffff',
+        alignSelf: "center",
     },
     listContainer: {
         top: 20,
@@ -145,6 +140,10 @@ const styles = StyleSheet.create({
         color: '#333333',
     },
     dateText: {
+        fontSize: 16,
+        color: '#666666',
+    },
+    timeText: {
         fontSize: 16,
         color: '#666666',
     },

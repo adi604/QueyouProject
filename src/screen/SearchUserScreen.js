@@ -151,23 +151,27 @@ const SearchUserScreen = props => {
                     <FavoriteCategory navigation={props.navigation} />
                 </View>
                 <View style={styles.line}></View>
-                <ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ flexDirection: 'row', paddingBottom: 40, }}>
-                    <TouchableOpacity style={[styles.squre, { marginLeft: 20, }, isAll && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
-                        <Text style={[styles.sortBy, isAll && { color: '#FFF' }]}>All</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
-                        <Text style={[styles.sortBy, isRate && { color: '#FFF' }]}>Rating</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.squre, isCloser && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
-                        <Text style={[styles.sortBy, isCloser && { color: '#FFF' }]}>closer meeting</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
-                        <Text style={[styles.sortBy, isRate && { color: '#FFF' }]}>Rating</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.squre, { marginRight: 20, }, isCloser && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
-                        <Text style={[styles.sortBy, isCloser && { color: '#FFF' }]}>closer meeting</Text>
-                    </TouchableOpacity>
-                </ScrollView>
+
+                {/*
+                    <ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ flexDirection: 'row', paddingBottom: 40, }}>
+                        <TouchableOpacity style={[styles.squre, { marginLeft: 20, }, isAll && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsAll(true); setIsRate(false); setIsCloser(false); }}>
+                            <Text style={[styles.sortBy, isAll && { color: '#FFF' }]}>All</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
+                            <Text style={[styles.sortBy, isRate && { color: '#FFF' }]}>Rating</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.squre, isCloser && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
+                            <Text style={[styles.sortBy, isCloser && { color: '#FFF' }]}>closer meeting</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.squre, isRate && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsRate(true); setIsCloser(false); setIsAll(false); }}>
+                            <Text style={[styles.sortBy, isRate && { color: '#FFF' }]}>Rating</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.squre, { marginRight: 20, }, isCloser && { backgroundColor: '#4FA4E5' }]} onPress={() => { setIsCloser(true); setIsRate(false); setIsAll(false); }}>
+                            <Text style={[styles.sortBy, isCloser && { color: '#FFF' }]}>closer meeting</Text>
+                        </TouchableOpacity>
+                    </ScrollView>
+                */}
+
                 <View>
                     <View style={{ flexDirection: "row", width: "92%" }}>
                         <Text style={styles.clientDetails}>Client Details</Text>

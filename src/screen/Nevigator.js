@@ -26,11 +26,12 @@ const Nevigator = props => {
         tabBarItemStyle: { borderRadius: 50, },
         tabBarHideOnKeyboard: true
       }}
-      
+
     >
       <Tab.Screen
         name="My_Appointments"
         component={MyAppointment}
+        initialParams={props.route.params}
         options={{
           tabBarLabel: 'Appointments',
           tabBarShowLabel: false,
@@ -66,29 +67,33 @@ const Nevigator = props => {
           },
           headerShown: false,
         }} />
-       {/* <Tab.Screen
-        name="Appointment Details"
-        component={main_temp_page}
-        options={{
-          tabBarLabel: 'main_temp_page',
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color, size }) => (
-            <AntDesign name="setting" size={30} color="#AAA" />),
-          headerShown: false,
-          headerStyle: {
-            backgroundColor: '#2D87B8',
-          },
-          headerTintColor: "white",
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
-              <Ionicons style={{left: 10}} name="arrow-back" size={24} color="white" />
-            </TouchableOpacity>
 
-          ),
-        }} />  */}
+        {/*
+          <Tab.Screen
+            name="Appointment Details"
+            component={main_temp_page}
+            options={{
+              tabBarLabel: 'main_temp_page',
+              tabBarShowLabel: false,
+              tabBarIcon: ({ color, size }) => (
+                <AntDesign name="setting" size={30} color="#AAA" />),
+              headerShown: false,
+              headerStyle: {
+                backgroundColor: '#2D87B8',
+              },
+              headerTintColor: "white",
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
+                  <Ionicons style={{ left: 10 }} name="arrow-back" size={24} color="white" />
+                </TouchableOpacity>
+
+              ),
+            }} />
+        */}
+
     </Tab.Navigator>
   )
 }

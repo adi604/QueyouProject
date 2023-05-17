@@ -19,7 +19,7 @@ import PrNevigator from './src/screen/PrNevigator'
 import AppointmentDetails from './src/screen/AppointmentDetails'
 import ADNevigator from "./src/screen/ADNevigator"
 import FSNevigator from "./src/components/FreeSearch"
-
+import ServicesList from './src/components/ServicesList';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +42,7 @@ function App() {
         <Stack.Screen name="AppointmentDetails" component={AppointmentDetails} />
         <Stack.Screen name="ADNevigator" component={ADNevigator} />
         <Stack.Screen name="FSNevigator" component={FSNevigator} />
+        <Stack.Screen name="ServicesList" component={ServicesList} />
       </Stack.Navigator>
 
     </NavigationContainer>

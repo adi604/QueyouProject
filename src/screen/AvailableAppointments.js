@@ -10,8 +10,8 @@ const AvailableAppointments = props => {
 
     const [isFilter, setIsFilter] = useState(true);
 
-    const onPressSchedule = () => {
-        props.navigation.navigate('CalendarPickerScreen');
+    const onPressServices = () => {
+        props.navigation.navigate('ServicesList');
     };
 
     const onPressLocation = (address) => {
@@ -40,26 +40,21 @@ const AvailableAppointments = props => {
 
     return (
         <View style={[{ backgroundColor: "white", top: 25, height: "100%" }]}>
-            <View style={{
-                shadowColor: '#000',
-                elevation: 45,
-            }}>
-                <LinearGradient
-                    colors={['#4FA4E5', '#0069BA',]}
-                    style={{
-                        width: '100%', height: 100, borderBottomLeftRadius: 30, borderBottomRightRadius: 30, padding: 20, bottom: 25,
-                        shadowColor: '#000',
-                        elevation: 30,
-                    }}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}
-                >
-                    <Text style={styles.resultsFound}>89 results were found</Text>
-                    <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
-                        <Ionicons style={{ top: 15, }} name="arrow-back" size={24} color="white" />
-                    </TouchableOpacity>
-                </LinearGradient>
-            </View>
+            <LinearGradient
+                colors={['#4FA4E5', '#0069BA',]}
+                style={{
+                    width: '100%', height: 100, borderBottomLeftRadius: 30, borderBottomRightRadius: 30, padding: 20, bottom: 25,
+                    shadowColor: '#000',
+                    elevation: 30,
+                }}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 1 }}
+            >
+                <Text style={styles.resultsFound}>89 results were found</Text>
+                <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
+                    <Ionicons style={{ top: 15, }} name="arrow-back" size={24} color="white" />
+                </TouchableOpacity>
+            </LinearGradient>
             <View style={{ flexDirection: 'row', width: '90%', alignSelf: "center", marginRight: 10, }}>
                 <TouchableOpacity style={[styles.btnfilter, isFilter && styles.pressed]} onPress={() => { setIsFilter(true); }}>
                     <Text style={[styles.textfilter, isFilter && styles.pressedText]}>Filtered</Text>
@@ -74,8 +69,8 @@ const AvailableAppointments = props => {
                 renderItem={({ item }) =>
                     <View style={styles.box}>
                         <MaterialIcons style={{ alignSelf: "center", marginLeft: 10 }} name="person-pin" size={55} color="#0069BA" />
-                        <View style={[{ left: 30, flexDirection: "column", bottom: 10 }]}>
-                            <View style={[{ flexDirection: 'row', top: 10, }]}>
+                        <View style={[{ left: 30, paddingVertical: 1,}]}>
+                            <View style={[{ flexDirection: 'row',}]}>
                                 <Text style={styles.provider}>{item.provider}</Text>
                                 <TouchableOpacity onPress={onPressReview}>
                                     <Fontisto style={{ marginLeft: 70, top: 12 }} name="preview" size={28} color="#0069BA" />
@@ -83,13 +78,13 @@ const AvailableAppointments = props => {
                             </View>
                             <Text style={styles.category}>{item.category}</Text>
                             <TouchableOpacity onPress={() => onPressLocation(item.address)}>
-                                <View style={[{ flexDirection: 'row', bottom: 5 }]}>
-                                    <Entypo name="location" size={20} color="#777" />
+                                <View style={[{ flexDirection: 'row', bottom: 5, alignItems: "center" }]}>
+                                    <Entypo name="location" size={15} color="#999" />
                                     <Text style={styles.address}>{item.address}</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
-                        <TouchableOpacity style={styles.continuebtn} onPress={onPressSchedule}>
+                        <TouchableOpacity style={styles.continuebtn} onPress={onPressServices}>
                             <MaterialIcons name="navigate-next" size={40} color="#AAA" />
                         </TouchableOpacity>
                     </View>}
@@ -141,28 +136,28 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         shadowColor: "#000",
         elevation: 15,
-        height: 80,
-        width: 380,
+        height: 90,
+        width: "95%",
         alignSelf: "center",
         borderRadius: 50,
         marginBottom: 25,
         marginTop: 10,
     },
     provider: {
-        fontSize: 18,
+        fontSize: 19,
         color: `#777`,
         fontWeight: "bold",
-        top: 5,
+        top: 10,
     },
     category: {
         fontSize: 14,
         height: 30,
-        color: `#808080`,
+        color: `#999`,
         marginTop: 10,
     },
     address: {
         fontSize: 17,
-        color: `#808080`,
+        color: `#999`,
         left: 3,
     },
     locationbtn: {

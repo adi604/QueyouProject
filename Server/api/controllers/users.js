@@ -72,7 +72,8 @@ module.exports = {
     signUpProviders : (req, res) => {
         // Add members : maxDate, durationMeeting, openTime, closeTime, disabledDays, disabledDates.
         // Or change the insert of this members to another screen and function.
-        const {username, name, password, address, city, mail, phoneNumber, description} = req.body
+        const {username, name, password, address, city, mail, phoneNumber, description,
+            maxDate, durationMeeting, openTime, closeTime, disabledDays, disabledDates} = req.body
         Provider.findOne({username: username}).then((p) => {
             if(p != null) {
                 return res.status(409).json({
@@ -93,6 +94,12 @@ module.exports = {
                     mail: mail,
                     phoneNumber: phoneNumber,
                     description: description,
+                    maxDate: maxDate,
+                    durationMeeting: durationMeeting,
+                    openTime: openTime,
+                    closeTime: closeTime,
+                    disabledDays: disabledDays,
+                    disabledDates: disabledDates,
                 });
                 provider.save().then(() => {
                     res.status(200).json({
