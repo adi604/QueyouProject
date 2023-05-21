@@ -1,4 +1,5 @@
 import * as strings from "../utils/strings";
+import * as Location from 'expo-location';
 
 export async function sendRequest(url, method, body) {
     try {
@@ -48,4 +49,19 @@ export function validateSignUpDetails(SignUpDetails, onDetailsNotValid) {
         return false;
     }
     return true;
+}
+
+export async function getCurrentLocation() {
+    try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+            console.log('Permission to access location was denied');
+            return;
+        }
+        let { coords } = await Location.getCurrentPositionAsync();
+        return coords;
+    }
+    catch (e) {
+        console.log(e)
+    }
 }

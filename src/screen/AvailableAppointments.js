@@ -1,14 +1,26 @@
 import { ScrollView, TouchableOpacity, Image, FlatList, StyleSheet, Text, View, Linking } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { sendRequest } from '../utils/utils';
 
 const AvailableAppointments = props => {
+    const [providers, setProviders] = useState([]);
 
-    const [isFilter, setIsFilter] = useState(true);
+    useEffect(() => {
+        const getProviders = async () => {
+            const url = props.route.params.url;
+            //console.log(url)
+            const response = await sendRequest(url, 'GET');
+            //console.log(response.body)
+            setProviders(response.body);
+        }
+        getProviders(); 
+    }, []);
+    
 
     const onPressServices = () => {
         props.navigation.navigate('CalendarPickerScreen');
@@ -18,20 +30,6 @@ const AvailableAppointments = props => {
         const url = `https://www.google.com/maps/search/?api=1&query=${address}`;
         Linking.openURL(url);
     }
-
-
-    const queues = [
-        { provider: "Devin1", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin2", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin3", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin4", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin5", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin6", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin7", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin8", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin9", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin10", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-    ];
 
     const onPressReview = () => {
         props.navigation.navigate('Reviews');
@@ -56,20 +54,20 @@ const AvailableAppointments = props => {
                 </TouchableOpacity>
             </LinearGradient>
 
-            <FlatList style={[{ top: 20 }]}
-                data={queues}
-                renderItem={({ item }) =>
+            {providers.length > 0 && <FlatList style={[{ top: 20 }]}
+                data={providers}
+                renderItem={({item}) =>
                     <View style={styles.box}>
                         <MaterialIcons style={{ alignSelf: "center", marginLeft: 10 }} name="person-pin" size={55} color="#0069BA" />
                         <View style={[{ left: 30, paddingVertical: 1,}]}>
                             <View style={[{ flexDirection: 'row',}]}>
-                                <Text style={styles.provider}>{item.provider}</Text>
+                                <Text style={styles.provider}>{item.name}</Text>
                                 <TouchableOpacity onPress={onPressReview}>
                                     <Fontisto style={{ marginLeft: 70, top: 12 }} name="preview" size={28} color="#0069BA" />
                                 </TouchableOpacity>
                             </View>
                             <Text style={styles.category}>{item.category}</Text>
-                            <TouchableOpacity onPress={() => onPressLocation(item.address)}>
+                            <TouchableOpacity onPress={() => {onPressLocation(item.address)}}>
                                 <View style={[{ flexDirection: 'row', bottom: 5, alignItems: "center" }]}>
                                     <Entypo name="location" size={15} color="#999" />
                                     <Text style={styles.address}>{item.address}</Text>
@@ -80,7 +78,7 @@ const AvailableAppointments = props => {
                             <MaterialIcons name="navigate-next" size={40} color="#AAA" />
                         </TouchableOpacity>
                     </View>}
-            />
+            />}
         </View>
     )
 };
