@@ -22,7 +22,7 @@ module.exports = {
     },
     // ##### Create new review. #####
     createReview : (req, res) => {
-        const {name, content, score, targetProviderUserName} = req.body
+        const {name, content, score, date, targetProviderUserName} = req.body
         Provider.findOne({username: targetProviderUserName}).then((p) => {
             if(p == null) {
                 res.status(404).json({
@@ -35,6 +35,7 @@ module.exports = {
                     name: name,
                     content: content,
                     score: score,
+                    date: date,
                     targetProviderUserName: targetProviderUserName
                 });
                 review.save().then(() => {

@@ -31,8 +31,12 @@ const AvailableAppointments = props => {
         Linking.openURL(url);
     }
 
-    const onPressReview = () => {
-        props.navigation.navigate('Reviews');
+    const onPressReview = (username, name) => {
+        console.log(username, name);
+        props.navigation.navigate('Reviews', {
+            usernameProvider: username,
+            nameProvider: name,
+          });
     };
 
 
@@ -62,7 +66,7 @@ const AvailableAppointments = props => {
                         <View style={[{ left: 30, paddingVertical: 1,}]}>
                             <View style={[{ flexDirection: 'row',}]}>
                                 <Text style={styles.provider}>{item.name}</Text>
-                                <TouchableOpacity onPress={onPressReview}>
+                                <TouchableOpacity onPress={()=>{onPressReview(item.username, item.name)}}>
                                     <Fontisto style={{ marginLeft: 70, top: 12 }} name="preview" size={28} color="#0069BA" />
                                 </TouchableOpacity>
                             </View>
