@@ -1,18 +1,16 @@
-import { StyleSheet, Text, ScrollView, Pressable, Button, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
-import Checkbox from 'expo-checkbox';
-import React, { useState } from 'react';
-import { sendRequest, validateSignUpDetails } from '../utils/utils';
+import { AntDesign, Entypo, Feather, Ionicons, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as strings from '../utils/strings';
-import ModalSlide from '../components/ModalSlide';
-import { AntDesign, MaterialIcons, Entypo } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Feather } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
-import { SimpleLineIcons } from '@expo/vector-icons';
+import Checkbox from 'expo-checkbox';
 import * as ImagePicker from 'expo-image-picker';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useState } from 'react';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import GooglePlacesInput from '../components/GooglePlacesInput';
+import ModalSlide from '../components/ModalSlide';
+import * as strings from '../utils/strings';
+import { sendRequest, validateSignUpDetails } from '../utils/utils';
+import CategoriesList from '../components/CategoriesList';
+
 
 const SignUpScreen = props => {
 
@@ -132,10 +130,7 @@ const SignUpScreen = props => {
             <Text style={styles.title}>Category</Text>
           </View>
           <View style={{ marginTop: 10, }}>
-            <TextInput
-              style={styles.TextInput}
-              onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
-            />
+            <CategoriesList></CategoriesList>
           </View>
         </View>
         <View style={{ flexDirection: "column", marginTop: 25 }}>
@@ -157,22 +152,22 @@ const SignUpScreen = props => {
             <Text style={styles.title}>Working time</Text>
           </View>
           <View style={{ flexDirection: "row", marginTop: 10}}>
-            <View style={{ marginTop: 10, width: "30%", flexDirection: "row",}}>
+            <View style={{ marginTop: 10, width: "29%", flexDirection: "row",}}>
               <Text style={{ textAlignVertical: "center", color: "#888", fontSize: 13, width: 65}}>open time</Text>
               <TextInput
                 style={[styles.TextInput, {width: "48%"}]}
                 onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
               />
             </View>
-            <View style={{ marginTop: 10, width: "30%", flexDirection: "row", left: 20}}>
+            <View style={{ marginTop: 10, width: "29%", flexDirection: "row", left: 20}}>
               <Text style={{ textAlignVertical: "center", color: "#888", fontSize: 13, width: 65}}>close time</Text>
               <TextInput
                 style={[styles.TextInput, {width: "48%"}]}
                 onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
               />
             </View>
-            <View style={{ marginTop: 10, width: "30%", flexDirection: "row", left: 40}}>
-              <Text style={{ textAlignVertical: "center", color: "#888", fontSize: 13, width: 65}}>during meeting</Text>
+            <View style={{ marginTop: 10, width: "29%", flexDirection: "row", left: 40}}>
+              <Text style={{ textAlignVertical: "center", color: "#888", fontSize: 13, width: 65, left: 10}}>during meeting</Text>
               <TextInput
                 style={[styles.TextInput, {width: "48%"}]}
                 onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
@@ -201,19 +196,6 @@ const SignUpScreen = props => {
                 onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
               />
             </View>
-          </View>
-        </View>
-
-
-        <View style={{ flexDirection: "column", marginTop: 25 }}>
-          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
-            <SimpleLineIcons name="picture" size={22} color="#888" />
-            <Text style={styles.title}>Profile Picture</Text>
-          </View>
-          <View style={{ marginTop: 10, }}>
-            <Pressable style={styles.ImageInput} title="Choose Image" onPress={chooseImage} >
-              <AntDesign name="clouduploado" size={30} color="white" />
-            </Pressable>
           </View>
         </View>
         <View style={{ flexDirection: "column", marginTop: 25}}>
@@ -247,6 +229,17 @@ const SignUpScreen = props => {
               style={styles.TextInput}
               onChangeText={(repeatPassword) => setRepeatPassword(repeatPassword)}
             />
+          </View>
+        </View>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <SimpleLineIcons name="picture" size={22} color="#888" />
+            <Text style={styles.title}>Profile Picture</Text>
+          </View>
+          <View style={{ marginTop: 10, }}>
+            <Pressable style={styles.ImageInput} title="Choose Image" onPress={chooseImage} >
+              <AntDesign name="clouduploado" size={30} color="white" />
+            </Pressable>
           </View>
         </View>
         <View style={styles.Checkbox}>
