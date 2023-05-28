@@ -107,7 +107,7 @@ useEffect(() => {
   }, []);
 
 
-
+/*
   const queues = [
     { id: "1", provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
     { id: "2", provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
@@ -116,6 +116,7 @@ useEffect(() => {
     { id: "5", provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
     { id: "6", provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
   ];
+*/
 
   const renderItem = ({ item, index }) => {
     const isLastItem = index === appointments.length - 1;
@@ -184,7 +185,7 @@ useEffect(() => {
       </View>
       <FlatList
         style={[styles.list,]}
-        data={queues}
+        data={appointments}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
       />

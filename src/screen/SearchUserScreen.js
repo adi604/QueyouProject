@@ -157,7 +157,10 @@ const SearchUserScreen = props => {
         if(params.length > 0) {
             url += params.join('&');
         }
-        props.navigation.navigate('AvailableAppointments', { url: url });
+        props.navigation.navigate('AvailableAppointments', { 
+            url: url,
+            usernameCustomer: props.route.params.customerUserName,
+            nameCustomer: props.route.params.customerName });
     };
 
     if (!fontsLoaded) {

@@ -1,35 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Platform, Button, ScrollView, Modal } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import ModalSlide from '../components/ModalSlide';
+import { serverBaseUrl } from '../utils/strings';
+import { sendRequest } from '../utils/utils'
 
 
 const CalendarPickerScreen = props => {
+    const [usernameProvider, setUsernameProvider] = useState(props.route.params.usernameProvider);
+    const [nameProvider, setNameProvider] = useState(props.route.params.nameProvider);
+    const [usernameCustomer, setUsernameCustomer] = useState(props.route.params.usernameCustomer);
+    const [nameCustomer, setNameCustomer] = useState(props.route.params.nameCustomer);
     const [selectedDate, setSelectedDate] = useState("");
     const [selectedTime, setSelectedTime] = useState("");
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
-    //////////////////////////////////////
+    const [modalVisible, setModalVisible] = useState(false);
+    //####################################
     // Take from the server
-    const maxDate = new Date('2024-05-07')
-    const disabledDatesList = ['2023-04-20', '2023-04-22', '2023-04-24', '2023-04-25']
-    const disabledDays = [1, 3];
-    const durationMeeting = 25;
-    const open = "08:25";
-    const close = "20:00";
-    //////////////////////////////////////
-    // Remove hours of existing meetings
-    const [timeOptions] = useState(getPossibleHours(durationMeeting, open, close));
+    const [maxDate, setMaxDate] = useState(new Date('2024-05-07'));
+    const [disabledDatesList, setDisabledDatesList] = useState(['2023-05-30']);
+    const [disabledDays, setDisabledDays] = useState([5,6]);
+    const [durationMeeting, setDurationMeeting] = useState(30);
+    const [open, setOpen] = useState("08:00");
+    const [close, setClose] = useState("19:00");
+    const [allDisabledDays, setAllDisabledDays] = useState([]);
+    //####################################
+    const [timeOptions, setTimeOptions] = useState([]);
+    const [filterTimes, setFilterTimes] = useState([]);
+
+
+    useEffect(() => {
+        async function fetchProviderDetails() {
+            // Fetch details from API server
+            const url = `${serverBaseUrl}/providers/username/${usernameProvider}`;
+            const response = await sendRequest(url, 'GET');
+            if(!response.ok) {
+                console.log("Fetch provider details Faild !");
+            } else {
+                // Fetch succeeded
+                const data = response.body;
+                console.log(data);
+                setMaxDate(data.maxDate);
+                setDisabledDatesList(data.disabledDates);
+                setDisabledDays(data.disabledDays);
+                setDurationMeeting(data.durationMeeting);
+                setOpen(data.openTime);
+                setClose(data.closeTime);
+                setAllDisabledDays(disabledDates(data.disabledDates, data.maxDate, data.disabledDays));
+                setPossibleHours(data.durationMeeting, data.openTime, data.closeTime);
+            }
+        }
+        fetchProviderDetails();
+        console.log("fetchProviderDetails()");
+      }, []);
 
 
     // Check if date is disable
-    const isDisabledDate = (date) => {
+    const isDisabledDate = (date, disabledDays) => {
         return disabledDays.includes(date.getDay());
     };
 
     // return disable dates by disabledDatesList and disabledDays (until maxDate)
-    const disabledDates = () => {
+    const disabledDates = (disabledDatesList, maxDate, disabledDays) => {
+        maxDate = new Date(maxDate);
         const dates = disabledDatesList;
         const startDate = new Date();
         startDate.setDate(startDate.getDate() - 1);
@@ -39,7 +75,7 @@ const CalendarPickerScreen = props => {
         while (currentDate <= maxDate) {
             currentDate = new Date(startDate.getTime());
             currentDate.setDate(currentDate.getDate() + i);
-            if (isDisabledDate(currentDate)) {
+            if (isDisabledDate(currentDate, disabledDays)) {
                 dates.push(currentDate);
             }
             i++;
@@ -57,7 +93,7 @@ const CalendarPickerScreen = props => {
     }
 
     // return Possible Hours by openTime, closeTime and duration of meeting.
-    function getPossibleHours(duration, openTime, closeTime) {
+    function setPossibleHours(duration, openTime, closeTime) {
         const hours = [];
         let hour = parseInt(openTime.split(':')[0]);
         let minute = parseInt(openTime.split(':')[1]);
@@ -82,11 +118,53 @@ const CalendarPickerScreen = props => {
             finishH = finish[0]
             finishM = finish[1]
         }
-        return hours;
+        setFilterTimes(hours)
+        setTimeOptions(hours)
     }
 
 
-    const showTimePicker = () => {
+    async function bookMeeting () {
+        if ((selectedDate != "") && (selectedTime != "")) {
+            const body = {
+                date: selectedDate,
+                time: selectedTime,
+                providerUserName: usernameProvider,
+                customerUserName: usernameCustomer,
+                providerName: nameProvider,
+                customerName: nameCustomer
+              }
+            const url = `${serverBaseUrl}/meetings`;
+            console.log(body);
+            const response = await sendRequest(url, 'POST', body);
+            if(!response.ok) {
+                console.log("Create Meeting Faild !");
+            } else {
+                // Fetch succeeded
+                console.log("Meeting Created !");
+                setSelectedDate("");
+                setSelectedTime("");
+                //const meeting = response.body.meeting;
+                setModalVisible(true);
+            }
+        }
+    };
+
+
+    async function showTimePicker () {
+        setFilterTimes(timeOptions);
+        if (selectedDate != "") {
+            // get times of existing meetings for usernameProvider in this date.
+            const url = `${serverBaseUrl}/meetings/providerTimesMeetings/${usernameProvider}/${selectedDate}`;
+            const response = await sendRequest(url, 'GET');
+            if(!response.ok) {
+                console.log("Fetch Faild !");
+            } else {
+                // Fetch succeeded
+                const times = response.body.times;
+                // Remove hours of existing meetings
+                setFilterTimes(timeOptions.filter(item => !times.includes(item)))
+            }
+        }
         setTimePickerVisibility(true);
     };
 
@@ -115,6 +193,12 @@ const CalendarPickerScreen = props => {
     return (
         <ScrollView>
             <View style={styles.container}>
+            <ModalSlide
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+                message="Meeting Created !"
+                buttonText="OK"
+            />
                 <LinearGradient
                     colors={['#2D87B8', '#6CC3ED', '#6CC3ED', '#2D87B8',]}
                     style={{ height: 470, paddingTop: 20, }}
@@ -133,7 +217,7 @@ const CalendarPickerScreen = props => {
                             todayBackgroundColor="#e6ffe6"
                             selectedDayStyle={{ backgroundColor: "#ffc266" }}
                             disabledDatesTextStyle={{ color: '#555', fontSize: 16, fontWeight: "400", }}
-                            disabledDates={disabledDates()}
+                            disabledDates={allDisabledDays}
                             textStyle={{
                                 color: '#FFF',
                                 fontSize: 17,
@@ -155,7 +239,7 @@ const CalendarPickerScreen = props => {
                         >
                             <View style={styles.modalContent}>
                                 <ScrollView contentContainerStyle={styles.timeOptions} showsVerticalScrollIndicator={false}>
-                                    {timeOptions.map((time) => (
+                                    {filterTimes.map((time) => (
                                         <TouchableOpacity key={time} onPress={() => handleTimeSelect(time)} style={styles.timeOptionButton}>
                                             <Text style={styles.timeOptionText}>{time}</Text>
                                         </TouchableOpacity>
@@ -174,7 +258,7 @@ const CalendarPickerScreen = props => {
                             <Text style={styles.innerTime}>{selectedDate}{(selectedDate != "" && selectedTime != "") ? <Text>  |  </Text> : null}{selectedTime}</Text>
                         </View>
                     </View>
-                    <TouchableOpacity style={styles.viButton}>
+                    <TouchableOpacity onPress={bookMeeting} style={styles.viButton}>
                         <MaterialCommunityIcons name="check" size={70} color="#555" />
                     </TouchableOpacity>
                 </View>

@@ -22,8 +22,14 @@ const AvailableAppointments = props => {
     }, []);
     
 
-    const onPressServices = () => {
-        props.navigation.navigate('CalendarPickerScreen');
+    const onPressServices = (username, name) => {
+        console.log(username);
+        props.navigation.navigate('CalendarPickerScreen', {
+            usernameProvider: username,
+            nameProvider: name,
+            usernameCustomer: props.route.params.usernameCustomer,
+            nameCustomer: props.route.params.nameCustomer
+          });
     };
 
     const onPressLocation = (address) => {
@@ -52,7 +58,7 @@ const AvailableAppointments = props => {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 0, y: 1 }}
             >
-                <Text style={styles.resultsFound}>89 results were found</Text>
+                <Text style={styles.resultsFound}>{providers.length} results were found</Text>
                 <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
                     <Ionicons style={{ top: 15, }} name="arrow-back" size={24} color="white" />
                 </TouchableOpacity>
@@ -78,7 +84,7 @@ const AvailableAppointments = props => {
                                 </View>
                             </TouchableOpacity>
                         </View>
-                        <TouchableOpacity style={styles.continuebtn} onPress={onPressServices}>
+                        <TouchableOpacity style={styles.continuebtn} onPress={()=>{onPressServices(item.username, item.name)}}>
                             <MaterialIcons name="navigate-next" size={40} color="#AAA" />
                         </TouchableOpacity>
                     </View>}

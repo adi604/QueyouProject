@@ -37,7 +37,9 @@ const Reviews = props => {
                 });
                 setReviews(reviewsData);
                 setAmount(reviewsData.length);
-                setAvarage(sum / reviewsData.length)
+                if (reviewsData.length > 0) {
+                    setAvarage(sum / reviewsData.length)
+                }
             }
         }
         fetchReviews();
@@ -51,11 +53,9 @@ const Reviews = props => {
                 <Text style={styles.title}>Reviews about {nameProvider}</Text>
                 <View style={styles.totalWrap}>
                     <View style={{ flexDirection: "row", }}>
-                        <Star />
-                        <Star />
-                        <Star />
-                        <Star />
-                        <Star />
+                        {Array(Math.floor(avarage)).fill(null).map((_, index) => (
+                            <Star />
+                        ))}
                     </View>
                     <Text>{avarage} out of 5</Text>
                 </View>
@@ -71,7 +71,9 @@ const Reviews = props => {
                             <View style={[{ left: 20, bottom: 20, padding: 8 }]}>
                                 <Text style={styles.name}>{item.name}</Text>
                                 <View style={[{ flexDirection: 'row', right: 5, }]}>
-                                    <Star />
+                                    {Array(Math.floor(item.grade)).fill(null).map((_, index) => (
+                                        <Star />
+                                    ))}
                                     <Text style={styles.grade}>{item.grade}</Text>
                                 </View>
                                 <Text style={styles.text}>{item.text}</Text>
