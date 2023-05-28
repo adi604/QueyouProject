@@ -12,8 +12,51 @@ import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import {
+  useFonts,
+  Montserrat_100Thin,
+  Montserrat_200ExtraLight,
+  Montserrat_300Light,
+  Montserrat_400Regular,
+  Montserrat_500Medium,
+  Montserrat_600SemiBold,
+  Montserrat_700Bold,
+  Montserrat_800ExtraBold,
+  Montserrat_900Black,
+  Montserrat_100Thin_Italic,
+  Montserrat_200ExtraLight_Italic,
+  Montserrat_300Light_Italic,
+  Montserrat_400Regular_Italic,
+  Montserrat_500Medium_Italic,
+  Montserrat_600SemiBold_Italic,
+  Montserrat_700Bold_Italic,
+  Montserrat_800ExtraBold_Italic,
+  Montserrat_900Black_Italic,
+} from '@expo-google-fonts/montserrat';
+import AppLoading from 'expo-app-loading';
 
 const SignUpScreen = props => {
+
+  let [fontsLoaded] = useFonts({
+    Montserrat_100Thin,
+    Montserrat_200ExtraLight,
+    Montserrat_300Light,
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_700Bold,
+    Montserrat_800ExtraBold,
+    Montserrat_900Black,
+    Montserrat_100Thin_Italic,
+    Montserrat_200ExtraLight_Italic,
+    Montserrat_300Light_Italic,
+    Montserrat_400Regular_Italic,
+    Montserrat_500Medium_Italic,
+    Montserrat_600SemiBold_Italic,
+    Montserrat_700Bold_Italic,
+    Montserrat_800ExtraBold_Italic,
+    Montserrat_900Black_Italic,
+});
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -65,6 +108,10 @@ const SignUpScreen = props => {
       setImage(result);
     }
   };
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   return (
     <ScrollView style={{ backgroundColor: "#FFF", height: "100%" }}>

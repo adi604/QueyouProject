@@ -7,8 +7,51 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ModalSlide from '../components/ModalSlide';
 import { FontAwesome } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {
+  useFonts,
+  Montserrat_100Thin,
+  Montserrat_200ExtraLight,
+  Montserrat_300Light,
+  Montserrat_400Regular,
+  Montserrat_500Medium,
+  Montserrat_600SemiBold,
+  Montserrat_700Bold,
+  Montserrat_800ExtraBold,
+  Montserrat_900Black,
+  Montserrat_100Thin_Italic,
+  Montserrat_200ExtraLight_Italic,
+  Montserrat_300Light_Italic,
+  Montserrat_400Regular_Italic,
+  Montserrat_500Medium_Italic,
+  Montserrat_600SemiBold_Italic,
+  Montserrat_700Bold_Italic,
+  Montserrat_800ExtraBold_Italic,
+  Montserrat_900Black_Italic,
+} from '@expo-google-fonts/montserrat';
+import AppLoading from 'expo-app-loading';
 
 const LoginScreen = props => {
+
+  let [fontsLoaded] = useFonts({
+    Montserrat_100Thin,
+    Montserrat_200ExtraLight,
+    Montserrat_300Light,
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_700Bold,
+    Montserrat_800ExtraBold,
+    Montserrat_900Black,
+    Montserrat_100Thin_Italic,
+    Montserrat_200ExtraLight_Italic,
+    Montserrat_300Light_Italic,
+    Montserrat_400Regular_Italic,
+    Montserrat_500Medium_Italic,
+    Montserrat_600SemiBold_Italic,
+    Montserrat_700Bold_Italic,
+    Montserrat_800ExtraBold_Italic,
+    Montserrat_900Black_Italic,
+});
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -34,6 +77,10 @@ const LoginScreen = props => {
       customerUserName: username,
     });
   };
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   return (
     <View style={{ backgroundColor: "white", height: "100%" }}>
