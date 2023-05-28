@@ -104,20 +104,20 @@ export default Settings
 const styles = StyleSheet.create({
   title: {
     color: 'white',
-    fontSize: 35,
+    fontSize: 38,
     padding: 10,
     letterSpacing: 1,
     top: 30,
     marginTop: 20,
-    fontWeight: 'bold',
+    fontFamily: 'Montserrat_700Bold',
   },
   subtitle: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 18,
     padding: 10,
     letterSpacing: 1,
-    top: 15,
-    fontWeight: '400',
+    top: 20,
+    fontFamily: 'Montserrat_600SemiBold',
   },
   box: {
     backgroundColor: '#FFF',
