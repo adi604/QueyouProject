@@ -236,7 +236,7 @@ const SignUpScreen = props => {
             <SimpleLineIcons name="picture" size={22} color="#888" />
             <Text style={styles.title}>Profile Picture</Text>
           </View>
-          <View style={{ marginTop: 10, }}>
+          <View style={{ marginTop: 20, }}>
             <Pressable style={styles.ImageInput} title="Choose Image" onPress={chooseImage} >
               <AntDesign name="clouduploado" size={30} color="white" />
             </Pressable>
@@ -265,7 +265,7 @@ export default SignUpScreen
 const styles = StyleSheet.create({
   signUp: {
     fontSize: 50,
-    fontWeight: 'bold',
+    fontFamily: 'Montserrat_700Bold_Italic',
     alignSelf: "center",
     marginTop: '12%',
     marginBottom: '8%',
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
   Checkbox: {
     flexDirection: 'row',
     alignSelf: "center",
-    marginTop: 25,
+    marginTop: 30,
   },
   agree: {
     fontWeight: 'bold',

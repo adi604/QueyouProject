@@ -84,7 +84,7 @@ const SignUpScreen = props => {
         </Text>
       </LinearGradient>
       <View style={{ backgroundColor: "#FFF", marginTop: -15, width: "94%", alignSelf: "center", borderRadius: 15, }}>
-        <View style={{ flexDirection: "column", marginTop: 15 }}>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <AntDesign name="user" size={26} color="#888" />
             <Text style={styles.title}>User name</Text>
@@ -96,7 +96,7 @@ const SignUpScreen = props => {
             />
           </View>
         </View>
-        <View style={{ flexDirection: "column", marginTop: 15 }}>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <MaterialCommunityIcons name="email-edit-outline" size={24} color="#888" />
             <Text style={styles.title}>Email</Text>
@@ -108,7 +108,7 @@ const SignUpScreen = props => {
             />
           </View>
         </View>
-        <View style={{ flexDirection: "column", marginTop: 15 }}>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Feather name="phone-call" size={22} color="#888" />
             <Text style={styles.title}>Phone Number</Text>
@@ -120,18 +120,7 @@ const SignUpScreen = props => {
             />
           </View>
         </View>
-        <View style={{ flexDirection: "column", marginTop: 15 }}>
-          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
-            <SimpleLineIcons name="picture" size={22} color="#888" />
-            <Text style={styles.title}>Profile Picture</Text>
-          </View>
-          <View style={{ marginTop: 10, }}>
-            <Pressable style={styles.ImageInput} title="Choose Image" onPress={chooseImage} >
-            <AntDesign name="clouduploado" size={30} color="white" />
-            </Pressable>
-          </View>
-        </View>
-        <View style={{ flexDirection: "column", marginTop: 15 }}>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Feather name="lock" size={24} color="#888" />
             <Text style={styles.title}>Password</Text>
@@ -143,7 +132,7 @@ const SignUpScreen = props => {
             />
           </View>
         </View>
-        <View style={{ flexDirection: "column", marginTop: 15 }}>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Feather name="lock" size={24} color="#888" />
             <Text style={styles.title}>Repeat Password</Text>
@@ -153,6 +142,17 @@ const SignUpScreen = props => {
               style={styles.TextInput}
               onChangeText={(repeatPassword) => setUsername(repeatPassword)}
             />
+          </View>
+        </View>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <SimpleLineIcons name="picture" size={22} color="#888" />
+            <Text style={styles.title}>Profile Picture</Text>
+          </View>
+          <View style={{ marginTop: 20, }}>
+            <Pressable style={styles.ImageInput} title="Choose Image" onPress={chooseImage} >
+            <AntDesign name="clouduploado" size={30} color="white" />
+            </Pressable>
           </View>
         </View>
         <View style={styles.Checkbox}>
@@ -178,7 +178,7 @@ export default SignUpScreen
 const styles = StyleSheet.create({
   signUp: {
     fontSize: 50,
-    fontWeight: 'bold',
+    fontFamily: 'Montserrat_700Bold_Italic',
     alignSelf: "center",
     marginTop: '12%',
     marginBottom: '8%',
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   Checkbox: {
     flexDirection: 'row',
     alignSelf: "center",
-    marginTop: '5%',
+    marginTop: 30,
   },
   agree: {
     fontWeight: 'bold',

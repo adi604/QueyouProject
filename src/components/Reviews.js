@@ -114,9 +114,9 @@ const styles = StyleSheet.create({
     },
     title: {
         bottom: 20,
-        fontWeight: "500",
+        fontFamily: 'Montserrat_700Bold_Italic',
         fontSize: 30,
-        color: "#000",
+        color: "#333",
         textAlign: "center",
     },
     totalWrap: {

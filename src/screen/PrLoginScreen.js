@@ -61,8 +61,8 @@ const PrLoginScreen = props => {
           </Image>
         </LinearGradient>
         <View style={{ left: 50, padding: 20, marginBottom: 20 }}>
-          <Text style={{ fontSize: 60, fontWeight: "bold", color: "#555", textShadowColor: 'rgba(0, 0, 0, 0.8)', textShadowOffset: { width: -1, height: 1 }, textShadowRadius: 5 }}>Hello</Text>
-          <Text style={{ color: "#AAA", fontSize: 18, marginBottom: 5, fontWeight: '500' }}>Sign in to your account</Text>
+          <Text style={{ fontSize: 50, color: "#555", textShadowColor: 'rgba(0, 0, 0, 0.8)', textShadowOffset: { width: -1, height: 1 }, textShadowRadius: 5, fontFamily: 'Montserrat_500Medium_Italic', }}>Hello</Text>
+          <Text style={{ color: "#AAA", fontSize: 15, marginBottom: 5, fontFamily: 'Montserrat_500Medium_Italic' }}>Sign in to your account</Text>
         </View>
         <View style={styles.inputView}>
           <FontAwesome name="user" size={20} color="#BBB" />
@@ -135,9 +135,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   TextInput: {
-    fontWeight: 'bold',
-    fontSize: 17,
+    fontSize: 14,
     marginLeft: 15,
+    width: "100%",
+    fontFamily: 'Montserrat_700Bold_Italic',
   },
   forgot_button: {
     height: 30,
