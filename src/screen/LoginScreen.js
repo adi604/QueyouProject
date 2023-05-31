@@ -7,10 +7,54 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ModalSlide from '../components/ModalSlide';
 import { FontAwesome } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {
+  useFonts,
+  Montserrat_100Thin,
+  Montserrat_200ExtraLight,
+  Montserrat_300Light,
+  Montserrat_400Regular,
+  Montserrat_500Medium,
+  Montserrat_600SemiBold,
+  Montserrat_700Bold,
+  Montserrat_800ExtraBold,
+  Montserrat_900Black,
+  Montserrat_100Thin_Italic,
+  Montserrat_200ExtraLight_Italic,
+  Montserrat_300Light_Italic,
+  Montserrat_400Regular_Italic,
+  Montserrat_500Medium_Italic,
+  Montserrat_600SemiBold_Italic,
+  Montserrat_700Bold_Italic,
+  Montserrat_800ExtraBold_Italic,
+  Montserrat_900Black_Italic,
+} from '@expo-google-fonts/montserrat';
+import AppLoading from 'expo-app-loading';
 
 const LoginScreen = props => {
 
+  let [fontsLoaded] = useFonts({
+    Montserrat_100Thin,
+    Montserrat_200ExtraLight,
+    Montserrat_300Light,
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_700Bold,
+    Montserrat_800ExtraBold,
+    Montserrat_900Black,
+    Montserrat_100Thin_Italic,
+    Montserrat_200ExtraLight_Italic,
+    Montserrat_300Light_Italic,
+    Montserrat_400Regular_Italic,
+    Montserrat_500Medium_Italic,
+    Montserrat_600SemiBold_Italic,
+    Montserrat_700Bold_Italic,
+    Montserrat_800ExtraBold_Italic,
+    Montserrat_900Black_Italic,
+});
+
   const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -28,12 +72,18 @@ const LoginScreen = props => {
       setModalVisible(true);
       return;
     }
+    setName(response.body.user.firstName + ' ' + response.body.user.lastName)
     // login succeeded
     await AsyncStorage.setItem('token', response.body.token);
     props.navigation.navigate('Nevigator', {
       customerUserName: username,
+      customerName: name,
     });
   };
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   return (
     <View style={{ backgroundColor: "white", height: "100%" }}>
@@ -62,8 +112,8 @@ const LoginScreen = props => {
           </Image>
         </LinearGradient>
         <View style={{ left: 50, padding: 20, marginBottom: 20 }}>
-          <Text style={{ fontSize: 60, fontWeight: "bold", color: "#555", textShadowColor: 'rgba(0, 0, 0, 0.8)', textShadowOffset: { width: -1, height: 1 }, textShadowRadius: 5 }}>Hello</Text>
-          <Text style={{ color: "#AAA", fontSize: 18, marginBottom: 5, fontWeight: '500' }}>Sign in to your account</Text>
+          <Text style={{ fontSize: 50, color: "#555", textShadowColor: 'rgba(0, 0, 0, 0.8)', textShadowOffset: { width: -1, height: 1 }, textShadowRadius: 5, fontFamily: 'Montserrat_500Medium_Italic', }}>Hello</Text>
+          <Text style={{ color: "#AAA", fontSize: 15, marginBottom: 5, fontFamily: 'Montserrat_500Medium_Italic' }}>Sign in to your account</Text>
         </View>
         <View style={styles.inputView}>
           <FontAwesome name="user" size={20} color="#BBB" />
@@ -136,9 +186,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   TextInput: {
-    fontWeight: 'bold',
-    fontSize: 17,
+    fontSize: 14,
     marginLeft: 15,
+    width: "100%",
+    fontFamily: 'Montserrat_700Bold_Italic',
   },
   forgot_button: {
     height: 30,

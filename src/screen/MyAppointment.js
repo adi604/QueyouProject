@@ -107,15 +107,16 @@ useEffect(() => {
   }, []);
 
 
-
-  // const queues = [
-  //   { id: "1", provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
-  //   { id: "2", provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
-  //   { id: "3", provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
-  //   { id: "4", provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
-  //   { id: "5", provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
-  //   { id: "6", provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
-  // ];
+/*
+  const queues = [
+    { id: "1", provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
+    { id: "2", provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
+    { id: "3", provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
+    { id: "4", provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
+    { id: "5", provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
+    { id: "6", provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
+  ];
+*/
 
   const renderItem = ({ item, index }) => {
     const isLastItem = index === appointments.length - 1;
@@ -123,7 +124,7 @@ useEffect(() => {
       <TouchableOpacity style={{}} onPress={() => props.navigation.navigate('ADNevigator', {meeting: item,deleteAppointment:handleDeleteAppointment})}>
         <View style={[styles.box, isLastItem && { marginBottom: 120, }]}>
           <View style={{ flexDirection: 'row', }}>
-            <View style={{ flexDirection: 'column', width: 60 }}>
+            <View style={{ flexDirection: 'column', width: 50 }}>
               <MaterialCommunityIcons name="account-circle-outline" size={45} color="#6CC3ED" style={styles.icon} />
               {/* <Image style={styles.icon} source={item.icon}></Image> */}
               {/* <Text style={styles.category}>{item.category}</Text> */}
@@ -229,8 +230,8 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     borderColor: "#EEE",
     borderWidth: 4,
-    height: 115,
-    width: "90%",
+    height: 100,
+    width: "95%",
     borderRadius: 2,
     marginBottom: 30,
     borderRadius: 50,
@@ -241,8 +242,8 @@ const styles = StyleSheet.create({
   verticalLine: {
     top: 5,
     width: 2,
-    backgroundColor: `#dcdcdc`,
-    height: "90%",
+    backgroundColor: `#CCC`,
+    height: "85%",
     marginLeft: 40,
   },
   date: {

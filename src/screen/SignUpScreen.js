@@ -12,8 +12,51 @@ import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import {
+  useFonts,
+  Montserrat_100Thin,
+  Montserrat_200ExtraLight,
+  Montserrat_300Light,
+  Montserrat_400Regular,
+  Montserrat_500Medium,
+  Montserrat_600SemiBold,
+  Montserrat_700Bold,
+  Montserrat_800ExtraBold,
+  Montserrat_900Black,
+  Montserrat_100Thin_Italic,
+  Montserrat_200ExtraLight_Italic,
+  Montserrat_300Light_Italic,
+  Montserrat_400Regular_Italic,
+  Montserrat_500Medium_Italic,
+  Montserrat_600SemiBold_Italic,
+  Montserrat_700Bold_Italic,
+  Montserrat_800ExtraBold_Italic,
+  Montserrat_900Black_Italic,
+} from '@expo-google-fonts/montserrat';
+import AppLoading from 'expo-app-loading';
 
 const SignUpScreen = props => {
+
+  let [fontsLoaded] = useFonts({
+    Montserrat_100Thin,
+    Montserrat_200ExtraLight,
+    Montserrat_300Light,
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_700Bold,
+    Montserrat_800ExtraBold,
+    Montserrat_900Black,
+    Montserrat_100Thin_Italic,
+    Montserrat_200ExtraLight_Italic,
+    Montserrat_300Light_Italic,
+    Montserrat_400Regular_Italic,
+    Montserrat_500Medium_Italic,
+    Montserrat_600SemiBold_Italic,
+    Montserrat_700Bold_Italic,
+    Montserrat_800ExtraBold_Italic,
+    Montserrat_900Black_Italic,
+});
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -66,6 +109,10 @@ const SignUpScreen = props => {
     }
   };
 
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
   return (
     <ScrollView style={{ backgroundColor: "#FFF", height: "100%" }}>
       <LinearGradient
@@ -84,7 +131,7 @@ const SignUpScreen = props => {
         </Text>
       </LinearGradient>
       <View style={{ backgroundColor: "#FFF", marginTop: -15, width: "94%", alignSelf: "center", borderRadius: 15, }}>
-        <View style={{ flexDirection: "column", marginTop: 15 }}>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <AntDesign name="user" size={26} color="#888" />
             <Text style={styles.title}>User name</Text>
@@ -96,7 +143,7 @@ const SignUpScreen = props => {
             />
           </View>
         </View>
-        <View style={{ flexDirection: "column", marginTop: 15 }}>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <MaterialCommunityIcons name="email-edit-outline" size={24} color="#888" />
             <Text style={styles.title}>Email</Text>
@@ -108,7 +155,7 @@ const SignUpScreen = props => {
             />
           </View>
         </View>
-        <View style={{ flexDirection: "column", marginTop: 15 }}>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Feather name="phone-call" size={22} color="#888" />
             <Text style={styles.title}>Phone Number</Text>
@@ -120,18 +167,7 @@ const SignUpScreen = props => {
             />
           </View>
         </View>
-        <View style={{ flexDirection: "column", marginTop: 15 }}>
-          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
-            <SimpleLineIcons name="picture" size={22} color="#888" />
-            <Text style={styles.title}>Profile Picture</Text>
-          </View>
-          <View style={{ marginTop: 10, }}>
-            <Pressable style={styles.ImageInput} title="Choose Image" onPress={chooseImage} >
-            <AntDesign name="clouduploado" size={30} color="white" />
-            </Pressable>
-          </View>
-        </View>
-        <View style={{ flexDirection: "column", marginTop: 15 }}>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Feather name="lock" size={24} color="#888" />
             <Text style={styles.title}>Password</Text>
@@ -143,7 +179,7 @@ const SignUpScreen = props => {
             />
           </View>
         </View>
-        <View style={{ flexDirection: "column", marginTop: 15 }}>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Feather name="lock" size={24} color="#888" />
             <Text style={styles.title}>Repeat Password</Text>
@@ -153,6 +189,17 @@ const SignUpScreen = props => {
               style={styles.TextInput}
               onChangeText={(repeatPassword) => setUsername(repeatPassword)}
             />
+          </View>
+        </View>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <SimpleLineIcons name="picture" size={22} color="#888" />
+            <Text style={styles.title}>Profile Picture</Text>
+          </View>
+          <View style={{ marginTop: 20, }}>
+            <Pressable style={styles.ImageInput} title="Choose Image" onPress={chooseImage} >
+            <AntDesign name="clouduploado" size={30} color="white" />
+            </Pressable>
           </View>
         </View>
         <View style={styles.Checkbox}>
@@ -178,7 +225,7 @@ export default SignUpScreen
 const styles = StyleSheet.create({
   signUp: {
     fontSize: 50,
-    fontWeight: 'bold',
+    fontFamily: 'Montserrat_700Bold_Italic',
     alignSelf: "center",
     marginTop: '12%',
     marginBottom: '8%',
@@ -213,7 +260,7 @@ const styles = StyleSheet.create({
   Checkbox: {
     flexDirection: 'row',
     alignSelf: "center",
-    marginTop: '5%',
+    marginTop: 30,
   },
   agree: {
     fontWeight: 'bold',

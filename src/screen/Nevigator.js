@@ -45,6 +45,7 @@ const Nevigator = props => {
       <Tab.Screen
         name="Search"
         component={SearchUserScreen}
+        initialParams={props.route.params}
         options={{
           tabBarLabel: 'Home',
           tabBarShowLabel: false,
@@ -58,6 +59,7 @@ const Nevigator = props => {
       <Tab.Screen
         name="Settings"
         component={Settings}
+        initialParams={props.route.params}
         options={{
           tabBarLabel: 'Settings',
           tabBarShowLabel: false,

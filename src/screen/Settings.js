@@ -2,9 +2,51 @@ import { ScrollView, TouchableOpacity, TextInput, FlatList, StyleSheet, Text, Vi
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome5, Feather, Fontisto, MaterialIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
-
+import {
+  useFonts,
+  Montserrat_100Thin,
+  Montserrat_200ExtraLight,
+  Montserrat_300Light,
+  Montserrat_400Regular,
+  Montserrat_500Medium,
+  Montserrat_600SemiBold,
+  Montserrat_700Bold,
+  Montserrat_800ExtraBold,
+  Montserrat_900Black,
+  Montserrat_100Thin_Italic,
+  Montserrat_200ExtraLight_Italic,
+  Montserrat_300Light_Italic,
+  Montserrat_400Regular_Italic,
+  Montserrat_500Medium_Italic,
+  Montserrat_600SemiBold_Italic,
+  Montserrat_700Bold_Italic,
+  Montserrat_800ExtraBold_Italic,
+  Montserrat_900Black_Italic,
+} from '@expo-google-fonts/montserrat';
+import AppLoading from 'expo-app-loading';
 
 const Settings = props => {
+
+  let [fontsLoaded] = useFonts({
+    Montserrat_100Thin,
+    Montserrat_200ExtraLight,
+    Montserrat_300Light,
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_700Bold,
+    Montserrat_800ExtraBold,
+    Montserrat_900Black,
+    Montserrat_100Thin_Italic,
+    Montserrat_200ExtraLight_Italic,
+    Montserrat_300Light_Italic,
+    Montserrat_400Regular_Italic,
+    Montserrat_500Medium_Italic,
+    Montserrat_600SemiBold_Italic,
+    Montserrat_700Bold_Italic,
+    Montserrat_800ExtraBold_Italic,
+    Montserrat_900Black_Italic,
+});
 
   const [isUsername, setIsUsername] = useState(false);
   const [isPhone, setIsPhone] = useState(false);
@@ -20,6 +62,9 @@ const Settings = props => {
     props.navigation.navigate('Reviews');
   };
 
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   return (
     <ScrollView style={[{ backgroundColor: "white", top: 25, height: "100%", marginBottom: 30, }]}>
@@ -104,20 +149,20 @@ export default Settings
 const styles = StyleSheet.create({
   title: {
     color: 'white',
-    fontSize: 35,
+    fontSize: 38,
     padding: 10,
     letterSpacing: 1,
     top: 30,
     marginTop: 20,
-    fontWeight: 'bold',
+    fontFamily: 'Montserrat_700Bold',
   },
   subtitle: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 18,
     padding: 10,
     letterSpacing: 1,
-    top: 15,
-    fontWeight: '400',
+    top: 20,
+    fontFamily: 'Montserrat_600SemiBold',
   },
   box: {
     backgroundColor: '#FFF',

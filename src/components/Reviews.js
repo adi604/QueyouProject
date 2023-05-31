@@ -1,57 +1,65 @@
 import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import Star from "./Star";
+import { serverBaseUrl } from '../utils/strings';
+import { sendRequest } from '../utils/utils'
 
 const Reviews = props => {
+    const [usernameProvider, setUsernameProvider] = useState(props.route.params.usernameProvider);
+    const [nameProvider, setNameProvider] = useState(props.route.params.nameProvider);
+    const [amount, setAmount] = useState(0);
+    const [avarage, setAvarage] = useState(0);
+    const [reviews, setReviews] = useState([]);
 
-    const reviews = [
-        { provider: "Devin1", category: "Barbar", grade: "5.0", text: "They’ve usually had some experience with this company, which could include a purchase, use, or a conversation.", date: "22/12/21"},
-        { provider: "Devin2", category: "Barbar", text: "They’ve usually had some experience with this company, which could include a purchase, use, or a conversation." },
-        { provider: "Devin3", category: "Barbar", text: "They’ve usually had some experience with this company, which could include a purchase, use, or a conversation." },
-        { provider: "Devin4", category: "Barbar", text: "They’ve usually had some experience with this company, which could include a purchase, use, or a conversation." },
-        { provider: "Devin5", category: "Barbar", text: "They’ve usually had some experience with this company, which could include a purchase, use, or a conversation." },
-        { provider: "Devin6", category: "Barbar", text: "They’ve usually had some experience with this company, which could include a purchase, use, or a conversation." },
-        { provider: "Devin7", category: "Barbar", text: "They’ve usually had some experience with this company, which could include a purchase, use, or a conversation." },
-        { provider: "Devin8", category: "Barbar", text: "They’ve usually had some experience with this company, which could include a purchase, use, or a conversation." },
-    ];
 
-    const queues = [
-        { provider: "Devin1", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin2", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin3", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin4", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin5", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin6", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin7", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin8", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin9", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-        { provider: "Devin10", category: "Barbar", day: "sunday", date: "31.1.2023", hour: "14:30", address: "Tel Aviv, Alenbi 12" },
-    ];
+    useEffect(() => {
+        async function fetchReviews() {
+            // Fetch Reviews from API or local storage
+            const url = `${serverBaseUrl}/reviews/providerReviews/${usernameProvider}`;
+            const response = await sendRequest(url, 'GET');
+            if(!response.ok) {
+                console.log("Fetch Reviews Faild !")
+            } else {
+                // Fetch succeeded
+                const data = response.body
+                const reviewsData = []
+                let sum = 0;
+                data.forEach((item) => {
+                    sum += item.score;
+                    reviewsData.push({
+                        key: item._id,
+                        id: item._id,
+                        name: item.name,
+                        grade: item.score,
+                        date: item.date,
+                        text: item.content,
+                    })
+                });
+                setReviews(reviewsData);
+                setAmount(reviewsData.length);
+                if (reviewsData.length > 0) {
+                    setAvarage(sum / reviewsData.length)
+                }
+            }
+        }
+        fetchReviews();
+        console.log("fetchReviews()")
+      }, []);
 
-    const onPressSchedule = () => {
-        props.navigation.navigate('CalendarPickerScreen');
-    };
-
-    const onPressReview = () => {
-        props.navigation.navigate('Reviews');
-    };
 
     return (
         <View style={styles.container}>
             <View style={styles.reviewContainer}>
-                <Text style={styles.title}>Reviews</Text>
+                <Text style={styles.title}>Reviews about {nameProvider}</Text>
                 <View style={styles.totalWrap}>
                     <View style={{ flexDirection: "row", }}>
-                        <Star />
-                        <Star />
-                        <Star />
-                        <Star />
-                        <Star />
+                        {Array(Math.floor(avarage)).fill(null).map((_, index) => (
+                            <Star />
+                        ))}
                     </View>
-                    <Text>3 out of 5</Text>
+                    <Text>{avarage} out of 5</Text>
                 </View>
-                <Text style={styles.amountText}>Avarage rate by 40 customers</Text>
+                <Text style={styles.amountText}>Avarage rate by {amount} customers</Text>
                 
             </View>
             <FlatList style={[{ marginTop: 70 }]}
@@ -61,9 +69,11 @@ const Reviews = props => {
                         <View style={[{ flexDirection: 'row' }]}>
                             <Image style={[{ left: 10, height: 45, width: 45, top: 10 }]} source={require('../../assets/person.png')}></Image>
                             <View style={[{ left: 20, bottom: 20, padding: 8 }]}>
-                                <Text style={styles.provider}>{item.provider}</Text>
+                                <Text style={styles.name}>{item.name}</Text>
                                 <View style={[{ flexDirection: 'row', right: 5, }]}>
-                                    <Star />
+                                    {Array(Math.floor(item.grade)).fill(null).map((_, index) => (
+                                        <Star />
+                                    ))}
                                     <Text style={styles.grade}>{item.grade}</Text>
                                 </View>
                                 <Text style={styles.text}>{item.text}</Text>
@@ -106,9 +116,9 @@ const styles = StyleSheet.create({
     },
     title: {
         bottom: 20,
-        fontWeight: "500",
+        fontFamily: 'Montserrat_700Bold_Italic',
         fontSize: 30,
-        color: "#000",
+        color: "#333",
         textAlign: "center",
     },
     totalWrap: {
@@ -172,7 +182,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#d3d3d3',
     },
-    provider: {
+    name: {
         fontSize: 20,
         height: 52,
         color: `#505050`,
