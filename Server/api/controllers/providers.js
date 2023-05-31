@@ -65,7 +65,7 @@ module.exports = {
     // ##### Get all providers filtered and ordered from closest to highest. #####
     getFilteredProviders: async (req, res) => {
         try {
-
+            
             const { name, category, lat, lng } = req.query;
             const query = {};
 
