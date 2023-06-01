@@ -48,7 +48,7 @@ const AvailableAppointments = props => {
 
 
     return (
-        <View style={[{ backgroundColor: "white", top: 25, height: "100%" }]}>
+        <View style={[{ backgroundColor: "white", top: 25, height: "95%" }]}>
             <LinearGradient
                 colors={['#4FA4E5', '#0069BA',]}
                 style={{
@@ -74,7 +74,7 @@ const AvailableAppointments = props => {
                             <View style={[{ flexDirection: 'row',}]}>
                                 <Text style={styles.provider}>{item.name}</Text>
                                 <TouchableOpacity onPress={()=>{onPressReview(item.username, item.name)}}>
-                                    <Fontisto style={{ marginLeft: 70, top: 12 }} name="preview" size={28} color="#0069BA" />
+                                    <Fontisto style={{ marginLeft: 80, top: 12 }} name="preview" size={28} color="#0069BA" />
                                 </TouchableOpacity>
                             </View>
                             <Text style={styles.category}>{item.category}</Text>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     continuebtn: {
-        left: "120%",
+        top: "5%",
         alignSelf: "center",
     },
 });

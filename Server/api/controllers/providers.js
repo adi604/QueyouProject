@@ -13,7 +13,7 @@ module.exports = {
     },
     // ##### Get provider by username. #####
     getProvider: (req, res) => {
-        const providerUserName = req.params.providerUserName;
+        const providerUserName = req.username;
         Provider.findOne({ username: providerUserName }).then((p) => {
             if (p == null) {
                 res.status(404).json({
