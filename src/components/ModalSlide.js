@@ -2,7 +2,14 @@ import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Modal
 import React from 'react';
 
 
-const ModalSlide = ({ modalVisible, setModalVisible, message, buttonText }) => {
+const ModalSlide = ({ modalVisible, setModalVisible, message, buttonText, nextScreen }) => {
+
+    const onPress = () => {
+        setModalVisible(!modalVisible);
+        if (nextScreen) {
+            nextScreen();
+        }
+    }
 
     return (
         <Modal
@@ -18,7 +25,7 @@ const ModalSlide = ({ modalVisible, setModalVisible, message, buttonText }) => {
                     <Text style={styles.modalText}>{message}</Text>
                     <Pressable
                         style={[styles.button, styles.buttonClose]}
-                        onPress={() => setModalVisible(!modalVisible)}>
+                        onPress={onPress}>
                         <Text style={styles.textStyle}>{buttonText}</Text>
                     </Pressable>
                 </View>

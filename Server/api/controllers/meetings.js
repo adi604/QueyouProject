@@ -21,7 +21,7 @@ module.exports = {
     },
     // ##### Get all the times meetings by provider and date. #####
     getProviderTimesMeetings: (req, res) => {
-        const providerUserName = req.username;
+        const providerUserName = req.params.providerUserName;
         const date = req.params.date;
         Meeting.find({ providerUserName: providerUserName, date: date }).then((meetings) => {
             const meetingsTimes = meetings.map(meeting => meeting.time);
@@ -42,7 +42,7 @@ module.exports = {
     // ##### Create new meeting. #####
     createMeeting: (req, res) => {
         console.log(req.body);
-        const { date, time, providerUserName, providerName, customerName } = req.body
+        const { date, time, providerUserName, providerName, customerName } = req.body;
         const customerUserName = req.username;
         // We assume here that providerName,customerName exists,
         // And that there is no conflict in the dateAndTime.

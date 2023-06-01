@@ -137,7 +137,7 @@ const CalendarPickerScreen = props => {
             console.log(body);
             const response = await sendRequest(url, 'POST', body);
             if(!response.ok) {
-                console.log("Create Meeting Faild !");
+                console.log("Create Meeting Failed !");
             } else {
                 // Fetch succeeded
                 console.log("Meeting Created !");
@@ -189,7 +189,10 @@ const CalendarPickerScreen = props => {
         setSelectedDate(formatDate(date.toString()));
     };
 
-
+    const nextScreen = () => {
+        console.log("nextScreen");
+        props.navigation.navigate('My_Appointments', {customerUserName: usernameCustomer});
+    };
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -198,6 +201,7 @@ const CalendarPickerScreen = props => {
                 setModalVisible={setModalVisible}
                 message="Meeting Created !"
                 buttonText="OK"
+                nextScreen={nextScreen}
             />
                 <LinearGradient
                     colors={['#2D87B8', '#6CC3ED', '#6CC3ED', '#2D87B8',]}

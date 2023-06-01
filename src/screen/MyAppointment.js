@@ -1,4 +1,5 @@
 import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AntDesign } from '@expo/vector-icons';
@@ -32,7 +33,9 @@ import AppLoading from 'expo-app-loading';
 
 const MyAppointments = props => {
   const [appointments, setAppointments] = useState([]);
-  const [customerUserName, setCustomerUserName] = useState(props.route.params.customerUserName)
+  const [customerUserName, setCustomerUserName] = useState(props.route.params.customerUserName);
+  const [isScreenFocused, setIsScreenFocused] = useState(false);
+
 
   const [isPast, setIsPast] = useState(false);
   let [fontsLoaded] = useFonts({
@@ -57,7 +60,7 @@ const MyAppointments = props => {
 });
 
 const getDay = (dateStr) => {
-  const dateObj = moment(dateStr, 'MM-DD-YYYY');
+  const dateObj = moment(dateStr, 'YYYY-MM-DD');
   return dateObj.format('dddd');
 }
 
@@ -76,6 +79,16 @@ async function handleDeleteAppointment (key) {
       );
   }
 };
+
+useFocusEffect(
+  React.useCallback(() => {
+    setIsScreenFocused(true);
+
+    return () => {
+      setIsScreenFocused(false);
+    };
+  }, [])
+);
 
 
 useEffect(() => {
@@ -100,23 +113,17 @@ useEffect(() => {
                     day: getDay(item.date)
                 })
             });
+            appointmentsData.sort((a, b) => {
+              const dateA = `${a.date} ${a.hour}`;
+              const dateB = `${b.date} ${b.hour}`;
+              return moment(dateA, 'YYYY-MM-DD HH:mm').diff(moment(dateB, 'YYYY-MM-DD HH:mm'));
+            });
             setAppointments(appointmentsData);
         }
     }
   fetchMeetings()
-  }, []);
+  }, [isScreenFocused]);
 
-
-/*
-  const queues = [
-    { id: "1", provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
-    { id: "2", provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
-    { id: "3", provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
-    { id: "4", provider: "Devin", category: "Barbar", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/barbar.png') },
-    { id: "5", provider: "Sarit", category: "Dentist", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/dentist.png') },
-    { id: "6", provider: "Linor", category: "Ministry", day: "sunday", date: "31/1/2023", hour: "14:30", icon: require('./../../assets/ministry.png') },
-  ];
-*/
 
   const renderItem = ({ item, index }) => {
     const isLastItem = index === appointments.length - 1;
