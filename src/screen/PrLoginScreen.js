@@ -6,6 +6,7 @@ import { sendRequest } from '../utils/utils'
 import ModalSlide from '../components/ModalSlide';
 import { FontAwesome } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PrLoginScreen = props => {
 
@@ -28,7 +29,7 @@ const PrLoginScreen = props => {
       return;
     }
     // login succeeded
-    // await AsyncStorage.setItem('token', response.body.token);
+    await AsyncStorage.setItem('token', response.body.token);
     props.navigation.navigate('PrNevigator', {
       providerUserName: username,
     });

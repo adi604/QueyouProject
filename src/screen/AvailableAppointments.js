@@ -7,6 +7,7 @@ import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { sendRequest } from '../utils/utils';
 
+
 const AvailableAppointments = props => {
     const [providers, setProviders] = useState([]);
 

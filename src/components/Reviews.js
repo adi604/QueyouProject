@@ -18,7 +18,7 @@ const Reviews = props => {
             const url = `${serverBaseUrl}/reviews/providerReviews/${usernameProvider}`;
             const response = await sendRequest(url, 'GET');
             if(!response.ok) {
-                console.log("Fetch Reviews Faild !")
+                console.log("Fetch Reviews Failed !")
             } else {
                 // Fetch succeeded
                 const data = response.body
