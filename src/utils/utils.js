@@ -1,12 +1,14 @@
 import * as strings from "../utils/strings";
 import * as Location from 'expo-location';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export async function sendRequest(url, method, body) {
+export async function sendRequest(url, method, body, isTokenRequired = true) {
     try {
         const response = await fetch(url, {
             method: method,
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': isTokenRequired ? `${await AsyncStorage.getItem('token')}` : undefined
             },
             body: body !== undefined ? JSON.stringify(body) : undefined
         });
@@ -65,3 +67,17 @@ export async function getCurrentLocation() {
         console.log(e)
     }
 }
+
+export async function fetchCategories(setCategoriesList) {
+    try {
+        const categories = await sendRequest(`${strings.serverBaseUrl}/categories`, 'GET');
+        const categoriesData = categories.body;
+        const categoriesListTmp = categoriesData.map((category, index) => {
+            return { label: category.categoryName, value: category.categoryName };
+            });
+        categoriesListTmp.unshift({ label: 'None', value: '' });
+        setCategoriesList(categoriesListTmp);
+    } catch (error) {
+        console.log(error);
+    }
+};

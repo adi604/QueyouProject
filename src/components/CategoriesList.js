@@ -2,20 +2,17 @@ import React, { useState } from 'react';
   import { StyleSheet } from 'react-native';
   import { Dropdown } from 'react-native-element-dropdown';
   import AntDesign from '@expo/vector-icons/AntDesign';
+import { useEffect } from 'react';
+import { fetchCategories } from '../utils/utils';
 
-  const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-    { label: 'Item 5', value: '5' },
-    { label: 'Item 6', value: '6' },
-    { label: 'Item 7', value: '7' },
-    { label: 'Item 8', value: '8' },
-  ];
 
   const CategoriesList = () => {
     const [value, setValue] = useState(null);
+    const [categoriesList, setCategoriesList] = useState([]);
+    
+    useEffect(() => {
+      fetchCategories(setCategoriesList);
+    }, []);
 
     return (
       <Dropdown
@@ -26,7 +23,7 @@ import React, { useState } from 'react';
         containerStyle={{ bottom: 20, borderRadius: 5, }}
         itemTextStyle={{ fontSize: 16, color: "#333", bottom: 10, fontWeight: "500", letterSpacing: -0.2 }}
         iconStyle={styles.iconStyle}
-        data={data}
+        data={categoriesList}
         search
         maxHeight={300}
         labelField="label"

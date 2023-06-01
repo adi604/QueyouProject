@@ -6,7 +6,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
-import { sendRequest, getCurrentLocation } from '../utils/utils';
+import { getCurrentLocation, fetchCategories } from '../utils/utils';
 import * as strings from '../utils/strings';
 import {
     useFonts,
@@ -124,21 +124,7 @@ const SearchUserScreen = props => {
     const onChangeSearch = query => setSearchQuery(query);
     
     useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const categories = await sendRequest(`${strings.serverBaseUrl}/categories`, 'GET');
-                const categoriesData = categories.body;
-                const categoriesListTmp = categoriesData.map((category, index) => {
-                    return { label: category.categoryName, value: category.categoryName };
-                    });
-                categoriesListTmp.unshift({ label: 'None', value: '' });
-                setCategoriesList(categoriesListTmp);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        fetchCategories();
+        fetchCategories(setCategoriesList);
     }, []);
 
     const onPressSearch = async () => {

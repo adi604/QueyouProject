@@ -28,7 +28,7 @@ const GooglePlacesInput = ( { setAddress }) => {
                   }}
                 onPress={async (data) => {
                     const googlePlacesDetailsUrl = `${GOOGLE_PLACES_DETAILS_URL}${data.place_id}&key=${GOOGLE_PLACES_API_KEY}`;
-                    const response = await sendRequest(googlePlacesDetailsUrl, 'GET');
+                    const response = await sendRequest(googlePlacesDetailsUrl, 'GET', undefined, false);
                     const location = response.body.result.geometry.location;
                     const address = {
                         lat: location.lat.toString(),

@@ -16,17 +16,26 @@ module.exports = {
         return decodedToken;
     },
     
-    verifyAuthorization: (req, res, next) => {
+    verifyAuthorization: async (req, res, next) => {
         const token = req.headers.authorization;
-        if(token) {
-            const decodedToken = utils.verifyToken(token);
-            if(decodedToken) {
-                req.user = decodedToken;
-                next();
+        if (token) {
+            const decodedToken = jwt.verify(token, secret);
+            if (decodedToken) {
+                const currentTimestamp = Math.floor(Date.now() / 1000); // Get the current Unix timestamp
+                if (decodedToken.exp && decodedToken.exp >= currentTimestamp) {
+                    // Token is valid and not expired
+                    req.username = decodedToken.username;
+                    next();
+                } else {
+                    // Token is expired
+                    res.status(401).json({ message: 'Token expired' });
+                }
             } else {
+                // Invalid token
                 res.status(401).json({ message: 'Invalid token' });
             }
         } else {
+            // No token provided
             res.status(401).json({ message: 'No token' });
         }
     },
