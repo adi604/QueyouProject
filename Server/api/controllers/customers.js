@@ -11,7 +11,7 @@ module.exports = {
     },
     // ##### Get customer by username. #####
     getCustomer : (req, res) => {
-        const customerUserName = req.params.customerUserName;
+        const customerUserName = req.username;
         Customer.findOne({username: customerUserName}).then((c) => {
             if(c == null) {
                 res.status(404).json({
@@ -27,7 +27,7 @@ module.exports = {
     },
     // ##### Update customer by username. #####
     updateCustomer : (req, res) => {
-        const customerUserName = req.params.customerUserName;
+        const customerUserName = req.username;
         Customer.findOneAndUpdate({username: customerUserName}, req.body).then((c) => {
             if (c != null) {
                 res.status(200).json({
@@ -44,7 +44,7 @@ module.exports = {
     },
     // ##### Delete customer by username. #####
     deleteCustomer : (req, res) => {
-        const customerUserName = req.params.customerUserName;
+        const customerUserName = req.username;
         Customer.findOneAndDelete({username: customerUserName}).then((c) => {
             if (c != null) {
                 res.status(200).json({
