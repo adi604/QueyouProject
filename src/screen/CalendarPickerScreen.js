@@ -33,6 +33,7 @@ const CalendarPickerScreen = props => {
 
 
     useEffect(() => {
+        console.log(nameCustomer)
         async function fetchProviderDetails() {
             // Fetch details from API server
             const url = `${serverBaseUrl}/providers/username/${usernameProvider}`;

@@ -12,6 +12,7 @@ const AvailableAppointments = props => {
     const [providers, setProviders] = useState([]);
 
     useEffect(() => {
+        console.log(props.route.params.nameCustomer)
         const getProviders = async () => {
             const url = props.route.params.url;
             //console.log(url)
@@ -24,7 +25,8 @@ const AvailableAppointments = props => {
     
 
     const onPressServices = (username, name) => {
-        console.log(username);
+        console.log("provider username : ", username);
+        console.log("customer name : ", props.route.params.nameCustomer);
         props.navigation.navigate('CalendarPickerScreen', {
             usernameProvider: username,
             nameProvider: name,
