@@ -124,6 +124,7 @@ const SearchUserScreen = props => {
     const onChangeSearch = query => setSearchQuery(query);
     
     useEffect(() => {
+        console.log(props.route.params.customerName)
         fetchCategories(setCategoriesList);
     }, []);
 

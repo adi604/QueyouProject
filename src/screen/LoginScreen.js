@@ -75,6 +75,7 @@ const LoginScreen = props => {
     setName(response.body.user.firstName + ' ' + response.body.user.lastName)
     // login succeeded
     await AsyncStorage.setItem('token', response.body.token);
+    console.log(name)
     props.navigation.navigate('Nevigator', {
       customerUserName: username,
       customerName: name,
