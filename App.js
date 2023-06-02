@@ -2,6 +2,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer'
+import { LogBox } from 'react-native';
 
 import HomeScreen from './src/screen/HomeScreen'
 import LoginScreen from './src/screen/LoginScreen'
@@ -20,6 +21,8 @@ import AppointmentDetails from './src/screen/AppointmentDetails'
 import ADNevigator from "./src/screen/ADNevigator"
 import FSNevigator from "./src/components/FreeSearch"
 import ServicesList from './src/components/ServicesList';
+
+LogBox.ignoreLogs(['expo-app-loading is deprecated']);
 
 const Stack = createNativeStackNavigator();
 

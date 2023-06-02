@@ -30,6 +30,7 @@ const PrLoginScreen = props => {
     }
     // login succeeded
     await AsyncStorage.setItem('token', response.body.token);
+    await AsyncStorage.setItem('providerDetails', JSON.stringify({username: username}));
     props.navigation.navigate('PrNevigator', {
       providerUserName: username,
     });

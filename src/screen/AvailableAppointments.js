@@ -5,33 +5,30 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { sendRequest } from '../utils/utils';
+import { getCustomerDetails, sendRequest } from '../utils/utils';
 
 
 const AvailableAppointments = props => {
     const [providers, setProviders] = useState([]);
 
     useEffect(() => {
-        console.log(props.route.params.nameCustomer)
         const getProviders = async () => {
             const url = props.route.params.url;
-            //console.log(url)
             const response = await sendRequest(url, 'GET');
-            //console.log(response.body)
             setProviders(response.body);
         }
         getProviders(); 
     }, []);
     
 
-    const onPressServices = (username, name) => {
-        console.log("provider username : ", username);
-        console.log("customer name : ", props.route.params.nameCustomer);
+    const onPressServices = async (username, name) => {
+        const customerDetails = await getCustomerDetails();
+        console.log("onPressServices(): provider username - ", username);
         props.navigation.navigate('CalendarPickerScreen', {
             usernameProvider: username,
             nameProvider: name,
-            usernameCustomer: props.route.params.usernameCustomer,
-            nameCustomer: props.route.params.nameCustomer
+            usernameCustomer: customerDetails.username,
+            nameCustomer: customerDetails.name,
           });
     };
 
@@ -41,7 +38,7 @@ const AvailableAppointments = props => {
     }
 
     const onPressReview = (username, name) => {
-        console.log(username, name);
+        console.log(`onPressReview(): username - ${username}, name - ${name}`);
         props.navigation.navigate('Reviews', {
             usernameProvider: username,
             nameProvider: name,

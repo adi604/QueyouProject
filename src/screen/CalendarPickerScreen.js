@@ -6,14 +6,12 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ModalSlide from '../components/ModalSlide';
 import { serverBaseUrl } from '../utils/strings';
-import { sendRequest } from '../utils/utils'
+import { sendRequest, getCustomerDetails } from '../utils/utils'
 
 
 const CalendarPickerScreen = props => {
     const [usernameProvider, setUsernameProvider] = useState(props.route.params.usernameProvider);
     const [nameProvider, setNameProvider] = useState(props.route.params.nameProvider);
-    const [usernameCustomer, setUsernameCustomer] = useState(props.route.params.usernameCustomer);
-    const [nameCustomer, setNameCustomer] = useState(props.route.params.nameCustomer);
     const [selectedDate, setSelectedDate] = useState("");
     const [selectedTime, setSelectedTime] = useState("");
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
@@ -33,7 +31,6 @@ const CalendarPickerScreen = props => {
 
 
     useEffect(() => {
-        console.log(nameCustomer)
         async function fetchProviderDetails() {
             // Fetch details from API server
             const url = `${serverBaseUrl}/providers/username/${usernameProvider}`;
@@ -43,7 +40,7 @@ const CalendarPickerScreen = props => {
             } else {
                 // Fetch succeeded
                 const data = response.body;
-                console.log(data);
+                console.log('fetchProviderDetails(): ' + JSON.stringify(data));
                 setMaxDate(data.maxDate);
                 setDisabledDatesList(data.disabledDates);
                 setDisabledDays(data.disabledDays);
@@ -55,7 +52,6 @@ const CalendarPickerScreen = props => {
             }
         }
         fetchProviderDetails();
-        console.log("fetchProviderDetails()");
       }, []);
 
 
@@ -126,16 +122,17 @@ const CalendarPickerScreen = props => {
 
     async function bookMeeting () {
         if ((selectedDate != "") && (selectedTime != "")) {
+            const customerDetails = await getCustomerDetails();
             const body = {
                 date: selectedDate,
                 time: selectedTime,
                 providerUserName: usernameProvider,
-                customerUserName: usernameCustomer,
+                customerUserName: customerDetails.username,
                 providerName: nameProvider,
-                customerName: nameCustomer
+                customerName: customerDetails.name,
               }
             const url = `${serverBaseUrl}/meetings`;
-            console.log(body);
+            console.log('bookMeeting(): ' + body);
             const response = await sendRequest(url, 'POST', body);
             if(!response.ok) {
                 console.log("Create Meeting Failed !");
@@ -192,7 +189,7 @@ const CalendarPickerScreen = props => {
 
     const nextScreen = () => {
         console.log("nextScreen");
-        props.navigation.navigate('My_Appointments', {customerUserName: usernameCustomer});
+        props.navigation.navigate('My_Appointments', {});
     };
     return (
         <ScrollView>
@@ -263,7 +260,7 @@ const CalendarPickerScreen = props => {
                             <Text style={styles.innerTime}>{selectedDate}{(selectedDate != "" && selectedTime != "") ? <Text>  |  </Text> : null}{selectedTime}</Text>
                         </View>
                     </View>
-                    <TouchableOpacity onPress={bookMeeting} style={styles.viButton}>
+                    <TouchableOpacity onPress={async () => await bookMeeting()} style={styles.viButton}>
                         <MaterialCommunityIcons name="check" size={70} color="#555" />
                     </TouchableOpacity>
                 </View>

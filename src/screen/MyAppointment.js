@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { serverBaseUrl } from '../utils/strings';
-import { sendRequest } from '../utils/utils'
+import { sendRequest, getCustomerDetails } from '../utils/utils'
 const moment = require('moment');
 
 import {
@@ -32,8 +32,8 @@ import {
 import AppLoading from 'expo-app-loading';
 
 const MyAppointments = props => {
+  //const customerDetails = await getCustomerDetails();
   const [appointments, setAppointments] = useState([]);
-  const [customerUserName, setCustomerUserName] = useState(props.route.params.customerUserName);
   const [isScreenFocused, setIsScreenFocused] = useState(false);
 
 
@@ -94,7 +94,8 @@ useFocusEffect(
 useEffect(() => {
     async function fetchMeetings() {
         // Fetch appointments from API or local storage
-        const url = `${serverBaseUrl}/meetings/customerMeetings/${customerUserName}`;
+        const customerDetails = await getCustomerDetails();
+        const url = `${serverBaseUrl}/meetings/customerMeetings/${customerDetails.username}`;
         const response = await sendRequest(url, 'GET');
         if(!response.ok) {
             console.log("Fetch Meetings Faild !")
