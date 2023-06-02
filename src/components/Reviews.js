@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react
 import React, { useState, useEffect } from 'react';
 import Star from "./Star";
 import { serverBaseUrl } from '../utils/strings';
-import { sendRequest } from '../utils/utils'
+import { sendRequest } from '../utils/utils';
 
 const Reviews = props => {
     const [usernameProvider, setUsernameProvider] = useState(props.route.params.usernameProvider);

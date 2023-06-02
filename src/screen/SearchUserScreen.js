@@ -124,7 +124,6 @@ const SearchUserScreen = props => {
     const onChangeSearch = query => setSearchQuery(query);
     
     useEffect(() => {
-        console.log(props.route.params.customerName)
         fetchCategories(setCategoriesList);
     }, []);
 
@@ -146,8 +145,7 @@ const SearchUserScreen = props => {
         }
         props.navigation.navigate('AvailableAppointments', { 
             url: url,
-            usernameCustomer: props.route.params.customerUserName,
-            nameCustomer: props.route.params.customerName });
+            });
     };
 
     if (!fontsLoaded) {

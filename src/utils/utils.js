@@ -81,3 +81,15 @@ export async function fetchCategories(setCategoriesList) {
         console.log(error);
     }
 };
+
+export async function getProviderDetails() {
+    const details = await AsyncStorage.getItem('providerDetails');
+    console.log("getProviderDetails(): " + details)
+    return JSON.parse(details);
+}
+
+export async function getCustomerDetails() {
+    const details = await AsyncStorage.getItem('customerDetails');
+    console.log("getCustomerDetails(): " + details)
+    return JSON.parse(details);
+}

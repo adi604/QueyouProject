@@ -30,7 +30,7 @@ module.exports = {
     },
     // ##### Update provider by username. #####
     updateProvider: (req, res) => {
-        const providerUserName = req.params.providerUserName;
+        const providerUserName = req.username;
         Provider.findOneAndUpdate({ username: providerUserName }, req.body).then((p) => {
             if (p != null) {
                 res.status(200).json({
@@ -47,7 +47,7 @@ module.exports = {
     },
     // ##### Delete provider by username. #####
     deleteProvider: (req, res) => {
-        const providerUserName = req.params.providerUserName;
+        const providerUserName = req.username;
         Provider.findOneAndDelete({ username: providerUserName }).then((p) => {
             if (p != null) {
                 res.status(200).json({

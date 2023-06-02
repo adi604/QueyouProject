@@ -54,7 +54,6 @@ const LoginScreen = props => {
 });
 
   const [username, setUsername] = useState('');
-  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -72,14 +71,11 @@ const LoginScreen = props => {
       setModalVisible(true);
       return;
     }
-    setName(response.body.user.firstName + ' ' + response.body.user.lastName)
+    const name = response.body.user.firstName + ' ' + response.body.user.lastName;
     // login succeeded
     await AsyncStorage.setItem('token', response.body.token);
-    console.log(name)
-    props.navigation.navigate('Nevigator', {
-      customerUserName: username,
-      customerName: name,
-    });
+    await AsyncStorage.setItem('customerDetails', JSON.stringify({username: username, name: name}));
+    props.navigation.navigate('Nevigator', {});
   };
 
   if (!fontsLoaded) {
