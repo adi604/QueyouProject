@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, Fontisto } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons'; 
 
-import Settings from './Settings'
+import PrSettings from "./PrSettings";
 import main_temp_page from './main_temp_page'
 import PrAppointments from './PrAppointments'
 
@@ -39,7 +39,7 @@ const Nevigator = props => {
 
         <Tab.Screen
         name="Settings"
-        component={Settings}
+        component={PrSettings}
         options={{
           tabBarLabel: 'Settings',
           tabBarShowLabel: false,

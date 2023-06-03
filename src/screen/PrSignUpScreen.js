@@ -189,6 +189,7 @@ const SignUpScreen = props => {
                 onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
               />
             </View>
+            {/*
             <View style={{ marginTop: 10, width: "30%", flexDirection: "row", left: 20}}>
               <Text style={{ textAlignVertical: "center", color: "#888", fontSize: 13, width: 40}}>dates</Text>
               <TextInput
@@ -196,6 +197,7 @@ const SignUpScreen = props => {
                 onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
               />
             </View>
+            */}
           </View>
         </View>
         <View style={{ flexDirection: "column", marginTop: 25}}>

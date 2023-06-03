@@ -65,7 +65,7 @@ const Reviews = props => {
             <FlatList style={[{ marginTop: 70 }]}
                 data={reviews}
                 renderItem={({ item }) =>
-                    <View style={styles.box}>
+                    <View key={item.key} style={styles.box}>
                         <View style={[{ flexDirection: 'row' }]}>
                             <Image style={[{ left: 10, height: 45, width: 45, top: 10 }]} source={require('../../assets/person.png')}></Image>
                             <View style={[{ left: 20, bottom: 20, padding: 8 }]}>

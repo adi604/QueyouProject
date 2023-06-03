@@ -28,6 +28,7 @@ module.exports = {
     // ##### Update customer by username. #####
     updateCustomer : (req, res) => {
         const customerUserName = req.username;
+        console.log(customerUserName)
         Customer.findOneAndUpdate({username: customerUserName}, req.body).then((c) => {
             if (c != null) {
                 res.status(200).json({
