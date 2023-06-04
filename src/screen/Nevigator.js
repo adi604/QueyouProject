@@ -28,6 +28,21 @@ const Nevigator = props => {
       }}
 
     >
+
+    <Tab.Screen
+      name="Search"
+      component={SearchUserScreen}
+      initialParams={props.route.params}
+      options={{
+        tabBarLabel: 'Home',
+        tabBarShowLabel: false,
+        tabBarIcon: ({ color, size }) => (
+          <Ionicons style={{ bottom: 2 }} name="add-circle-sharp" size={60} color="#4FA4E5" />
+        ),
+        headerShown: false,
+
+      }} />
+
       <Tab.Screen
         name="My_Appointments"
         component={MyAppointment}
@@ -39,19 +54,6 @@ const Nevigator = props => {
             let iconColor = focused ? '#000' : '#999';
             return <AntDesign name="calendar" size={32} color={iconColor} />;
           },
-          headerShown: false,
-
-        }} />
-      <Tab.Screen
-        name="Search"
-        component={SearchUserScreen}
-        initialParams={props.route.params}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons style={{ bottom: 2 }} name="add-circle-sharp" size={60} color="#4FA4E5" />
-          ),
           headerShown: false,
 
         }} />

@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { fetchCategories } from '../utils/utils';
 
 
-  const CategoriesList = () => {
+  const CategoriesList = ({handleCategoryChanged}) => {
     const [value, setValue] = useState(null);
     const [categoriesList, setCategoriesList] = useState([]);
     
@@ -33,6 +33,9 @@ import { fetchCategories } from '../utils/utils';
         value={value}
         onChange={item => {
           setValue(item.value);
+          if(handleCategoryChanged) {
+            handleCategoryChanged(item.value)
+          }
         }}
         renderLeftIcon={() => (
           <AntDesign style={styles.icon} color="black" name="Safety" size={19} />

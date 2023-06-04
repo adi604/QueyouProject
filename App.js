@@ -24,6 +24,7 @@ import ServicesList from './src/components/ServicesList';
 import AddReview from './src/components/AddReview'
 
 LogBox.ignoreLogs(['expo-app-loading is deprecated']);
+LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
 

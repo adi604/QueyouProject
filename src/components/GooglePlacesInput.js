@@ -31,12 +31,12 @@ const GooglePlacesInput = ( { setAddress }) => {
                     const response = await sendRequest(googlePlacesDetailsUrl, 'GET', undefined, false);
                     const location = response.body.result.geometry.location;
                     const address = {
-                        lat: location.lat.toString(),
-                        lng: location.lng.toString(),
+                        lat: Number(location.lat.toString()),
+                        lng: Number(location.lng.toString()),
                         description: data.description
                     }
                     console.log(address);
-                    setAddress(data);
+                    setAddress(address);
                     setListViewDisplayed(false);
                 }}
                 query={{

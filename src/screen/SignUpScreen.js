@@ -1,7 +1,7 @@
 import { StyleSheet, Text, ScrollView,Pressable, Button, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
-import { sendRequest, validateSignUpDetails } from '../utils/utils';
+import { sendRequest, validateSignUpCustomerDetails } from '../utils/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as strings from '../utils/strings';
 import ModalSlide from '../components/ModalSlide';
@@ -58,24 +58,32 @@ const SignUpScreen = props => {
     Montserrat_900Black_Italic,
 });
 
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [isSelected, setSelection] = useState(false);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [image, setImage] = useState(null);
+  //const [image, setImage] = useState(null);
 
   const onPressSignUp = async () => {
     const signUpDetails = {
+      isSelected: isSelected,
       username: username,
+      firstName: firstName,
+      lastName: lastName,
       email: email,
+      phoneNumber: phoneNumber,
       password: password,
-      repeatPassword: repeatPassword
+      repeatPassword: repeatPassword,
     }
 
-    const isValid = validateSignUpDetails(signUpDetails,
+    const isValid = validateSignUpCustomerDetails(signUpDetails,
       (errorMsg) => {
         setModalMessage(errorMsg);
         setModalVisible(true);
@@ -88,7 +96,10 @@ const SignUpScreen = props => {
     const body = {
       username: username,
       password: password,
-      mail: email
+      firstName: firstName,
+      lastName: lastName,
+      mail: email,
+      phoneNumber: phoneNumber,
     }
     const url = `${strings.serverBaseUrl}/users/signUpCustomers`;
     const response = await sendRequest(url, 'POST', body);
@@ -98,16 +109,27 @@ const SignUpScreen = props => {
       return;
     }
     // login succeeded
-    await AsyncStorage.setItem('token', response.body.token);
+    setUsername("");
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPhoneNumber("");
+    setPassword("");
+    setRepeatPassword("");
+    setSelection(false);
+    //await AsyncStorage.setItem('token', response.body.token);
     props.navigation.navigate('LoginScreen');
   }
 
+
+  /*
   const chooseImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync();
     if (!result.cancelled) {
       setImage(result);
     }
   };
+  */
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -130,26 +152,17 @@ const SignUpScreen = props => {
           Sign Up
         </Text>
       </LinearGradient>
+
       <View style={{ backgroundColor: "#FFF", marginTop: -15, width: "94%", alignSelf: "center", borderRadius: 15, }}>
+        
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <AntDesign name="user" size={26} color="#888" />
-            <Text style={styles.title}>User name</Text>
+            <Text style={styles.title}>Username</Text>
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
-              style={styles.TextInput}
-              onChangeText={(email) => setUsername(email)}
-            />
-          </View>
-        </View>
-        <View style={{ flexDirection: "column", marginTop: 25 }}>
-          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
-            <MaterialCommunityIcons name="email-edit-outline" size={24} color="#888" />
-            <Text style={styles.title}>Email</Text>
-          </View>
-          <View style={{ marginTop: 10, }}>
-            <TextInput
+            value={username}
               style={styles.TextInput}
               onChangeText={(username) => setUsername(username)}
             />
@@ -157,16 +170,59 @@ const SignUpScreen = props => {
         </View>
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <AntDesign name="user" size={26} color="#888" />
+            <Text style={styles.title}>First Name</Text>
+          </View>
+          <View style={{ marginTop: 10, }}>
+            <TextInput
+            value={firstName}
+              style={styles.TextInput}
+              onChangeText={(firstName) => setFirstName(firstName)}
+            />
+          </View>
+        </View>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <AntDesign name="user" size={26} color="#888" />
+            <Text style={styles.title}>Last Name</Text>
+          </View>
+          <View style={{ marginTop: 10, }}>
+            <TextInput
+            value={lastName}
+              style={styles.TextInput}
+              onChangeText={(lastName) => setLastName(lastName)}
+            />
+          </View>
+        </View>
+
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <MaterialCommunityIcons name="email-edit-outline" size={24} color="#888" />
+            <Text style={styles.title}>Email</Text>
+          </View>
+          <View style={{ marginTop: 10, }}>
+            <TextInput
+            value={email}
+              style={styles.TextInput}
+              onChangeText={(email) => setEmail(email)}
+            />
+          </View>
+        </View>
+
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Feather name="phone-call" size={22} color="#888" />
             <Text style={styles.title}>Phone Number</Text>
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
+            value={phoneNumber}
               style={styles.TextInput}
-              onChangeText={(repeatPassword) => setUsername(repeatPassword)}
+              onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
             />
           </View>
         </View>
+
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Feather name="lock" size={24} color="#888" />
@@ -174,11 +230,13 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
+            value={password}
               style={styles.TextInput}
-              onChangeText={(password) => setUsername(password)}
+              onChangeText={(password) => setPassword(password)}
             />
           </View>
         </View>
+
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Feather name="lock" size={24} color="#888" />
@@ -186,12 +244,15 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
+            value={repeatPassword}
               style={styles.TextInput}
-              onChangeText={(repeatPassword) => setUsername(repeatPassword)}
+              onChangeText={(repeatPassword) => setRepeatPassword(repeatPassword)}
             />
           </View>
         </View>
-        <View style={{ flexDirection: "column", marginTop: 25 }}>
+
+        {/*
+          <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <SimpleLineIcons name="picture" size={22} color="#888" />
             <Text style={styles.title}>Profile Picture</Text>
@@ -202,18 +263,22 @@ const SignUpScreen = props => {
             </Pressable>
           </View>
         </View>
+        */}
+
         <View style={styles.Checkbox}>
           <Checkbox
             value={isSelected}
-            onValueChange={setSelection}
-            title="Music"
+            onValueChange={() => setSelection(!isSelected)}
+            title="agreement"
             isChecked={isSelected}
           />
           <Text style={styles.agree}>I agree to the Terms of Service</Text>
         </View>
+
         <TouchableOpacity style={styles.signBtn} onPress={onPressSignUp}>
           <Text style={styles.signBtnText}>Sign Up</Text>
         </TouchableOpacity>
+
       </View>
     </ScrollView>
   );
@@ -245,6 +310,7 @@ const styles = StyleSheet.create({
     height: 45,
     shadowColor: "#000",
     elevation: 10,
+    paddingLeft: 10,
   },
   ImageInput: {
     backgroundColor: "#4FA4E5",
