@@ -23,6 +23,7 @@ import FSNevigator from "./src/components/FreeSearch"
 import ServicesList from './src/components/ServicesList';
 
 LogBox.ignoreLogs(['expo-app-loading is deprecated']);
+LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
 

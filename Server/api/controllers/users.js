@@ -43,13 +43,13 @@ module.exports = {
         Customer.findOne({username: username}).then((c) => {
             if(c == null) {
                 return res.status(404).json({
-                    message: "Authentication failed, username or passwaord incorrect."
+                    message: "Authentication failed, username or password incorrect."
                 });
             }
             bcrypt.compare(password, c.password, (error, result) => {
                 if(error) {
                     return res.status(500).json({
-                        message: "Authentication failed, username or passwaord incorrect."
+                        message: "Authentication failed, username or password incorrect."
                     });
                 }
                 if(result) {
