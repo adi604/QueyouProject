@@ -54,6 +54,14 @@ export function validateSignUpDetails(SignUpDetails, onDetailsNotValid) {
         onDetailsNotValid(strings.REPEAT_PASSWORD_MSG);
         return false;
     }
+    if (SignUpDetails.firstName === '') {
+        onDetailsNotValid(strings.FIRST_NAME_MSG);
+        return false;
+    }
+    if (SignUpDetails.lastName === '') {
+        onDetailsNotValid(strings.LAST_NAME_MSG);
+        return false;
+    }
     return true;
 }
 
