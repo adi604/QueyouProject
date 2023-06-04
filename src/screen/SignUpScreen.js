@@ -58,8 +58,11 @@ const SignUpScreen = props => {
     Montserrat_900Black_Italic,
 });
 
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [isSelected, setSelection] = useState(false);
@@ -72,7 +75,9 @@ const SignUpScreen = props => {
       username: username,
       email: email,
       password: password,
-      repeatPassword: repeatPassword
+      repeatPassword: repeatPassword,
+      firstName: firstName,
+      lastName: lastName,
     }
 
     const isValid = validateSignUpDetails(signUpDetails,
@@ -88,7 +93,10 @@ const SignUpScreen = props => {
     const body = {
       username: username,
       password: password,
-      mail: email
+      mail: email,
+      phoneNumber: phoneNumber,
+      firstName: firstName,
+      lastName: lastName,
     }
     const url = `${strings.serverBaseUrl}/users/signUpCustomers`;
     const response = await sendRequest(url, 'POST', body);
@@ -134,12 +142,36 @@ const SignUpScreen = props => {
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <AntDesign name="user" size={26} color="#888" />
-            <Text style={styles.title}>User name</Text>
+            <Text style={styles.title}>Username</Text>
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(email) => setUsername(email)}
+              onChangeText={(username) => setUsername(username)}
+            />
+          </View>
+        </View>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <AntDesign name="user" size={26} color="#888" />
+            <Text style={styles.title}>First Name</Text>
+          </View>
+          <View style={{ marginTop: 10, }}>
+            <TextInput
+              style={styles.TextInput}
+              onChangeText={(firstName) => setFirstName(firstName)}
+            />
+          </View>
+        </View>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <AntDesign name="user" size={26} color="#888" />
+            <Text style={styles.title}>Last Name</Text>
+          </View>
+          <View style={{ marginTop: 10, }}>
+            <TextInput
+              style={styles.TextInput}
+              onChangeText={(lastName) => setLastName(lastName)}
             />
           </View>
         </View>
@@ -151,7 +183,7 @@ const SignUpScreen = props => {
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(username) => setUsername(username)}
+              onChangeText={(email) => setEmail(email)}
             />
           </View>
         </View>
@@ -163,7 +195,7 @@ const SignUpScreen = props => {
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(repeatPassword) => setUsername(repeatPassword)}
+              onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
             />
           </View>
         </View>
@@ -175,7 +207,7 @@ const SignUpScreen = props => {
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(password) => setUsername(password)}
+              onChangeText={(password) => setPassword(password)}
             />
           </View>
         </View>
@@ -187,7 +219,7 @@ const SignUpScreen = props => {
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(repeatPassword) => setUsername(repeatPassword)}
+              onChangeText={(repeatPassword) => setRepeatPassword(repeatPassword)}
             />
           </View>
         </View>
@@ -201,15 +233,6 @@ const SignUpScreen = props => {
             <AntDesign name="clouduploado" size={30} color="white" />
             </Pressable>
           </View>
-        </View>
-        <View style={styles.Checkbox}>
-          <Checkbox
-            value={isSelected}
-            onValueChange={setSelection}
-            title="Music"
-            isChecked={isSelected}
-          />
-          <Text style={styles.agree}>I agree to the Terms of Service</Text>
         </View>
         <TouchableOpacity style={styles.signBtn} onPress={onPressSignUp}>
           <Text style={styles.signBtnText}>Sign Up</Text>

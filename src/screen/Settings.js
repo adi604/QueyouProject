@@ -49,8 +49,12 @@ const Settings = props => {
     Montserrat_700Bold_Italic,
     Montserrat_800ExtraBold_Italic,
     Montserrat_900Black_Italic,
-});
+  });
 
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
 
@@ -64,33 +68,55 @@ const Settings = props => {
   const onChangeEmail = (e) => {
     setEmail(e.nativeEvent.text);
   };
+  const onChangeFirstName = (e) => {
+    setFirstName(e.nativeEvent.text);
+  };
+  const onChangeLastName = (e) => {
+    setLastName(e.nativeEvent.text);
+  };
 
-  async function onPressSave () {
-    if ((phone != "") || (email != "")) {
-        const body = {}
-        if (phone != "") {
-          body.phoneNumber = phone
-        }
-        if (email != "") {
-          body.mail = email
-        }
-        const url = `${serverBaseUrl}/customers`;
-        console.log(body);
-        const response = await sendRequest(url, 'PATCH', body);
-        if(!response.ok) {
-            console.log("Update Failed !");
-        } else {
-            // update succeeded
-            console.log("Update Succeeded !");
-            setPhone("");
-            setEmail("");
-        }
+
+
+  async function onPressSave() {
+    if ((phone !== "") || (email !== "") || (firstName !== "") || (lastName !== "")) {
+      const body = {}
+      if (phone !== "") {
+        body.phoneNumber = phone
+      }
+      if (email !== "") {
+        body.mail = email
+      }
+      if (firstName !== "") {
+        body.firstName = firstName
+      }
+      if (lastName !== "") {
+        body.lastName = lastName
+      }
+      const url = `${serverBaseUrl}/customers`;
+      console.log(body);
+      const response = await sendRequest(url, 'PATCH', body);
+      if (!response.ok) {
+        setModalMessage("Update Failed!");
+      } else {
+        setModalMessage("Update Succeeded!");
+      }
+      setModalVisible(true);
+      setLastName("");
+      setFirstName("");
+      setEmail("");
+      setPhone("");
     }
-};
+  };
 
 
   return (
     <ScrollView style={[{ backgroundColor: "white", top: 25, height: "100%", marginBottom: 30, }]}>
+      <ModalSlide
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          message={modalMessage}
+          buttonText="OK"
+        />
       <View style={{
         shadowColor: '#000',
         elevation: 45,
@@ -111,49 +137,72 @@ const Settings = props => {
       </View>
 
       <View style={styles.box}>
-        <View style={{flexDirection: "row"}}>
+        <View style={{ flexDirection: "row" }}>
           <Text style={styles.subexp}>Login and security</Text>
-          <TouchableOpacity style={{marginLeft: "auto"}} onPress={onPressSave}>
-            <Text style={{fontSize: 20, color: "#64b5f6", fontWeight: "500", }}>Save</Text>
+          <TouchableOpacity style={{ marginLeft: "auto" }} onPress={onPressSave}>
+            <Text style={{ fontSize: 20, color: "#64b5f6", fontWeight: "500", }}>Save</Text>
           </TouchableOpacity>
         </View>
-        
+        <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30 }]}>
+          <View style={styles.circle}>
+            <Feather style={[styles.icon,]} name="user" size={18} color="#64b5f6" />
+          </View>
+          <Text style={[styles.username,]}>First Name</Text>
+        </TouchableOpacity>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Phone number"
+            value={firstName}
+            placeholderTextColor={"#DDD"}
+            onChange={onChangeFirstName}
+          />
+        </View>
+        <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30 }]}>
+          <View style={styles.circle}>
+            <Feather style={[styles.icon,]} name="user" size={18} color="#64b5f6" />
+          </View>
+          <Text style={[styles.username,]}>Last Name</Text>
+        </TouchableOpacity>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Phone number"
+            value={lastName}
+            placeholderTextColor={"#DDD"}
+            onChange={onChangeLastName}
+          />
+        </View>
         <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30 }]}>
           <View style={styles.circle}>
             <Feather style={[styles.icon,]} name="phone-call" size={18} color="#64b5f6" />
           </View>
           <Text style={[styles.username,]}>Phone Number</Text>
-                  
         </TouchableOpacity>
-        
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Phone number"
-              value={phone}
-              placeholderTextColor={"#DDD"}
-              onChange={onChangePhone}
-            />
-          </View>
-        
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Phone number"
+            value={phone}
+            placeholderTextColor={"#DDD"}
+            onChange={onChangePhone}
+          />
+        </View>
         <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30 }]}>
           <View style={styles.circle}>
             <Fontisto style={[styles.icon,]} name="email" size={19} color="#64b5f6" />
           </View>
           <Text style={[styles.username,]}>Email</Text>
-             
         </TouchableOpacity>
-        
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Email"
-              value={email}
-              placeholderTextColor={"#DDD"}
-              onChange={onChangeEmail}
-            />
-          </View>
-      
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Email"
+            value={email}
+            placeholderTextColor={"#DDD"}
+            onChange={onChangeEmail}
+          />
+        </View>
       </View>
       <View style={styles.lastBox}>
         <TouchableOpacity style={[{ flexDirection: 'row' }]}>
