@@ -31,14 +31,31 @@ module.exports = {
     // ##### Update provider by username. #####
     updateProvider: (req, res) => {
         const providerUserName = req.username;
-        Provider.findOneAndUpdate({ username: providerUserName }, req.body).then((p) => {
+        Provider.findOneAndUpdate({ username: providerUserName }, req.body.details).then((p) => {
             if (p != null) {
-                res.status(200).json({
-                    message: `provider ${providerUserName} updated !`
-                })
+                if (req.body.offDate != "") {
+                    offDates = p.disabledDates
+                    offDates.push(req.body.offDate)
+                    Provider.findOneAndUpdate({ username: providerUserName }, {disabledDates: offDates}).then((p) => {
+                        if (p != null) {
+                            res.status(200).json({
+                                message: `provider ${providerUserName} updated !`
+                            })
+                        } else {
+                            res.status(404).json({
+                                message: `${providerUserName} - Update Failed !`
+                            })
+                        }
+                    })
+
+                } else {
+                    res.status(200).json({
+                        message: `provider ${providerUserName} updated !`
+                    })
+                }
             } else {
                 res.status(404).json({
-                    message: `${providerUserName} not found !`
+                    message: `${providerUserName} - Update Failed !`
                 })
             }
         }).catch(error => {

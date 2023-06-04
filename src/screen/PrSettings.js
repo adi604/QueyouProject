@@ -56,7 +56,7 @@ const PrSettings = props => {
   const [maxDate, setMaxDate] = useState("");
   const [openTime, setOpenTime] = useState("");
   const [closeTime, setCloseTime] = useState("");
-  const [OffDay, setOffDay] = useState("");
+  const [offDate, setOffDate] = useState("");
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -77,26 +77,32 @@ const PrSettings = props => {
   const onChangeCloseTime = (e) => {
     setCloseTime(e.nativeEvent.text);
   };
-  const onChangeOffDay = (e) => {
-    setOffDay(e.nativeEvent.text);
+  const onChangeOffDate = (e) => {
+    setOffDate(e.nativeEvent.text);
   };
   async function onPressSave () {
-    if ((phone != "") || (email != "")) {
-        const body = {}
+    if ((phone != "") || (email != "") || (maxDate != "") || (openTime != "") || (closeTime != "") || (offDate != "")) {
+        const body = {
+          details: {},
+          offDate: ""
+        }
         if (phone != "") {
-          body.phoneNumber = phone
+          body.details.phoneNumber = phone
         }
         if (email != "") {
-          body.mail = email
+          body.details.mail = email
         }
         if (maxDate != "") {
-          body.maxDate = maxDate
+          body.details.maxDate = maxDate
         }
         if (openTime != "") {
-          body.openTime = openTime
+          body.details.openTime = openTime
         }
         if (closeTime != "") {
-          body.closeTime = closeTime
+          body.details.closeTime = closeTime
+        }
+        if (offDate != "") {
+          body.offDate = offDate
         }
         const url = `${serverBaseUrl}/providers`;
         console.log(body);
@@ -111,6 +117,7 @@ const PrSettings = props => {
             setMaxDate("");
             setOpenTime("");
             setCloseTime("");
+            setOffDate("");
         }
     }
 };
@@ -186,7 +193,7 @@ const PrSettings = props => {
         <View style={styles.inputView}>
           <TextInput
             style={styles.TextInput}
-            placeholder="Max Date"
+            placeholder="YYYY-MM-DD"
             value={maxDate}
             placeholderTextColor={"#DDD"}
             onChange={onChangeMaxDate}
@@ -202,7 +209,7 @@ const PrSettings = props => {
         <View style={styles.inputView}>
           <TextInput
             style={styles.TextInput}
-            placeholder="Open Time"
+            placeholder="HH:MM"
             value={openTime}
             placeholderTextColor={"#DDD"}
             onChange={onChangeOpenTime}
@@ -218,7 +225,7 @@ const PrSettings = props => {
         <View style={styles.inputView}>
           <TextInput
             style={styles.TextInput}
-            placeholder="Close Time"
+            placeholder="HH:MM"
             value={closeTime}
             placeholderTextColor={"#DDD"}
             onChange={onChangeCloseTime}
@@ -229,15 +236,15 @@ const PrSettings = props => {
           <View style={styles.circle}>
             <FontAwesome5 style={[styles.icon,]} name="calendar-times" size={18} color="#64b5f6" />
           </View>
-          <Text style={[styles.username,]}>Off Day</Text>        
+          <Text style={[styles.username,]}>Add Off Date</Text>        
         </TouchableOpacity>
         <View style={styles.inputView}>
           <TextInput
             style={styles.TextInput}
-            placeholder="Off Day"
-            value={OffDay}
+            placeholder="YYYY-MM-DD"
+            value={offDate}
             placeholderTextColor={"#DDD"}
-            onChange={onChangeOffDay}
+            onChange={onChangeOffDate}
           />
         </View>
         
