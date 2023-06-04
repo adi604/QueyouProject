@@ -72,7 +72,7 @@ const Nevigator = props => {
           headerShown: false,
         }} />
 
-        {/*
+        {
           <Tab.Screen
             name="Appointment Details"
             component={main_temp_page}
@@ -96,7 +96,7 @@ const Nevigator = props => {
 
               ),
             }} />
-        */}
+        }
 
     </Tab.Navigator>
   )
