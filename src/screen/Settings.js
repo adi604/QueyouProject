@@ -53,8 +53,8 @@ const Settings = props => {
 
   const [modalMessage, setModalMessage] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
 
@@ -68,17 +68,17 @@ const Settings = props => {
   const onChangeEmail = (e) => {
     setEmail(e.nativeEvent.text);
   };
-  const onChangeFirstName = (e) => {
-    setFirstName(e.nativeEvent.text);
-  };
-  const onChangeLastName = (e) => {
-    setLastName(e.nativeEvent.text);
-  };
+  // const onChangeFirstName = (e) => {
+  //   setFirstName(e.nativeEvent.text);
+  // };
+  // const onChangeLastName = (e) => {
+  //   setLastName(e.nativeEvent.text);
+  // };
 
 
 
   async function onPressSave() {
-    if ((phone !== "") || (email !== "") || (firstName !== "") || (lastName !== "")) {
+    if ((phone !== "") || (email !== "")) { // || (firstName !== "") || (lastName !== "")) {
       const body = {}
       if (phone !== "") {
         body.phoneNumber = phone
@@ -86,12 +86,12 @@ const Settings = props => {
       if (email !== "") {
         body.mail = email
       }
-      if (firstName !== "") {
-        body.firstName = firstName
-      }
-      if (lastName !== "") {
-        body.lastName = lastName
-      }
+      // if (firstName !== "") {
+      //   body.firstName = firstName
+      // }
+      // if (lastName !== "") {
+      //   body.lastName = lastName
+      // }
       const url = `${serverBaseUrl}/customers`;
       console.log(body);
       const response = await sendRequest(url, 'PATCH', body);
@@ -101,8 +101,8 @@ const Settings = props => {
         setModalMessage("Update Succeeded!");
       }
       setModalVisible(true);
-      setLastName("");
-      setFirstName("");
+      // setLastName("");
+      // setFirstName("");
       setEmail("");
       setPhone("");
     }
@@ -143,6 +143,8 @@ const Settings = props => {
             <Text style={{ fontSize: 20, color: "#64b5f6", fontWeight: "500", }}>Save</Text>
           </TouchableOpacity>
         </View>
+
+        {/*
         <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30 }]}>
           <View style={styles.circle}>
             <Feather style={[styles.icon,]} name="user" size={18} color="#64b5f6" />
@@ -152,7 +154,7 @@ const Settings = props => {
         <View style={styles.inputView}>
           <TextInput
             style={styles.TextInput}
-            placeholder="Phone number"
+            placeholder="First Name"
             value={firstName}
             placeholderTextColor={"#DDD"}
             onChange={onChangeFirstName}
@@ -167,12 +169,14 @@ const Settings = props => {
         <View style={styles.inputView}>
           <TextInput
             style={styles.TextInput}
-            placeholder="Phone number"
+            placeholder="Last Name"
             value={lastName}
             placeholderTextColor={"#DDD"}
             onChange={onChangeLastName}
           />
         </View>
+        */}
+
         <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30 }]}>
           <View style={styles.circle}>
             <Feather style={[styles.icon,]} name="phone-call" size={18} color="#64b5f6" />
