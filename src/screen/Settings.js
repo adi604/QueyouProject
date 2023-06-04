@@ -160,7 +160,6 @@ const Settings = props => {
             onChange={onChangeFirstName}
           />
         </View>
-
         <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30 }]}>
           <View style={styles.circle}>
             <Feather style={[styles.icon,]} name="user" size={18} color="#64b5f6" />
