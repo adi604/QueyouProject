@@ -75,12 +75,12 @@ const SignUpScreen = props => {
     const signUpDetails = {
       isSelected: isSelected,
       username: username,
-      email: email,
-      phone: phone,
-      password: password,
-      repeatPassword: repeatPassword,
       firstName: firstName,
       lastName: lastName,
+      email: email,
+      phoneNumber: phoneNumber,
+      password: password,
+      repeatPassword: repeatPassword,
     }
 
     const isValid = validateSignUpDetails(signUpDetails,
@@ -96,10 +96,10 @@ const SignUpScreen = props => {
     const body = {
       username: username,
       password: password,
-      mail: email,
-      phoneNumber: phoneNumber,
       firstName: firstName,
       lastName: lastName,
+      mail: email,
+      phoneNumber: phoneNumber,
     }
     const url = `${strings.serverBaseUrl}/users/signUpCustomers`;
     const response = await sendRequest(url, 'POST', body);
@@ -109,6 +109,14 @@ const SignUpScreen = props => {
       return;
     }
     // login succeeded
+    setUsername("");
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPhoneNumber("");
+    setPassword("");
+    setRepeatPassword("");
+    setSelection(false);
     await AsyncStorage.setItem('token', response.body.token);
     props.navigation.navigate('LoginScreen');
   }
@@ -295,6 +303,7 @@ const styles = StyleSheet.create({
     height: 45,
     shadowColor: "#000",
     elevation: 10,
+    paddingLeft: 10,
   },
   ImageInput: {
     backgroundColor: "#4FA4E5",

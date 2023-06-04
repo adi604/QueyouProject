@@ -21,7 +21,7 @@ export async function sendRequest(url, method, body, isTokenRequired = true) {
 }
 
 export function validatePassword(password) {
-    if (password.length < 8) {
+    if (password.length < 5) {
         return false;
     }
     // regex to check if the password contains at least one number
@@ -36,22 +36,26 @@ export function validateEmail(email) {
     const regex = /\S+@\S+\.\S+/;
     return regex.test(email);
 }
+export function validatePhoneNumber(phoneNumber) {
+    const regex =  /^\d{10}$/;
+    return regex.test(phoneNumber);
+}
+
+export function validateUsername(username) {
+    if (username.length < 5) {
+        return false;
+    }
+    return true;
+}
+
 
 export function validateSignUpDetails(SignUpDetails, onDetailsNotValid) {
     if (!SignUpDetails.isSelected) {
-        onDetailsNotValid("Agreement is required.");
+        onDetailsNotValid(strings.INVALID_AGREE_MSG);
         return false;
     }
-    if (!validateEmail(SignUpDetails.email)) {
-        onDetailsNotValid(strings.INVALID_EMAIL_MSG);
-        return false;
-    }
-    if (!validatePassword(SignUpDetails.password)) {
-        onDetailsNotValid(strings.INVALID_PASSWORD_MSG);
-        return false;
-    }
-    if (SignUpDetails.password !== SignUpDetails.repeatPassword) {
-        onDetailsNotValid(strings.REPEAT_PASSWORD_MSG);
+    if (!validateUsername(SignUpDetails.username)) {
+        onDetailsNotValid(strings.INVALID_USR_MSG);
         return false;
     }
     if (SignUpDetails.firstName === '') {
@@ -60,6 +64,22 @@ export function validateSignUpDetails(SignUpDetails, onDetailsNotValid) {
     }
     if (SignUpDetails.lastName === '') {
         onDetailsNotValid(strings.LAST_NAME_MSG);
+        return false;
+    }
+    if (!validateEmail(SignUpDetails.email)) {
+        onDetailsNotValid(strings.INVALID_EMAIL_MSG);
+        return false;
+    }
+    if (!validatePhoneNumber(SignUpDetails.phoneNumber)) {
+        onDetailsNotValid(strings.INVALID_PHONE_MSG);
+        return false;
+    }
+    if (!validatePassword(SignUpDetails.password)) {
+        onDetailsNotValid(strings.INVALID_PASSWORD_MSG);
+        return false;
+    }
+    if (SignUpDetails.password !== SignUpDetails.repeatPassword) {
+        onDetailsNotValid(strings.REPEAT_PASSWORD_MSG);
         return false;
     }
     return true;
