@@ -11,6 +11,9 @@ const Reviews = props => {
     const [avarage, setAvarage] = useState(0);
     const [reviews, setReviews] = useState([]);
 
+    const onPressAddReview = () => {
+        props.navigation.navigate('AddReview');
+      };
 
     useEffect(() => {
         async function fetchReviews() {
@@ -60,8 +63,8 @@ const Reviews = props => {
                     <Text>{avarage} out of 5</Text>
                 </View>
                 <Text style={styles.amountText}>Avarage rate by {amount} customers</Text>
-                <TouchableOpacity style={styles.addReview}>
-                    <Text style={{ color: "#FFF", alignSelf: "center", alignItems: "center", fontWeight: "500" }}>Add Review</Text>
+                <TouchableOpacity style={styles.addReview} onPress={onPressAddReview}>
+                    <Text style={{color: "#FFF", alignSelf: "center", alignItems: "center", fontWeight: "500"}}>Add Review</Text>
                 </TouchableOpacity>
             </View>
             <FlatList style={[{ marginTop: 70 }]}

@@ -10,6 +10,10 @@ const Reviews = props => {
   const [reviews, setReviews] = useState([]);
 
 
+  const onPressAddReview = () => {
+    props.navigation.navigate('AddReview');
+  };
+
   useEffect(() => {
     async function fetchReviews() {
       // Fetch Reviews from API or local storage
@@ -58,7 +62,7 @@ const Reviews = props => {
           <Text>{avarage} out of 5</Text>
         </View>
         <Text style={styles.amountText}>Avarage rate by {amount} customers</Text>
-        <TouchableOpacity style={styles.addReview}>
+        <TouchableOpacity style={styles.addReview} onPress={onPressAddReview}>
               <Text style={{color: "#FFF", alignSelf: "center", alignItems: "center", fontWeight: "500"}}>Add Review</Text>
         </TouchableOpacity>
       </View>
