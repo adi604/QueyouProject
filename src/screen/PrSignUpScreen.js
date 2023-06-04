@@ -58,14 +58,31 @@ const SignUpScreen = props => {
 
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
-  const [mail, setMail] = useState('');
+  const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [category, setCategory] = useState('');
+  const [description, setDescription] = useState('');
+  const [durationMeeting, setDurationMeeting] = useState("");
+  const [maxDate, setMaxDate] = useState("");
+  const [openTime, setOpenTime] = useState("");
+  const [closeTime, setCloseTime] = useState("");
+  const [sunSelected, setSunSelected] = useState(false);
+  const [monSelected, setMonSelected] = useState(false);
+  const [tusSelected, setTusSelected] = useState(false);
+  const [wedSelected, setWedSelected] = useState(false);
+  const [turSelected, setTurSelected] = useState(false);
+  const [friSelected, setFriSelected] = useState(false);
+  const [sutSelected, setSutSelected] = useState(false);
+
+  // location need to be object, and address need to be string.
   const [address, setAddress] = useState({});
+  const [location, setLocation] = useState({});
+
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const [image, setImage] = useState(null);
-
   const [isSelected, setSelection] = useState(false);
+
+  const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
 
@@ -75,11 +92,22 @@ const SignUpScreen = props => {
 
   const onPressSignUp = async () => {
     const signUpDetails = {
+      isSelected: isSelected,
       username: username,
-      email: mail,
+      name: name,
+      email: email,
+      phoneNumber: phoneNumber,
+      category: category,
+      description: description,
+      openTime: openTime,
+      closeTime: closeTime,
+      durationMeeting: durationMeeting,
+      maxDate: maxDate,
       password: password,
-      repeatPassword: repeatPassword
+      repeatPassword: repeatPassword,
     }
+
+    console.log(signUpDetails);
 
     const isValid = validateSignUpProviderDetails(signUpDetails,
       (errorMsg) => {
@@ -91,10 +119,38 @@ const SignUpScreen = props => {
       return;
     }
 
+    // check address \ location , and offdays.
+    const offDays = [];
+    if(sunSelected) { offDays.push(0); }
+    if(monSelected) { offDays.push(1); }
+    if(tusSelected) { offDays.push(2); }
+    if(wedSelected) { offDays.push(3); }
+    if(turSelected) { offDays.push(4); }
+    if(friSelected) { offDays.push(5); }
+    if(sutSelected) { offDays.push(6); }
+    if(offDays.length == 7) {
+      setModalMessage("You must work at least 1 day.");
+      setModalVisible(true);
+      return;
+    }
+
+
     const body = {
       username: username,
+      name: name,
       password: password,
-      mail: mail
+      mail: email,
+      phoneNumber: phoneNumber,
+      category: category,
+      description: description,
+      openTime: openTime,
+      closeTime: closeTime,
+      durationMeeting: parseInt(durationMeeting),
+      maxDate: maxDate,
+      disabledDates: [],
+      disabledDays: offDays,
+      // address : ,
+      // location: ,
     }
     const url = `${strings.serverBaseUrl}/users/signUpProviders`;
     const response = await sendRequest(url, 'POST', body);
@@ -104,9 +160,38 @@ const SignUpScreen = props => {
       return;
     }
     // login succeeded
+    setUsername("");
+    setName("");
+    setEmail("");
+    setPhoneNumber("");
+    setCategory("");
+    setDescription("");
+    setOpenTime("");
+    setCloseTime("");
+    setDurationMeeting("");
+    setMaxDate("");
+    setDurationMeeting("");
+    setDurationMeeting("");
+    // ###
+    setAddress({});
+    setLocation("");
+    //
+    setPassword("");
+    setRepeatPassword("");
+    setSelection(false);
+    setSunSelected(false);
+    setMonSelected(false);
+    setTusSelected(false);
+    setWedSelected(false);
+    setTurSelected(false);
+    setFriSelected(false);
+    setSutSelected(false);
+    setImage(null);
+
     await AsyncStorage.setItem('token', response.body.token);
     props.navigation.navigate('PrLoginScreen');
   }
+
 
   const chooseImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync();
@@ -114,6 +199,10 @@ const SignUpScreen = props => {
       setImage(result);
     }
   };
+
+  const handleCategoryChanged = (value) => {
+    setCategory(value);
+  }
 
   return (
     <ScrollView style={{ backgroundColor: "#FFF", height: "100%" }}>
@@ -132,19 +221,36 @@ const SignUpScreen = props => {
           Sign Up
         </Text>
       </LinearGradient>
+
       <View style={{ backgroundColor: "#FFF", marginTop: -15, width: "94%", alignSelf: "center", borderRadius: 15, }}>
+        
         <View style={{ flexDirection: "column", marginTop: 25 }}>
-          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
-            <AntDesign name="user" size={26} color="#888" />
-            <Text style={styles.title}>Provider name</Text>
-          </View>
-          <View style={{ marginTop: 10, }}>
-            <TextInput
-              style={styles.TextInput}
-              onChangeText={(name) => setName(name)}
-            />
-          </View>
+            <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+              <AntDesign name="user" size={26} color="#888" />
+              <Text style={styles.title}>Username</Text>
+            </View>
+            <View style={{ marginTop: 10, }}>
+              <TextInput
+                style={styles.TextInput}
+                onChangeText={(username) => setUsername(username)}
+              />
+            </View>
         </View>
+
+
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
+            <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+              <AntDesign name="user" size={26} color="#888" />
+              <Text style={styles.title}>Name</Text>
+            </View>
+            <View style={{ marginTop: 10, }}>
+              <TextInput
+                style={styles.TextInput}
+                onChangeText={(name) => setName(name)}
+              />
+            </View>
+        </View>
+
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <MaterialCommunityIcons name="email-edit-outline" size={24} color="#888" />
@@ -153,10 +259,11 @@ const SignUpScreen = props => {
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(email) => setMail(email)}
+              onChangeText={(email) => setEmail(email)}
             />
           </View>
         </View>
+
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Feather name="phone-call" size={22} color="#888" />
@@ -176,9 +283,10 @@ const SignUpScreen = props => {
             <Text style={styles.title}>Category</Text>
           </View>
           <View style={{ marginTop: 10, }}>
-            <CategoriesList></CategoriesList>
+            <CategoriesList handleCategoryChanged={handleCategoryChanged} />
           </View>
         </View>
+
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <MaterialIcons name="description" size={22} color="#888" />
@@ -187,65 +295,138 @@ const SignUpScreen = props => {
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
+              onChangeText={(description) => setDescription(description)}
             />
           </View>
         </View>
+
 
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Entypo name="time-slot" size={22} color="#888" />
             <Text style={styles.title}>Working time</Text>
           </View>
-          <View style={{ flexDirection: "row", marginTop: 10}}>
-            <View style={{ marginTop: 10, width: "29%", flexDirection: "row",}}>
-              <Text style={{ textAlignVertical: "center", color: "#888", fontSize: 13, width: 65}}>open time</Text>
-              <TextInput
-                style={[styles.TextInput, {width: "48%"}]}
-                onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
-              />
-            </View>
-            <View style={{ marginTop: 10, width: "29%", flexDirection: "row", left: 20}}>
-              <Text style={{ textAlignVertical: "center", color: "#888", fontSize: 13, width: 65}}>close time</Text>
-              <TextInput
-                style={[styles.TextInput, {width: "48%"}]}
-                onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
-              />
-            </View>
-            <View style={{ marginTop: 10, width: "29%", flexDirection: "row", left: 40}}>
-              <Text style={{ textAlignVertical: "center", color: "#888", fontSize: 13, width: 65, left: 10}}>during meeting</Text>
-              <TextInput
-                style={[styles.TextInput, {width: "48%"}]}
-                onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
-              />
-            </View>
+        </View>
+
+        <View style={{ flexDirection: "column", marginTop: 11 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <Text style={[styles.title, {fontSize:16}]}>Open Time</Text>
+          </View>
+          <View style={{ marginTop: 7, }}>
+            <TextInput
+              style={styles.TextInput}
+              placeholder='HH:MM'
+              onChangeText={(openTime) => setOpenTime(openTime)}
+            />
           </View>
         </View>
 
-        <View style={{ flexDirection: "column", marginTop: 25 }}>
+        <View style={{ flexDirection: "column", marginTop: 11 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
-            <AntDesign name="closecircleo" size={22} color="#888" />
-            <Text style={styles.title}>Disable</Text>
+            <Text style={[styles.title, {fontSize:16}]}>Close Time</Text>
           </View>
-          <View style={{ flexDirection: "row", alignSelf: "center", marginTop: 10}}>
-            <View style={{ marginTop: 10, width: "30%", flexDirection: "row",}}>
-              <Text style={{ textAlignVertical: "center", color: "#888", fontSize: 13, width: 35}}>days</Text>
-              <TextInput
-                style={[styles.TextInput, {width: "55%"}]}
-                onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
-              />
-            </View>
-            {/*
-            <View style={{ marginTop: 10, width: "30%", flexDirection: "row", left: 20}}>
-              <Text style={{ textAlignVertical: "center", color: "#888", fontSize: 13, width: 40}}>dates</Text>
-              <TextInput
-                style={[styles.TextInput, {width: "55%"}]}
-                onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
-              />
-            </View>
-            */}
+          <View style={{ marginTop: 7, }}>
+            <TextInput
+              style={styles.TextInput}
+              placeholder='HH:MM'
+              onChangeText={(closeTime) => setCloseTime(closeTime)}
+            />
           </View>
         </View>
+
+        <View style={{ flexDirection: "column", marginTop: 11 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <Text style={[styles.title, {fontSize:16}]}>Duration Meeting</Text>
+          </View>
+          <View style={{ marginTop: 7, }}>
+            <TextInput
+              style={styles.TextInput}
+              placeholder='In Minutes'
+              onChangeText={(durationMeeting) => setDurationMeeting(durationMeeting)}
+            />
+          </View>
+        </View>
+
+        <View style={{ flexDirection: "column", marginTop: 11 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <Text style={[styles.title, {fontSize:16}]}>Max Date for booking</Text>
+          </View>
+          <View style={{ marginTop: 7, }}>
+            <TextInput
+              style={styles.TextInput}
+              placeholder='YYYY-MM-DD'
+              onChangeText={(maxDate) => setMaxDate(maxDate)}
+            />
+          </View>
+        </View>
+
+        <View style={{ flexDirection: "column", marginTop: 11 }}>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <Text style={[styles.title, {fontSize:16}]}>Off Days</Text>
+          </View>
+          <View style={{ flexDirection: "row", alignSelf: "center", }}>
+
+            <View style={[styles.daysCheckbox, {flexDirection: "column",}]}>
+              <Checkbox
+                value={sunSelected}
+                isChecked={sunSelected}
+                onValueChange={() => setSunSelected(!sunSelected)}
+              />
+              <Text style={styles.daysTxt}>Sun</Text>
+            </View>
+            <View style={[styles.daysCheckbox, {flexDirection: "column",}]}>
+              <Checkbox
+                value={monSelected}
+                isChecked={monSelected}
+                onValueChange={() => setMonSelected(!monSelected)}
+              />
+              <Text style={styles.daysTxt}>Mon</Text>
+            </View>
+            <View style={[styles.daysCheckbox, {flexDirection: "column",}]}>
+              <Checkbox
+                value={tusSelected}
+                isChecked={tusSelected}
+                onValueChange={() => setTusSelected(!tusSelected)}
+              />
+              <Text style={styles.daysTxt}>Tus</Text>
+            </View>
+            <View style={[styles.daysCheckbox, {flexDirection: "column",}]}>
+              <Checkbox
+                value={wedSelected}
+                isChecked={wedSelected}
+                onValueChange={() => setWedSelected(!wedSelected)}
+              />
+              <Text style={styles.daysTxt}>Wed</Text>
+            </View>
+            <View style={[styles.daysCheckbox, {flexDirection: "column",}]}>
+              <Checkbox
+                value={turSelected}
+                isChecked={turSelected}
+                onValueChange={() => setTurSelected(!turSelected)}
+              />
+              <Text style={styles.daysTxt}>Tur</Text>
+            </View>
+            <View style={[styles.daysCheckbox, {flexDirection: "column",}]}>
+              <Checkbox
+                value={friSelected}
+                isChecked={friSelected}
+                onValueChange={() => setFriSelected(!friSelected)}
+              />
+              <Text style={styles.daysTxt}>Fri</Text>
+            </View>
+            <View style={[styles.daysCheckbox, {flexDirection: "column",}]}>
+              <Checkbox
+                value={sutSelected}
+                isChecked={sutSelected}
+                onValueChange={() => setSutSelected(!sutSelected)}
+              />
+              <Text style={styles.daysTxt}>Sut</Text>
+            </View>
+
+          </View>
+        </View>
+
+
         <View style={{ flexDirection: "column", marginTop: 25}}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Ionicons name="location-outline" size={25} color="#888" />
@@ -255,6 +436,7 @@ const SignUpScreen = props => {
             <GooglePlacesInput setAddress={setAddress} />
           </View>
         </View>
+
         <View style={{ flexDirection: "column", }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Feather name="lock" size={24} color="#888" />
@@ -267,6 +449,7 @@ const SignUpScreen = props => {
             />
           </View>
         </View>
+
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Feather name="lock" size={24} color="#888" />
@@ -279,6 +462,7 @@ const SignUpScreen = props => {
             />
           </View>
         </View>
+
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <SimpleLineIcons name="picture" size={22} color="#888" />
@@ -290,15 +474,17 @@ const SignUpScreen = props => {
             </Pressable>
           </View>
         </View>
+
         <View style={styles.Checkbox}>
           <Checkbox
             value={isSelected}
-            onValueChange={setSelection}
-            title="Music"
+            onValueChange={() => setSelection(!isSelected)}
+            title="agreement"
             isChecked={isSelected}
           />
           <Text style={styles.agree}>I agree to the Terms of Service</Text>
         </View>
+
         <TouchableOpacity style={styles.signBtn} onPress={onPressSignUp}>
           <Text style={styles.signBtnText}>Sign Up</Text>
         </TouchableOpacity>
@@ -353,9 +539,19 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 30,
   },
+  daysCheckbox: {
+    alignSelf: "center",
+    marginTop: 7,
+    marginLeft: 15,
+  },
   agree: {
     fontWeight: 'bold',
     marginLeft: '3%',
+    color: "#666",
+    fontSize: 15,
+  },
+  daysTxt: {
+    fontWeight: 'bold',
     color: "#666",
     fontSize: 15,
   },

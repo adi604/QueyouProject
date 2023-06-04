@@ -48,6 +48,31 @@ export function validateUsername(username) {
     return true;
 }
 
+export function validateHour(hour) {
+    const regex = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
+    return regex.test(hour);
+}
+
+export function validateDuration(duration) {
+    const regex = /^[1-9]\d*$/;
+    return regex.test(duration);
+}
+
+export function validateMaxDate(maxDate) {
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!regex.test(maxDate)) {
+        return false;
+    }
+    const date = new Date(maxDate)
+    if (isNaN(date)) {
+        return false;
+    }
+    if (((new Date()).getTime()) > (date.getTime())) {
+        return false;
+    }
+    return true;
+}
+
 
 export function validateSignUpCustomerDetails(SignUpDetails, onDetailsNotValid) {
     if (!SignUpDetails.isSelected) {
@@ -108,6 +133,34 @@ export function validateSignUpProviderDetails(SignUpDetails, onDetailsNotValid) 
         onDetailsNotValid(strings.INVALID_PHONE_MSG);
         return false;
     }
+    if (SignUpDetails.category === '') {
+        onDetailsNotValid(strings.CATEGORY_MSG);
+        return false;
+    }
+    if (SignUpDetails.description === '') {
+        onDetailsNotValid(strings.DESCRIPTION_MSG);
+        return false;
+    }
+    if (!validateHour(SignUpDetails.openTime)) {
+        onDetailsNotValid(strings.INVALID_OPEN_MSG);
+        return false;
+    }
+    if (!validateHour(SignUpDetails.closeTime)) {
+        onDetailsNotValid(strings.INVALID_CLOSE_MSG);
+        return false;
+    }
+    if (!validateDuration(SignUpDetails.durationMeeting)) {
+        onDetailsNotValid(strings.INVALID_DURATION_MSG);
+        return false;
+    }
+    if (!validateMaxDate(SignUpDetails.maxDate)) {
+        onDetailsNotValid(strings.INVALID_MAX_DATE_MSG);
+        return false;
+    }
+    
+    
+
+
     if (!validatePassword(SignUpDetails.password)) {
         onDetailsNotValid(strings.INVALID_PASSWORD_MSG);
         return false;
