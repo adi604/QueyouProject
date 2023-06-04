@@ -60,17 +60,21 @@ const SignUpScreen = props => {
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [isSelected, setSelection] = useState(false);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [image, setImage] = useState(null);
+  //const [image, setImage] = useState(null);
 
   const onPressSignUp = async () => {
     const signUpDetails = {
+      isSelected: isSelected,
       username: username,
       email: email,
+      phone: phone,
       password: password,
       repeatPassword: repeatPassword
     }
@@ -102,12 +106,15 @@ const SignUpScreen = props => {
     props.navigation.navigate('LoginScreen');
   }
 
+
+  /*
   const chooseImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync();
     if (!result.cancelled) {
       setImage(result);
     }
   };
+  */
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -130,19 +137,22 @@ const SignUpScreen = props => {
           Sign Up
         </Text>
       </LinearGradient>
+
       <View style={{ backgroundColor: "#FFF", marginTop: -15, width: "94%", alignSelf: "center", borderRadius: 15, }}>
+        
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <AntDesign name="user" size={26} color="#888" />
-            <Text style={styles.title}>User name</Text>
+            <Text style={styles.title}>User Name</Text>
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(email) => setUsername(email)}
+              onChangeText={(txt) => setUsername(txt)}
             />
           </View>
         </View>
+
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <MaterialCommunityIcons name="email-edit-outline" size={24} color="#888" />
@@ -151,10 +161,11 @@ const SignUpScreen = props => {
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(username) => setUsername(username)}
+              onChangeText={(txt) => setEmail(txt)}
             />
           </View>
         </View>
+
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Feather name="phone-call" size={22} color="#888" />
@@ -163,10 +174,11 @@ const SignUpScreen = props => {
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(repeatPassword) => setUsername(repeatPassword)}
+              onChangeText={(txt) => setPhone(txt)}
             />
           </View>
         </View>
+
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Feather name="lock" size={24} color="#888" />
@@ -175,10 +187,11 @@ const SignUpScreen = props => {
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(password) => setUsername(password)}
+              onChangeText={(txt) => setPassword(txt)}
             />
           </View>
         </View>
+
         <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Feather name="lock" size={24} color="#888" />
@@ -187,11 +200,13 @@ const SignUpScreen = props => {
           <View style={{ marginTop: 10, }}>
             <TextInput
               style={styles.TextInput}
-              onChangeText={(repeatPassword) => setUsername(repeatPassword)}
+              onChangeText={(txt) => setRepeatPassword(txt)}
             />
           </View>
         </View>
-        <View style={{ flexDirection: "column", marginTop: 25 }}>
+
+        {/*
+          <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <SimpleLineIcons name="picture" size={22} color="#888" />
             <Text style={styles.title}>Profile Picture</Text>
@@ -202,18 +217,22 @@ const SignUpScreen = props => {
             </Pressable>
           </View>
         </View>
+        */}
+
         <View style={styles.Checkbox}>
           <Checkbox
             value={isSelected}
-            onValueChange={setSelection}
-            title="Music"
+            onValueChange={() => setSelection(!isSelected)}
+            title="agreement"
             isChecked={isSelected}
           />
           <Text style={styles.agree}>I agree to the Terms of Service</Text>
         </View>
+
         <TouchableOpacity style={styles.signBtn} onPress={onPressSignUp}>
           <Text style={styles.signBtnText}>Sign Up</Text>
         </TouchableOpacity>
+
       </View>
     </ScrollView>
   );

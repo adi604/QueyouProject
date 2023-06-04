@@ -38,6 +38,10 @@ export function validateEmail(email) {
 }
 
 export function validateSignUpDetails(SignUpDetails, onDetailsNotValid) {
+    if (!SignUpDetails.isSelected) {
+        onDetailsNotValid("Agreement is required.");
+        return false;
+    }
     if (!validateEmail(SignUpDetails.email)) {
         onDetailsNotValid(strings.INVALID_EMAIL_MSG);
         return false;
