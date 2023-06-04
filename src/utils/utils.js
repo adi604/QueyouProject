@@ -49,7 +49,7 @@ export function validateUsername(username) {
 }
 
 
-export function validateSignUpDetails(SignUpDetails, onDetailsNotValid) {
+export function validateSignUpCustomerDetails(SignUpDetails, onDetailsNotValid) {
     if (!SignUpDetails.isSelected) {
         onDetailsNotValid(strings.INVALID_AGREE_MSG);
         return false;
@@ -84,6 +84,42 @@ export function validateSignUpDetails(SignUpDetails, onDetailsNotValid) {
     }
     return true;
 }
+
+
+
+export function validateSignUpProviderDetails(SignUpDetails, onDetailsNotValid) {
+    if (!SignUpDetails.isSelected) {
+        onDetailsNotValid(strings.INVALID_AGREE_MSG);
+        return false;
+    }
+    if (!validateUsername(SignUpDetails.username)) {
+        onDetailsNotValid(strings.INVALID_USR_MSG);
+        return false;
+    }
+    if (SignUpDetails.name === '') {
+        onDetailsNotValid(strings.NAME_MSG);
+        return false;
+    }
+    if (!validateEmail(SignUpDetails.email)) {
+        onDetailsNotValid(strings.INVALID_EMAIL_MSG);
+        return false;
+    }
+    if (!validatePhoneNumber(SignUpDetails.phoneNumber)) {
+        onDetailsNotValid(strings.INVALID_PHONE_MSG);
+        return false;
+    }
+    if (!validatePassword(SignUpDetails.password)) {
+        onDetailsNotValid(strings.INVALID_PASSWORD_MSG);
+        return false;
+    }
+    if (SignUpDetails.password !== SignUpDetails.repeatPassword) {
+        onDetailsNotValid(strings.REPEAT_PASSWORD_MSG);
+        return false;
+    }
+    return true;
+}
+
+
 
 export async function getCurrentLocation() {
     try {

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, ScrollView,Pressable, Button, View, ImageBackground, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
-import { sendRequest, validateSignUpDetails } from '../utils/utils';
+import { sendRequest, validateSignUpCustomerDetails } from '../utils/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as strings from '../utils/strings';
 import ModalSlide from '../components/ModalSlide';
@@ -83,7 +83,7 @@ const SignUpScreen = props => {
       repeatPassword: repeatPassword,
     }
 
-    const isValid = validateSignUpDetails(signUpDetails,
+    const isValid = validateSignUpCustomerDetails(signUpDetails,
       (errorMsg) => {
         setModalMessage(errorMsg);
         setModalVisible(true);

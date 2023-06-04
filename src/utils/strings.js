@@ -10,3 +10,4 @@ export const GOOGLE_PLACES_API_KEY = "AIzaSyDLU7ME7Ck5nykTBrfNidv-w1-Uua-0dUM";
 export const GOOGLE_PLACES_DETAILS_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=";
 export const LAST_NAME_MSG = "Last name is required.";
 export const FIRST_NAME_MSG = "First name is required.";
+export const NAME_MSG = "Name is required.";

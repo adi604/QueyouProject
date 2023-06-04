@@ -8,7 +8,7 @@ import { Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, V
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import ModalSlide from '../components/ModalSlide';
 import * as strings from '../utils/strings';
-import { sendRequest, validateSignUpDetails } from '../utils/utils';
+import { sendRequest, validateSignUpProviderDetails } from '../utils/utils';
 import CategoriesList from '../components/CategoriesList';
 import {
   useFonts,
@@ -81,7 +81,7 @@ const SignUpScreen = props => {
       repeatPassword: repeatPassword
     }
 
-    const isValid = validateSignUpDetails(signUpDetails,
+    const isValid = validateSignUpProviderDetails(signUpDetails,
       (errorMsg) => {
         setModalMessage(errorMsg);
         setModalVisible(true);
