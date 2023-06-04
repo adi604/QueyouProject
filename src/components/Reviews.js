@@ -17,7 +17,7 @@ const Reviews = props => {
             // Fetch Reviews from API or local storage
             const url = `${serverBaseUrl}/reviews/providerReviews/${usernameProvider}`;
             const response = await sendRequest(url, 'GET');
-            if(!response.ok) {
+            if (!response.ok) {
                 console.log("Fetch Reviews Failed !")
             } else {
                 // Fetch succeeded
@@ -44,7 +44,7 @@ const Reviews = props => {
         }
         fetchReviews();
         console.log("fetchReviews()")
-      }, []);
+    }, []);
 
 
     return (
@@ -60,7 +60,9 @@ const Reviews = props => {
                     <Text>{avarage} out of 5</Text>
                 </View>
                 <Text style={styles.amountText}>Avarage rate by {amount} customers</Text>
-                
+                <TouchableOpacity style={styles.addReview}>
+                    <Text style={{ color: "#FFF", alignSelf: "center", alignItems: "center", fontWeight: "500" }}>Add Review</Text>
+                </TouchableOpacity>
             </View>
             <FlatList style={[{ marginTop: 70 }]}
                 data={reviews}
@@ -140,6 +142,14 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontWeight: "bold",
     },
+    addReview: {
+        backgroundColor: "#232323",
+        padding: 10,
+        margin: 20,
+        width: "50%",
+        alignSelf: "center",
+        borderRadius: 20,
+      },
     progressPercentText: {
         width: 40,
         fontSize: 14,

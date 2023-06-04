@@ -56,6 +56,7 @@ const PrSettings = props => {
   const [maxDate, setMaxDate] = useState("");
   const [openTime, setOpenTime] = useState("");
   const [closeTime, setCloseTime] = useState("");
+  const [OffDay, setOffDay] = useState("");
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -76,7 +77,9 @@ const PrSettings = props => {
   const onChangeCloseTime = (e) => {
     setCloseTime(e.nativeEvent.text);
   };
-
+  const onChangeOffDay = (e) => {
+    setOffDay(e.nativeEvent.text);
+  };
   async function onPressSave () {
     if ((phone != "") || (email != "")) {
         const body = {}
@@ -221,6 +224,23 @@ const PrSettings = props => {
             onChange={onChangeCloseTime}
           />
         </View>
+
+        <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30 }]}>
+          <View style={styles.circle}>
+            <FontAwesome5 style={[styles.icon,]} name="calendar-times" size={18} color="#64b5f6" />
+          </View>
+          <Text style={[styles.username,]}>Off Day</Text>        
+        </TouchableOpacity>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Off Day"
+            value={OffDay}
+            placeholderTextColor={"#DDD"}
+            onChange={onChangeOffDay}
+          />
+        </View>
+        
       
       </View>
       <View style={styles.lastBox}>
