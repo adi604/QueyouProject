@@ -117,7 +117,7 @@ const SignUpScreen = props => {
     setPassword("");
     setRepeatPassword("");
     setSelection(false);
-    await AsyncStorage.setItem('token', response.body.token);
+    //await AsyncStorage.setItem('token', response.body.token);
     props.navigation.navigate('LoginScreen');
   }
 
@@ -162,6 +162,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
+            value={username}
               style={styles.TextInput}
               onChangeText={(username) => setUsername(username)}
             />
@@ -174,6 +175,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
+            value={firstName}
               style={styles.TextInput}
               onChangeText={(firstName) => setFirstName(firstName)}
             />
@@ -186,6 +188,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
+            value={lastName}
               style={styles.TextInput}
               onChangeText={(lastName) => setLastName(lastName)}
             />
@@ -199,6 +202,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
+            value={email}
               style={styles.TextInput}
               onChangeText={(email) => setEmail(email)}
             />
@@ -212,6 +216,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
+            value={phoneNumber}
               style={styles.TextInput}
               onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
             />
@@ -225,6 +230,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
+            value={password}
               style={styles.TextInput}
               onChangeText={(password) => setPassword(password)}
             />
@@ -238,6 +244,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
+            value={repeatPassword}
               style={styles.TextInput}
               onChangeText={(repeatPassword) => setRepeatPassword(repeatPassword)}
             />

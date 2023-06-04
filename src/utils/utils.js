@@ -157,10 +157,10 @@ export function validateSignUpProviderDetails(SignUpDetails, onDetailsNotValid) 
         onDetailsNotValid(strings.INVALID_MAX_DATE_MSG);
         return false;
     }
-    
-    
-
-
+    if (SignUpDetails.address.description === undefined) {
+        onDetailsNotValid(strings.ADDRESS_MSG);
+        return false;
+    }
     if (!validatePassword(SignUpDetails.password)) {
         onDetailsNotValid(strings.INVALID_PASSWORD_MSG);
         return false;

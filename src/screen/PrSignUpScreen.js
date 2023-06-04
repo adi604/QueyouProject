@@ -76,7 +76,6 @@ const SignUpScreen = props => {
 
   // location need to be object, and address need to be string.
   const [address, setAddress] = useState({});
-  const [location, setLocation] = useState({});
 
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
@@ -103,6 +102,7 @@ const SignUpScreen = props => {
       closeTime: closeTime,
       durationMeeting: durationMeeting,
       maxDate: maxDate,
+      address: address,
       password: password,
       repeatPassword: repeatPassword,
     }
@@ -149,9 +149,11 @@ const SignUpScreen = props => {
       maxDate: maxDate,
       disabledDates: [],
       disabledDays: offDays,
-      // address : ,
-      // location: ,
+      address: address.description,
+      location: {coordinates: [address.lng, address.lat]},
     }
+    console.log("body : ")
+    console.log(body)
     const url = `${strings.serverBaseUrl}/users/signUpProviders`;
     const response = await sendRequest(url, 'POST', body);
     if (!response.ok) {
@@ -172,10 +174,7 @@ const SignUpScreen = props => {
     setMaxDate("");
     setDurationMeeting("");
     setDurationMeeting("");
-    // ###
     setAddress({});
-    setLocation("");
-    //
     setPassword("");
     setRepeatPassword("");
     setSelection(false);
@@ -188,7 +187,7 @@ const SignUpScreen = props => {
     setSutSelected(false);
     setImage(null);
 
-    await AsyncStorage.setItem('token', response.body.token);
+    //await AsyncStorage.setItem('token', response.body.token);
     props.navigation.navigate('PrLoginScreen');
   }
 
@@ -231,6 +230,7 @@ const SignUpScreen = props => {
             </View>
             <View style={{ marginTop: 10, }}>
               <TextInput
+                value={username}
                 style={styles.TextInput}
                 onChangeText={(username) => setUsername(username)}
               />
@@ -245,6 +245,7 @@ const SignUpScreen = props => {
             </View>
             <View style={{ marginTop: 10, }}>
               <TextInput
+                value={name}
                 style={styles.TextInput}
                 onChangeText={(name) => setName(name)}
               />
@@ -258,6 +259,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
+            value={email}
               style={styles.TextInput}
               onChangeText={(email) => setEmail(email)}
             />
@@ -271,6 +273,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
+            value={phoneNumber}
               style={styles.TextInput}
               onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
             />
@@ -294,6 +297,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
+            value={description}
               style={styles.TextInput}
               onChangeText={(description) => setDescription(description)}
             />
@@ -314,6 +318,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 7, }}>
             <TextInput
+            value={openTime}
               style={styles.TextInput}
               placeholder='HH:MM'
               onChangeText={(openTime) => setOpenTime(openTime)}
@@ -327,6 +332,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 7, }}>
             <TextInput
+            value={closeTime}
               style={styles.TextInput}
               placeholder='HH:MM'
               onChangeText={(closeTime) => setCloseTime(closeTime)}
@@ -340,6 +346,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 7, }}>
             <TextInput
+            value={durationMeeting}
               style={styles.TextInput}
               placeholder='In Minutes'
               onChangeText={(durationMeeting) => setDurationMeeting(durationMeeting)}
@@ -353,6 +360,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 7, }}>
             <TextInput
+            value={maxDate}
               style={styles.TextInput}
               placeholder='YYYY-MM-DD'
               onChangeText={(maxDate) => setMaxDate(maxDate)}
@@ -444,6 +452,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
+            value={password}
               style={styles.TextInput}
               onChangeText={(password) => setPassword(password)}
             />
@@ -457,6 +466,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
+            value={repeatPassword}
               style={styles.TextInput}
               onChangeText={(repeatPassword) => setRepeatPassword(repeatPassword)}
             />
