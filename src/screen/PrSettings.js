@@ -28,7 +28,7 @@ import {
 } from '@expo-google-fonts/montserrat';
 import AppLoading from 'expo-app-loading';
 
-const Settings = props => {
+const PrSettings = props => {
 
   let [fontsLoaded] = useFonts({
     Montserrat_100Thin,
@@ -53,6 +53,10 @@ const Settings = props => {
 
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [maxDate, setMaxDate] = useState("");
+  const [openTime, setOpenTime] = useState("");
+  const [closeTime, setCloseTime] = useState("");
+  const [OffDay, setOffDay] = useState("");
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -64,7 +68,18 @@ const Settings = props => {
   const onChangeEmail = (e) => {
     setEmail(e.nativeEvent.text);
   };
-
+  const onChangeMaxDate = (e) => {
+    setMaxDate(e.nativeEvent.text);
+  };
+  const onChangeOpenTime = (e) => {
+    setOpenTime(e.nativeEvent.text);
+  };
+  const onChangeCloseTime = (e) => {
+    setCloseTime(e.nativeEvent.text);
+  };
+  const onChangeOffDay = (e) => {
+    setOffDay(e.nativeEvent.text);
+  };
   async function onPressSave () {
     if ((phone != "") || (email != "")) {
         const body = {}
@@ -74,7 +89,16 @@ const Settings = props => {
         if (email != "") {
           body.mail = email
         }
-        const url = `${serverBaseUrl}/customers`;
+        if (maxDate != "") {
+          body.maxDate = maxDate
+        }
+        if (openTime != "") {
+          body.openTime = openTime
+        }
+        if (closeTime != "") {
+          body.closeTime = closeTime
+        }
+        const url = `${serverBaseUrl}/providers`;
         console.log(body);
         const response = await sendRequest(url, 'PATCH', body);
         if(!response.ok) {
@@ -84,6 +108,9 @@ const Settings = props => {
             console.log("Update Succeeded !");
             setPhone("");
             setEmail("");
+            setMaxDate("");
+            setOpenTime("");
+            setCloseTime("");
         }
     }
 };
@@ -122,37 +149,98 @@ const Settings = props => {
           <View style={styles.circle}>
             <Feather style={[styles.icon,]} name="phone-call" size={18} color="#64b5f6" />
           </View>
-          <Text style={[styles.username,]}>Phone Number</Text>
-                  
+          <Text style={[styles.username,]}>Phone Number</Text>        
         </TouchableOpacity>
-        
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Phone number"
-              value={phone}
-              placeholderTextColor={"#DDD"}
-              onChange={onChangePhone}
-            />
-          </View>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Phone number"
+            value={phone}
+            placeholderTextColor={"#DDD"}
+            onChange={onChangePhone}
+          />
+        </View>
         
         <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30 }]}>
           <View style={styles.circle}>
-            <Fontisto style={[styles.icon,]} name="email" size={19} color="#64b5f6" />
+            <Fontisto style={[styles.icon,]} name="email" size={18} color="#64b5f6" />
           </View>
           <Text style={[styles.username,]}>Email</Text>
-             
-        </TouchableOpacity>
-        
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Email"
-              value={email}
-              placeholderTextColor={"#DDD"}
-              onChange={onChangeEmail}
-            />
+        </TouchableOpacity>     
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Email"
+            value={email}
+            placeholderTextColor={"#DDD"}
+            onChange={onChangeEmail}
+          />
+        </View>
+
+        <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30 }]}>
+          <View style={styles.circle}>
+            <Feather style={[styles.icon,]} name="calendar" size={18} color="#64b5f6" />
           </View>
+          <Text style={[styles.username,]}>Max Date</Text>        
+        </TouchableOpacity>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Max Date"
+            value={maxDate}
+            placeholderTextColor={"#DDD"}
+            onChange={onChangeMaxDate}
+          />
+        </View>
+
+        <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30 }]}>
+          <View style={styles.circle}>
+            <Feather style={[styles.icon,]} name="clock" size={18} color="#64b5f6" />
+          </View>
+          <Text style={[styles.username,]}>Open Time</Text>        
+        </TouchableOpacity>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Open Time"
+            value={openTime}
+            placeholderTextColor={"#DDD"}
+            onChange={onChangeOpenTime}
+          />
+        </View>
+
+        <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30 }]}>
+          <View style={styles.circle}>
+            <Feather style={[styles.icon,]} name="clock" size={18} color="#64b5f6" />
+          </View>
+          <Text style={[styles.username,]}>Close Time</Text>        
+        </TouchableOpacity>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Close Time"
+            value={closeTime}
+            placeholderTextColor={"#DDD"}
+            onChange={onChangeCloseTime}
+          />
+        </View>
+
+        <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 30 }]}>
+          <View style={styles.circle}>
+            <FontAwesome5 style={[styles.icon,]} name="calendar-times" size={18} color="#64b5f6" />
+          </View>
+          <Text style={[styles.username,]}>Off Day</Text>        
+        </TouchableOpacity>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Off Day"
+            value={OffDay}
+            placeholderTextColor={"#DDD"}
+            onChange={onChangeOffDay}
+          />
+        </View>
+        
       
       </View>
       <View style={styles.lastBox}>
@@ -165,7 +253,7 @@ const Settings = props => {
   )
 };
 
-export default Settings
+export default PrSettings
 
 const styles = StyleSheet.create({
   title: {

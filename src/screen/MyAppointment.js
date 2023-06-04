@@ -33,7 +33,9 @@ import AppLoading from 'expo-app-loading';
 
 const MyAppointments = props => {
   //const customerDetails = await getCustomerDetails();
+  const [appointmentsToShow, setAppointmentsToShow] = useState([]);
   const [appointments, setAppointments] = useState([]);
+  const [futureAppointments, setFutureAppointments] = useState([]);
   const [isScreenFocused, setIsScreenFocused] = useState(false);
 
 
@@ -59,7 +61,18 @@ const MyAppointments = props => {
     Montserrat_900Black_Italic,
 });
 
+
+const onPressAppointmentsBtn = () => {
+  if (!isPast) {
+    setAppointmentsToShow(appointments);
+  } else {
+    setAppointmentsToShow(futureAppointments);
+  }
+  setIsPast(!isPast);
+}
+
 const getDay = (dateStr) => {
+  // #### check format ###
   const dateObj = moment(dateStr, 'YYYY-MM-DD');
   return dateObj.format('dddd');
 }
@@ -74,7 +87,13 @@ async function handleDeleteAppointment (key) {
       // Fetch succeeded
       console.log("Delete Meeting succeeded !")
       // Delete from the client
+      setAppointmentsToShow((prevAppointments) =>
+          prevAppointments.filter((appointment) => appointment.key != key)
+      );
       setAppointments((prevAppointments) =>
+          prevAppointments.filter((appointment) => appointment.key != key)
+      );
+      setFutureAppointments((prevAppointments) =>
           prevAppointments.filter((appointment) => appointment.key != key)
       );
   }
@@ -117,9 +136,17 @@ useEffect(() => {
             appointmentsData.sort((a, b) => {
               const dateA = `${a.date} ${a.hour}`;
               const dateB = `${b.date} ${b.hour}`;
-              return moment(dateA, 'YYYY-MM-DD HH:mm').diff(moment(dateB, 'YYYY-MM-DD HH:mm'));
+              return moment(dateA, 'DD-MM-YYYY HH:mm').diff(moment(dateB, 'DD-MM-YYYY HH:mm'));
             });
+            const futureAppointmentsData = appointmentsData.filter((a) => {
+              const tempStr = `${a.date} ${a.hour}`;
+              const tempDate = moment(tempStr, 'DD-MM-YYYY HH:mm');
+              return tempDate.isAfter(moment());
+            })
+            console.log(futureAppointmentsData)
             setAppointments(appointmentsData);
+            setFutureAppointments(futureAppointmentsData);
+            setAppointmentsToShow(futureAppointmentsData);
         }
     }
   fetchMeetings()
@@ -127,7 +154,7 @@ useEffect(() => {
 
 
   const renderItem = ({ item, index }) => {
-    const isLastItem = index === appointments.length - 1;
+    const isLastItem = index === appointmentsToShow.length - 1;
     return (
       <TouchableOpacity style={{}} onPress={() => props.navigation.navigate('ADNevigator', {meeting: item,deleteAppointment:handleDeleteAppointment})}>
         <View style={[styles.box, isLastItem && { marginBottom: 120, }]}>
@@ -173,27 +200,27 @@ useEffect(() => {
               style={{ width: 90, height: 90, borderRadius: 50, marginLeft: 'auto' }}
             />
             {(isPast) ?
-              <TouchableOpacity style={{ marginLeft: "auto", right: 40, top: 10 }} onPress={() => { setIsPast(!isPast) }}>
+              <TouchableOpacity style={{ marginLeft: "auto", right: 40, top: 10 }} onPress={onPressAppointmentsBtn}>
                 <MaterialCommunityIcons name="filter-check" size={30} color="white" />
               </TouchableOpacity> :
-              <TouchableOpacity style={{ marginLeft: "auto", right: 40, top: 10 }} onPress={() => { setIsPast(!isPast) }}>
+              <TouchableOpacity style={{ marginLeft: "auto", right: 40, top: 10 }} onPress={onPressAppointmentsBtn}>
                 <MaterialCommunityIcons name="filter-check-outline" size={30} color="white" />
               </TouchableOpacity>}
           </View>
           <View style={{ height: 1, width: "70%", backgroundColor: "#FFF", shadowColor: '#FFF', elevation: 10, alignSelf: "center" }}></View>
           {(isPast) ?
             <View style={{ alignSelf: "center", top: 5}}>
-              <Text style={{ color: "#FFF", fontSize: 20, fontFamily: 'Montserrat_700Bold', }} >Passed Appointments</Text>
+              <Text style={{ color: "#FFF", fontSize: 20, fontFamily: 'Montserrat_700Bold', }} >All Appointments</Text>
             </View> :
             <View style={{ alignSelf: "center", top: 5 }}>
-              <Text style={{ color: "#FFF", fontSize: 20, fontFamily: 'Montserrat_700Bold', }} >My Appointments</Text>
+              <Text style={{ color: "#FFF", fontSize: 20, fontFamily: 'Montserrat_700Bold', }} >Future Appointments</Text>
             </View>
           }
         </LinearGradient>
       </View>
       <FlatList
         style={[styles.list,]}
-        data={appointments}
+        data={appointmentsToShow}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
       />

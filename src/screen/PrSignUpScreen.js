@@ -10,9 +10,51 @@ import ModalSlide from '../components/ModalSlide';
 import * as strings from '../utils/strings';
 import { sendRequest, validateSignUpDetails } from '../utils/utils';
 import CategoriesList from '../components/CategoriesList';
-
+import {
+  useFonts,
+  Montserrat_100Thin,
+  Montserrat_200ExtraLight,
+  Montserrat_300Light,
+  Montserrat_400Regular,
+  Montserrat_500Medium,
+  Montserrat_600SemiBold,
+  Montserrat_700Bold,
+  Montserrat_800ExtraBold,
+  Montserrat_900Black,
+  Montserrat_100Thin_Italic,
+  Montserrat_200ExtraLight_Italic,
+  Montserrat_300Light_Italic,
+  Montserrat_400Regular_Italic,
+  Montserrat_500Medium_Italic,
+  Montserrat_600SemiBold_Italic,
+  Montserrat_700Bold_Italic,
+  Montserrat_800ExtraBold_Italic,
+  Montserrat_900Black_Italic,
+} from '@expo-google-fonts/montserrat';
+import AppLoading from 'expo-app-loading';
 
 const SignUpScreen = props => {
+
+  let [fontsLoaded] = useFonts({
+    Montserrat_100Thin,
+    Montserrat_200ExtraLight,
+    Montserrat_300Light,
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_700Bold,
+    Montserrat_800ExtraBold,
+    Montserrat_900Black,
+    Montserrat_100Thin_Italic,
+    Montserrat_200ExtraLight_Italic,
+    Montserrat_300Light_Italic,
+    Montserrat_400Regular_Italic,
+    Montserrat_500Medium_Italic,
+    Montserrat_600SemiBold_Italic,
+    Montserrat_700Bold_Italic,
+    Montserrat_800ExtraBold_Italic,
+    Montserrat_900Black_Italic,
+});
 
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
@@ -26,6 +68,10 @@ const SignUpScreen = props => {
   const [isSelected, setSelection] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   const onPressSignUp = async () => {
     const signUpDetails = {
@@ -189,6 +235,7 @@ const SignUpScreen = props => {
                 onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
               />
             </View>
+            {/*
             <View style={{ marginTop: 10, width: "30%", flexDirection: "row", left: 20}}>
               <Text style={{ textAlignVertical: "center", color: "#888", fontSize: 13, width: 40}}>dates</Text>
               <TextInput
@@ -196,6 +243,7 @@ const SignUpScreen = props => {
                 onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
               />
             </View>
+            */}
           </View>
         </View>
         <View style={{ flexDirection: "column", marginTop: 25}}>
@@ -265,7 +313,7 @@ export default SignUpScreen
 const styles = StyleSheet.create({
   signUp: {
     fontSize: 50,
-    fontFamily: 'Montserrat_700Bold_Italic',
+    fontFamily: 'Montserrat_600SemiBold_Italic',
     alignSelf: "center",
     marginTop: '12%',
     marginBottom: '8%',

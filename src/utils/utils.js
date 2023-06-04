@@ -55,12 +55,17 @@ export function validateSignUpDetails(SignUpDetails, onDetailsNotValid) {
 
 export async function getCurrentLocation() {
     try {
+        console.log("Request For Permissions...")
         let { status } = await Location.requestForegroundPermissionsAsync();
+        console.log(status);
         if (status !== 'granted') {
             console.log('Permission to access location was denied');
             return;
         }
+        console.log("Get Current Position...")
+        // check this call.
         let { coords } = await Location.getCurrentPositionAsync();
+        console.log("Got Current Position...")
         return coords;
     }
     catch (e) {

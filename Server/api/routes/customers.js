@@ -6,7 +6,7 @@ const { verifyAuthorization } = require('../../utils/utils');
 
 //router.get('/', getAllCustomers);
 router.get('/:customerUserName', verifyAuthorization, getCustomer);
-router.patch('/:customerUserName', verifyAuthorization, updateCustomer);
+router.patch('/', verifyAuthorization, updateCustomer);
 router.delete('/:customerUserName', verifyAuthorization, deleteCustomer);
 
 module.exports = router;

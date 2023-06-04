@@ -130,6 +130,7 @@ const SearchUserScreen = props => {
     const onPressSearch = async () => {
         let url = `${strings.serverBaseUrl}/providers/filter?`;
         const params = [];
+        console.log(isSelected);
         if(isSelected) {
             const coordinates = await getCurrentLocation();
             params.push(`lat=${coordinates.latitude}&lng=${coordinates.longitude}`);
@@ -143,6 +144,7 @@ const SearchUserScreen = props => {
         if(params.length > 0) {
             url += params.join('&');
         }
+        console.log("navigate to AvailableAppointments");
         props.navigation.navigate('AvailableAppointments', { 
             url: url,
             });

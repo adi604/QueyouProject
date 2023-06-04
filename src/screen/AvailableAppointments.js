@@ -14,6 +14,7 @@ const AvailableAppointments = props => {
     useEffect(() => {
         const getProviders = async () => {
             const url = props.route.params.url;
+            console.log(url);
             const response = await sendRequest(url, 'GET');
             setProviders(response.body);
         }
