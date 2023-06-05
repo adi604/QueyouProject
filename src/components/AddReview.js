@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { serverBaseUrl } from '../utils/strings';
+import { sendRequest } from '../utils/utils';
 import {
     useFonts,
     Montserrat_100Thin,
@@ -23,7 +25,7 @@ import {
 } from '@expo-google-fonts/montserrat';
 import AppLoading from 'expo-app-loading';
 
-const AddReview = () => {
+const AddReview = props => {
 
     let [fontsLoaded] = useFonts({
         Montserrat_100Thin,
@@ -48,22 +50,63 @@ const AddReview = () => {
 
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState('');
+  const [name, setName] = useState('');
+  const [usernameProvider, setUsernameProvider] = useState(props.route.params.usernameProvider);
+  const [nameProvider, setNameProvider] = useState(props.route.params.nameProvider);
 
   const handleReviewTextChange = (text) => {
     setReviewText(text);
   };
-
   const handleRatingChange = (text) => {
     setRating(text);
   };
+  const handleNameChange = (text) => {
+    setName(text);
+  };
 
-  const handleSubmitReview = () => {
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  const handleSubmitReview = async () => {
     // Perform necessary actions with the review data, such as sending it to a server or storing it locally
-    console.log('Review submitted:', reviewText, rating);
+    console.log('Review :', reviewText, rating);
+    const score = Number(rating);
+    if ((reviewText != "") && (rating != "") && (!isNaN(score)) && (Number.isInteger(score)) && (score >= 1) && (score <= 5)) {
+      const body = {
+          name: (name == "") ? undefined : name,
+          content: reviewText,
+          score: score,
+          date: getCurrentDate(),
+          targetProviderUserName: usernameProvider,
+        }
+      const url = `${serverBaseUrl}/reviews`;
+      console.log(body);
+      const response = await sendRequest(url, 'POST', body);
+      if(!response.ok) {
+          console.log("Create review Failed !");
+      } else {
+          // Fetch succeeded
+          console.log("Create review Created !");
+          setReviewText('');
+          setRating('');
+          setName('');
+          props.route.params.setNeedToFatch(true);
+          props.navigation.navigate('Reviews', {
+            usernameProvider: usernameProvider,
+            nameProvider: nameProvider,
+          });
+      }
+  }
 
     // Reset form fields after submission
     setReviewText('');
     setRating('');
+    setName('');
   };
 
 
@@ -77,7 +120,7 @@ const AddReview = () => {
       <Text style={styles.subtitle}>Tell us about your experience</Text>
       <TextInput
         style={styles.input}
-        placeholder="Enter your review"
+        placeholder="Enter your review..."
         value={reviewText}
         onChangeText={handleReviewTextChange}
         multiline
@@ -88,6 +131,12 @@ const AddReview = () => {
         value={rating}
         onChangeText={handleRatingChange}
         keyboardType="numeric"
+      />
+      <TextInput
+        style={styles.nameInput}
+        placeholder="You can choose name..."
+        value={name}
+        onChangeText={handleNameChange}
       />
       <TouchableOpacity style={{width: "50%", backgroundColor: "#4FA4E5", padding: 10, borderRadius: 20, alignSelf: "center", alignItems: "center"}} onPress={handleSubmitReview} >
         <Text style ={{color: "#FFF", fontSize: 18, fontWeight: "500"}}>Submit</Text>
@@ -131,6 +180,19 @@ const styles = StyleSheet.create({
     elevation: 20,
   },
   ratingInput: {
+    height: 50,
+    borderColor: '#ccc',
+    borderWidth: 0.5,
+    marginBottom: 20,
+    width: "75%",
+    paddingLeft: 30,
+    fontSize: 16,
+    backgroundColor: '#fff',
+    borderRadius: 25,
+    alignSelf: "center",
+    elevation: 10,
+  },
+  nameInput: {
     height: 50,
     borderColor: '#ccc',
     borderWidth: 0.5,
