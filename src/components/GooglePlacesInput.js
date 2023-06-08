@@ -14,9 +14,9 @@ const GooglePlacesInput = ( { setAddress }) => {
         <ScrollView
             horizontal
             keyboardShouldPersistTaps="handled"
-            contentContainerStyle={{ flexGrow: 1 }}>
+            contentContainerStyle={{ width: "100%" }}>
             <GooglePlacesAutocomplete
-                listViewDisplayed={listViewDisplayed}
+                fetchDetails={true}
                 keepResultsAfterBlur={true}
                 ref={ref}
                 placeholder='Search'
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     },
     textInputContainer: {
         backgroundColor: "#FFF",
-        width: "80%",
+        maxWidth: "100%",
         alignSelf: "center",
         borderRadius: 10,
         height: 50,
@@ -72,10 +72,10 @@ const styles = StyleSheet.create({
       alignContent: "center",
       fontSize: 16,
       color: "#333",
+      maxWidth: "80%",
     },
     listView: {
-      width: "85%",
+      width: "80%",
       alignSelf: "center",
-      bottom: 20,
     },
 });
