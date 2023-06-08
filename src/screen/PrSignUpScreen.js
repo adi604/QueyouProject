@@ -54,7 +54,7 @@ const SignUpScreen = props => {
     Montserrat_700Bold_Italic,
     Montserrat_800ExtraBold_Italic,
     Montserrat_900Black_Italic,
-});
+  });
 
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
@@ -66,13 +66,14 @@ const SignUpScreen = props => {
   const [maxDate, setMaxDate] = useState("");
   const [openTime, setOpenTime] = useState("");
   const [closeTime, setCloseTime] = useState("");
-  const [sunSelected, setSunSelected] = useState(false);
-  const [monSelected, setMonSelected] = useState(false);
-  const [tusSelected, setTusSelected] = useState(false);
-  const [wedSelected, setWedSelected] = useState(false);
-  const [turSelected, setTurSelected] = useState(false);
-  const [friSelected, setFriSelected] = useState(false);
-  const [sutSelected, setSutSelected] = useState(false);
+
+  const [daysSelected, setDaysSelected] = useState([false, false, false, false, false, false, false]);
+
+  const handleCheckboxToggle = (index) => {
+    const updatedDaysSelected = [...daysSelected];
+    updatedDaysSelected[index] = !updatedDaysSelected[index];
+    setDaysSelected(updatedDaysSelected);
+  };
 
   // location need to be object, and address need to be string.
   const [address, setAddress] = useState({});
@@ -121,14 +122,14 @@ const SignUpScreen = props => {
 
     // check address \ location , and offdays.
     const offDays = [];
-    if(sunSelected) { offDays.push(0); }
-    if(monSelected) { offDays.push(1); }
-    if(tusSelected) { offDays.push(2); }
-    if(wedSelected) { offDays.push(3); }
-    if(turSelected) { offDays.push(4); }
-    if(friSelected) { offDays.push(5); }
-    if(sutSelected) { offDays.push(6); }
-    if(offDays.length == 7) {
+    if (daysSelected[0]) { offDays.push(0); }
+    if (daysSelected[1]) { offDays.push(1); }
+    if (daysSelected[2]) { offDays.push(2); }
+    if (daysSelected[3]) { offDays.push(3); }
+    if (daysSelected[4]) { offDays.push(4); }
+    if (daysSelected[5]) { offDays.push(5); }
+    if (daysSelected[6]) { offDays.push(6); }
+    if (offDays.length == 7) {
       setModalMessage("You must work at least 1 day.");
       setModalVisible(true);
       return;
@@ -150,7 +151,7 @@ const SignUpScreen = props => {
       disabledDates: [],
       disabledDays: offDays,
       address: address.description,
-      location: {coordinates: [address.lng, address.lat]},
+      location: { coordinates: [address.lng, address.lat] },
     }
     console.log("body : ")
     console.log(body)
@@ -178,13 +179,7 @@ const SignUpScreen = props => {
     setPassword("");
     setRepeatPassword("");
     setSelection(false);
-    setSunSelected(false);
-    setMonSelected(false);
-    setTusSelected(false);
-    setWedSelected(false);
-    setTurSelected(false);
-    setFriSelected(false);
-    setSutSelected(false);
+    setDaysSelected(false, false, false, false, false, false, false)
     setImage(null);
 
     //await AsyncStorage.setItem('token', response.body.token);
@@ -222,34 +217,34 @@ const SignUpScreen = props => {
       </LinearGradient>
 
       <View style={{ backgroundColor: "#FFF", marginTop: -15, width: "94%", alignSelf: "center", borderRadius: 15, }}>
-        
+
         <View style={{ flexDirection: "column", marginTop: 25 }}>
-            <View style={{ flexDirection: "row", marginLeft: "10%", }}>
-              <AntDesign name="user" size={26} color="#888" />
-              <Text style={styles.title}>Username</Text>
-            </View>
-            <View style={{ marginTop: 10, }}>
-              <TextInput
-                value={username}
-                style={styles.TextInput}
-                onChangeText={(username) => setUsername(username)}
-              />
-            </View>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <AntDesign name="user" size={26} color="#888" />
+            <Text style={styles.title}>Username</Text>
+          </View>
+          <View style={{ marginTop: 10, }}>
+            <TextInput
+              value={username}
+              style={styles.TextInput}
+              onChangeText={(username) => setUsername(username)}
+            />
+          </View>
         </View>
 
 
         <View style={{ flexDirection: "column", marginTop: 25 }}>
-            <View style={{ flexDirection: "row", marginLeft: "10%", }}>
-              <AntDesign name="user" size={26} color="#888" />
-              <Text style={styles.title}>Name</Text>
-            </View>
-            <View style={{ marginTop: 10, }}>
-              <TextInput
-                value={name}
-                style={styles.TextInput}
-                onChangeText={(name) => setName(name)}
-              />
-            </View>
+          <View style={{ flexDirection: "row", marginLeft: "10%", }}>
+            <AntDesign name="user" size={26} color="#888" />
+            <Text style={styles.title}>Name</Text>
+          </View>
+          <View style={{ marginTop: 10, }}>
+            <TextInput
+              value={name}
+              style={styles.TextInput}
+              onChangeText={(name) => setName(name)}
+            />
+          </View>
         </View>
 
         <View style={{ flexDirection: "column", marginTop: 25 }}>
@@ -259,7 +254,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
-            value={email}
+              value={email}
               style={styles.TextInput}
               onChangeText={(email) => setEmail(email)}
             />
@@ -273,7 +268,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
-            value={phoneNumber}
+              value={phoneNumber}
               style={styles.TextInput}
               onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
             />
@@ -297,7 +292,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
-            value={description}
+              value={description}
               style={styles.TextInput}
               onChangeText={(description) => setDescription(description)}
             />
@@ -312,135 +307,96 @@ const SignUpScreen = props => {
           </View>
         </View>
 
-        <View style={{ flexDirection: "column", marginTop: 11 }}>
+        <View style={{ flexDirection: "column", marginTop: 12 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
-            <Text style={[styles.title, {fontSize:16}]}>Open Time</Text>
+            <Text style={[styles.titleWorking,]}>Open Time</Text>
           </View>
           <View style={{ marginTop: 7, }}>
             <TextInput
-            value={openTime}
-              style={styles.TextInput}
+              value={openTime}
+              style={[styles.TextInputWorking]}
               placeholder='HH:MM'
               onChangeText={(openTime) => setOpenTime(openTime)}
             />
           </View>
         </View>
 
-        <View style={{ flexDirection: "column", marginTop: 11 }}>
+        <View style={{ flexDirection: "column", marginTop: 12 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
-            <Text style={[styles.title, {fontSize:16}]}>Close Time</Text>
+            <Text style={[styles.titleWorking]}>Close Time</Text>
           </View>
           <View style={{ marginTop: 7, }}>
             <TextInput
-            value={closeTime}
-              style={styles.TextInput}
+              value={closeTime}
+              style={styles.TextInputWorking}
               placeholder='HH:MM'
               onChangeText={(closeTime) => setCloseTime(closeTime)}
             />
           </View>
         </View>
 
-        <View style={{ flexDirection: "column", marginTop: 11 }}>
+        <View style={{ flexDirection: "column", marginTop: 12 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
-            <Text style={[styles.title, {fontSize:16}]}>Duration Meeting</Text>
+            <Text style={[styles.titleWorking]}>Duration Meeting</Text>
           </View>
           <View style={{ marginTop: 7, }}>
             <TextInput
-            value={durationMeeting}
-              style={styles.TextInput}
+              value={durationMeeting}
+              style={styles.TextInputWorking}
               placeholder='In Minutes'
               onChangeText={(durationMeeting) => setDurationMeeting(durationMeeting)}
             />
           </View>
         </View>
 
-        <View style={{ flexDirection: "column", marginTop: 11 }}>
+        <View style={{ flexDirection: "column", marginTop: 12 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
-            <Text style={[styles.title, {fontSize:16}]}>Max Date for booking</Text>
+            <Text style={[styles.titleWorking]}>Max Date for booking</Text>
           </View>
           <View style={{ marginTop: 7, }}>
             <TextInput
-            value={maxDate}
-              style={styles.TextInput}
+              value={maxDate}
+              style={styles.TextInputWorking}
               placeholder='YYYY-MM-DD'
               onChangeText={(maxDate) => setMaxDate(maxDate)}
             />
           </View>
         </View>
 
-        <View style={{ flexDirection: "column", marginTop: 11 }}>
+        <View style={{ flexDirection: "column", marginTop: 12 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
-            <Text style={[styles.title, {fontSize:16}]}>Off Days</Text>
+            <Text style={[styles.titleWorking]}>Off Days</Text>
           </View>
           <View style={{ flexDirection: "row", alignSelf: "center", }}>
-
-            <View style={[styles.daysCheckbox, {flexDirection: "column",}]}>
-              <Checkbox
-                value={sunSelected}
-                isChecked={sunSelected}
-                onValueChange={() => setSunSelected(!sunSelected)}
-              />
-              <Text style={styles.daysTxt}>Sun</Text>
-            </View>
-            <View style={[styles.daysCheckbox, {flexDirection: "column",}]}>
-              <Checkbox
-                value={monSelected}
-                isChecked={monSelected}
-                onValueChange={() => setMonSelected(!monSelected)}
-              />
-              <Text style={styles.daysTxt}>Mon</Text>
-            </View>
-            <View style={[styles.daysCheckbox, {flexDirection: "column",}]}>
-              <Checkbox
-                value={tusSelected}
-                isChecked={tusSelected}
-                onValueChange={() => setTusSelected(!tusSelected)}
-              />
-              <Text style={styles.daysTxt}>Tus</Text>
-            </View>
-            <View style={[styles.daysCheckbox, {flexDirection: "column",}]}>
-              <Checkbox
-                value={wedSelected}
-                isChecked={wedSelected}
-                onValueChange={() => setWedSelected(!wedSelected)}
-              />
-              <Text style={styles.daysTxt}>Wed</Text>
-            </View>
-            <View style={[styles.daysCheckbox, {flexDirection: "column",}]}>
-              <Checkbox
-                value={turSelected}
-                isChecked={turSelected}
-                onValueChange={() => setTurSelected(!turSelected)}
-              />
-              <Text style={styles.daysTxt}>Tur</Text>
-            </View>
-            <View style={[styles.daysCheckbox, {flexDirection: "column",}]}>
-              <Checkbox
-                value={friSelected}
-                isChecked={friSelected}
-                onValueChange={() => setFriSelected(!friSelected)}
-              />
-              <Text style={styles.daysTxt}>Fri</Text>
-            </View>
-            <View style={[styles.daysCheckbox, {flexDirection: "column",}]}>
-              <Checkbox
-                value={sutSelected}
-                isChecked={sutSelected}
-                onValueChange={() => setSutSelected(!sutSelected)}
-              />
-              <Text style={styles.daysTxt}>Sut</Text>
-            </View>
-
+              <View style={{flexDirection: 'row'}}>
+                {daysSelected.map((selected, index) => (
+                  <Checkbox 
+                  style={styles.daysCheckbox}
+                    key={index}
+                    value={selected}
+                    onValueChange={() => handleCheckboxToggle(index)}
+                  />
+                ))}
+              </View>
+          </View>
+          <View style={{ flexDirection: "row", alignSelf: "center", marginTop: 2 }}>
+            <Text style={styles.daysTxt}>Sun</Text>
+            <Text style={styles.daysTxt}>Mon</Text>
+            <Text style={styles.daysTxt}>Tus</Text>
+            <Text style={styles.daysTxt}>Wed</Text>
+            <Text style={styles.daysTxt}>Tur</Text>
+            <Text style={styles.daysTxt}>Fri</Text>
+            <Text style={styles.daysTxt}>Sut</Text>
           </View>
         </View>
 
 
-        <View style={{ flexDirection: "column", marginTop: 25}}>
+        <View style={{ flexDirection: "column", marginTop: 25 }}>
           <View style={{ flexDirection: "row", marginLeft: "10%", }}>
             <Ionicons name="location-outline" size={25} color="#888" />
             <Text style={styles.title}>Address</Text>
           </View>
-          <View style={{ marginTop: 10,}}>
+          <View style={{ marginTop: 10, }}>
             <GooglePlacesInput setAddress={setAddress} />
           </View>
         </View>
@@ -452,7 +408,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
-            value={password}
+              value={password}
               style={styles.TextInput}
               onChangeText={(password) => setPassword(password)}
             />
@@ -466,7 +422,7 @@ const SignUpScreen = props => {
           </View>
           <View style={{ marginTop: 10, }}>
             <TextInput
-            value={repeatPassword}
+              value={repeatPassword}
               style={styles.TextInput}
               onChangeText={(repeatPassword) => setRepeatPassword(repeatPassword)}
             />
@@ -521,9 +477,28 @@ const styles = StyleSheet.create({
     color: "#888",
     left: 10,
   },
+  titleWorking: {
+    fontWeight: '500',
+    fontSize: 14,
+    color: "#888",
+    left: 30,
+    marginTop: 5,
+  },
   TextInput: {
     backgroundColor: "#FFF",
     width: "80%",
+    alignSelf: "center",
+    borderRadius: 10,
+    height: 45,
+    shadowColor: "#000",
+    elevation: 10,
+    color: "#333",
+    padding: 10,
+    fontSize: 16,
+  },
+  TextInputWorking: {
+    backgroundColor: "#FFF",
+    width: "65%",
     alignSelf: "center",
     borderRadius: 10,
     height: 45,
@@ -551,8 +526,8 @@ const styles = StyleSheet.create({
   },
   daysCheckbox: {
     alignSelf: "center",
-    marginTop: 7,
-    marginLeft: 15,
+    marginTop: 15,
+    marginLeft: 23,
   },
   agree: {
     fontWeight: 'bold',
@@ -564,6 +539,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: "#666",
     fontSize: 15,
+    marginLeft: 18,
   },
   signBtn: {
     width: "55%",
