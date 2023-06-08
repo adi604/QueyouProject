@@ -14,7 +14,6 @@ module.exports = {
     // ##### Get all the categories objects that contains the category argument. #####
     getFilteredCategories : (req, res) => {
         const subCategoryStr = req.params.subCategoryString;
-        console.log(subCategoryStr);
         Category.find({categoryName: {$regex: subCategoryStr, $options: 'i'}}).then((categories) => {
             res.status(200).json(categories)
         }).catch(error => {
