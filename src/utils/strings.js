@@ -11,3 +11,11 @@ export const GOOGLE_PLACES_DETAILS_URL = "https://maps.googleapis.com/maps/api/p
 export const LAST_NAME_MSG = "Last name is required.";
 export const FIRST_NAME_MSG = "First name is required.";
 export const NAME_MSG = "Name is required.";
+export const CATEGORY_MSG = "Category is required.";
+export const DESCRIPTION_MSG = "Description is required.";
+export const INVALID_OPEN_MSG = "Invalid open time.";
+export const INVALID_CLOSE_MSG = "Invalid close time.";
+export const INVALID_DURATION_MSG = "Invalid duration meeting.";
+export const INVALID_MAX_DATE_MSG = "Invalid max date.";
+export const ADDRESS_MSG = "Address is required.";
+

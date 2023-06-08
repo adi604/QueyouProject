@@ -70,11 +70,11 @@ const AvailableAppointments = props => {
                 renderItem={({item}) =>
                     <View style={styles.box}>
                         <MaterialIcons style={{ alignSelf: "center", marginLeft: 10 }} name="person-pin" size={55} color="#0069BA" />
-                        <View style={[{ left: 30, paddingVertical: 1,}]}>
+                        <View style={[{ left: 30, paddingVertical: 1, width: "68%"}]}>
                             <View style={[{ flexDirection: 'row',}]}>
                                 <Text style={styles.provider}>{item.name}</Text>
                                 <TouchableOpacity onPress={()=>{onPressReview(item.username, item.name)}}>
-                                    <Fontisto style={{ marginLeft: 80, top: 12 }} name="preview" size={28} color="#0069BA" />
+                                    <Fontisto style={{ marginLeft: 30, top: 10 }} name="preview" size={26} color="#0069BA" />
                                 </TouchableOpacity>
                             </View>
                             <Text style={styles.category}>{item.category}</Text>
@@ -148,18 +148,19 @@ const styles = StyleSheet.create({
         fontSize: 19,
         color: `#777`,
         fontWeight: "bold",
-        top: 10,
+        width: "60%",
     },
     category: {
-        fontSize: 14,
+        fontSize: 15,
         height: 30,
         color: `#999`,
-        marginTop: 10,
     },
     address: {
-        fontSize: 17,
+        fontSize: 14,
         color: `#999`,
         left: 3,
+        maxWidth: "90%",
+        fontWeight: "500",
     },
     locationbtn: {
         height: 28,
@@ -167,26 +168,7 @@ const styles = StyleSheet.create({
         left: 3,
         bottom: 18,
     },
-    reviews: {
-        left: 35,
-        fontSize: 15,
-        top: 18,
-        color: '#9575cd',
-        letterSpacing: 0.8,
-        fontWeight: '700',
-    },
-    buttonAppointment: {
-        borderRadius: 5,
-    },
-    appointment: {
-        textAlign: "center",
-        fontSize: 12,
-        letterSpacing: 0.5,
-        color: `white`,
-        fontWeight: "bold",
-    },
     continuebtn: {
-        top: "5%",
         alignSelf: "center",
     },
 });

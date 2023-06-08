@@ -53,8 +53,6 @@ const Settings = props => {
 
   const [modalMessage, setModalMessage] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
 
@@ -68,17 +66,9 @@ const Settings = props => {
   const onChangeEmail = (e) => {
     setEmail(e.nativeEvent.text);
   };
-  // const onChangeFirstName = (e) => {
-  //   setFirstName(e.nativeEvent.text);
-  // };
-  // const onChangeLastName = (e) => {
-  //   setLastName(e.nativeEvent.text);
-  // };
-
-
 
   async function onPressSave() {
-    if ((phone !== "") || (email !== "")) { // || (firstName !== "") || (lastName !== "")) {
+    if ((phone !== "") || (email !== "")) {
       const body = {}
       if (phone !== "") {
         body.phoneNumber = phone
@@ -86,12 +76,6 @@ const Settings = props => {
       if (email !== "") {
         body.mail = email
       }
-      // if (firstName !== "") {
-      //   body.firstName = firstName
-      // }
-      // if (lastName !== "") {
-      //   body.lastName = lastName
-      // }
       const url = `${serverBaseUrl}/customers`;
       console.log(body);
       const response = await sendRequest(url, 'PATCH', body);
@@ -101,8 +85,6 @@ const Settings = props => {
         setModalMessage("Update Succeeded!");
       }
       setModalVisible(true);
-      // setLastName("");
-      // setFirstName("");
       setEmail("");
       setPhone("");
     }

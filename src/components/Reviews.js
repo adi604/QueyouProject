@@ -10,7 +10,15 @@ const Reviews = props => {
     const [amount, setAmount] = useState(0);
     const [avarage, setAvarage] = useState(0);
     const [reviews, setReviews] = useState([]);
+    const [needToFatch, setNeedToFatch] = useState(false);
 
+    const onPressAddReview = () => {
+        props.navigation.navigate('AddReview', {
+            usernameProvider: usernameProvider,
+            nameProvider: nameProvider,
+            setNeedToFatch: setNeedToFatch,
+        });
+      };
 
     useEffect(() => {
         async function fetchReviews() {
@@ -44,7 +52,8 @@ const Reviews = props => {
         }
         fetchReviews();
         console.log("fetchReviews()")
-    }, []);
+        setNeedToFatch(false);
+    }, [needToFatch]);
 
 
     return (
@@ -57,11 +66,11 @@ const Reviews = props => {
                             <Star />
                         ))}
                     </View>
-                    <Text>{avarage} out of 5</Text>
+                    <Text>{avarage.toFixed(2)} out of 5</Text>
                 </View>
                 <Text style={styles.amountText}>Avarage rate by {amount} customers</Text>
-                <TouchableOpacity style={styles.addReview}>
-                    <Text style={{ color: "#FFF", alignSelf: "center", alignItems: "center", fontWeight: "500" }}>Add Review</Text>
+                <TouchableOpacity style={styles.addReview} onPress={onPressAddReview}>
+                    <Text style={{color: "#FFF", alignSelf: "center", alignItems: "center", fontWeight: "500"}}>Add Review</Text>
                 </TouchableOpacity>
             </View>
             <FlatList style={[{ marginTop: 70 }]}
@@ -104,7 +113,7 @@ const styles = StyleSheet.create({
     },
     reviewContainer: {
         backgroundColor: "#FFFFFF",
-        height: 200,
+        height: 250,
         width: '90%',
         borderRadius: 20,
         paddingHorizontal: 25,
@@ -145,7 +154,7 @@ const styles = StyleSheet.create({
     addReview: {
         backgroundColor: "#232323",
         padding: 10,
-        margin: 20,
+        margin: 15,
         width: "50%",
         alignSelf: "center",
         borderRadius: 20,
