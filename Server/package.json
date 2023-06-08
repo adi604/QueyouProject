@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "test": "npx jest",
+    "test:with-install": "npm install && npm test"
   },
   "keywords": [],
   "author": "",
