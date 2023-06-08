@@ -9,7 +9,8 @@ module.exports = {
     signUpCustomers : (req, res) => {
         const {username, firstName, lastName, password, mail, phoneNumber} = req.body
         Customer.findOne({username: username}).then((c) => {
-            if(c != null) {
+            
+            if(c !== null) {
                 return res.status(409).json({
                     message: `${username} already exist !`
                 });
@@ -74,9 +75,8 @@ module.exports = {
         // Or change the insert of this members to another screen and function.
         const {username, name, password, address, mail, phoneNumber, description, location,
             maxDate, durationMeeting, openTime, closeTime, disabledDays, disabledDates, category} = req.body
-        console.log(req.body);
         Provider.findOne({username: username}).then((p) => {
-            if(p != null) {
+            if(p !== null) {
                 return res.status(409).json({
                     message: `${username} already exist !`
                 });
