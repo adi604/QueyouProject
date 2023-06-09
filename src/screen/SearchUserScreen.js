@@ -31,7 +31,7 @@ import {
 } from '@expo-google-fonts/montserrat';
 import AppLoading from 'expo-app-loading';
 import { useRef } from 'react';
-
+import Loading from '../components/Loading'
 
 
 const SearchList = ({ categories, valueCat, setValueCat }) => {
@@ -43,7 +43,7 @@ const SearchList = ({ categories, valueCat, setValueCat }) => {
             setValueCat(itemValue);
         }
     };
-    
+
 
     return (
         <Dropdown
@@ -73,7 +73,7 @@ const SearchList = ({ categories, valueCat, setValueCat }) => {
 
 const FreeSearch = ({ onChangeSearch, searchQuery }) => {
     return (
-        <View style={[styles.dropdown, {flexDirection: "row", alignItems: "center",}]}>
+        <View style={[styles.dropdown, { flexDirection: "row", alignItems: "center", }]}>
             <FontAwesome name="search" size={22} color="#777" />
             <TextInput
                 style={{ width: "100%", fontSize: 16, color: "#777", left: 15, fontFamily: 'Montserrat_700Bold', }}
@@ -120,34 +120,36 @@ const SearchUserScreen = props => {
     const [searchQuery, setSearchQuery] = React.useState('');
     const [isSelected, setSelection] = useState(false);
     const [name, setName] = useState(undefined);
-
+    const [isLoading, setIsLoading] = useState(false);
     const onChangeSearch = query => setSearchQuery(query);
-    
+
     useEffect(() => {
         fetchCategories(setCategoriesList);
     }, []);
 
     const onPressSearch = async () => {
+        setIsLoading(true);
         let url = `${strings.serverBaseUrl}/providers/filter?`;
         const params = [];
         console.log(isSelected);
-        if(isSelected) {
+        if (isSelected) {
             const coordinates = await getCurrentLocation();
             params.push(`lat=${coordinates.latitude}&lng=${coordinates.longitude}`);
         }
-        if(valueCat) {
+        if (valueCat) {
             params.push(`category=${valueCat}`);
         }
-        if(name) {
+        if (name) {
             params.push(`name=${name}`);
         }
-        if(params.length > 0) {
+        if (params.length > 0) {
             url += params.join('&');
         }
+        setIsLoading(false);
         console.log("navigate to AvailableAppointments");
-        props.navigation.navigate('AvailableAppointments', { 
+        props.navigation.navigate('AvailableAppointments', {
             url: url,
-            });
+        });
     };
 
     if (!fontsLoaded) {
@@ -163,19 +165,14 @@ const SearchUserScreen = props => {
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }} >
                     <View style={{ flexDirection: "row" }}>
-                    <Text style={[styles.heading,]}>Get your services</Text>  
+                        <Text style={[styles.heading,]}>Get your services</Text>
                     </View>
                     <Text style={[styles.heading,]}>without any hassle</Text>
-                    
                     <SearchList categories={categoriesList} valueCat={valueCat} setValueCat={setValueCat}></SearchList>
-                    
                 </LinearGradient>
-                
                 <View style={styles.line}></View>
-
-
                 <View>
-                    <View style={styles.clientDetailsView}>
+                    {isLoading ? <Loading /> : <View style={styles.clientDetailsView}>
                         <View style={styles.inputView}>
                             <Feather name="user" size={25} color="#19364D" />
                             <TextInput
@@ -188,11 +185,11 @@ const SearchUserScreen = props => {
                         <View style={styles.inputView}>
                             {/*<FontAwesome name="location-arrow" size={25} color="#19364D" />*/}
                             <View style={styles.Checkbox}>
-                                <Checkbox  
-                                    title="closer"  
+                                <Checkbox
+                                    title="closer"
                                     value={isSelected}
                                     onValueChange={setSelection}
-                                    isChecked={isSelected} 
+                                    isChecked={isSelected}
                                 />
                             </View>
                             <TextInput
@@ -201,11 +198,11 @@ const SearchUserScreen = props => {
                                 placeholderTextColor="#444"
                             />
                         </View>
-                    </View>
+                    </View>}
+                    <TouchableOpacity style={styles.searchButton} onPress={async () => { await onPressSearch() }}>
+                        <Text style={{ color: "#FFF", fontWeight: '600', fontSize: 18 }}>Search</Text>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.searchButton} onPress={async () => {await onPressSearch()}}>
-                    <Text style={{ color: "#FFF", fontWeight: '600', fontSize: 18 }}>Search</Text>
-                </TouchableOpacity>
             </View>
         </ScrollView>
     );
@@ -226,7 +223,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         marginTop: '1%',
         marginLeft: '1%',
-      },
+    },
     FreeSearch: {
         fontSize: 11,
         color: '#fff',

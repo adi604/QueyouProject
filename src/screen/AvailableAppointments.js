@@ -6,6 +6,7 @@ import { Fontisto } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { getCustomerDetails, sendRequest } from '../utils/utils';
+import { Avatar } from 'react-native-paper';
 
 
 const AvailableAppointments = props => {
@@ -69,7 +70,8 @@ const AvailableAppointments = props => {
                 data={providers}
                 renderItem={({item}) =>
                     <View style={styles.box}>
-                        <MaterialIcons style={{ alignSelf: "center", marginLeft: 10 }} name="person-pin" size={55} color="#0069BA" />
+                        {item.image ? <Avatar.Image size={60} source={{uri: item.image}} style={{ alignSelf: "center", marginLeft: 10 }}/>
+                        : <MaterialIcons style={{ alignSelf: "center", marginLeft: 10 }} name="person-pin" size={60} color="#0069BA" />}
                         <View style={[{ left: 30, paddingVertical: 1, width: "68%"}]}>
                             <View style={[{ flexDirection: 'row',}]}>
                                 <Text style={styles.provider}>{item.name}</Text>

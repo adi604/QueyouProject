@@ -14,6 +14,7 @@ const providerSchema = mongoose.Schema({
     category: {type: String, required: true},
     phoneNumber: {type: String, required: true},
     description: {type: String, required: true},
+    image: {type: String, required: false},
     maxDate: {type: String, required: true}, // example : "2024-05-07".
     durationMeeting: {type: Number, required: true}, // in minutes. example : 25.
     openTime: {type: String, required: true}, // example : "08:25".
