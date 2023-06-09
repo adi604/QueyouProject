@@ -153,6 +153,9 @@ const SignUpScreen = props => {
       address: address.description,
       location: { coordinates: [address.lng, address.lat] },
     }
+    if(image) {
+      body.image = image;
+    }
     console.log("body : ")
     console.log(body)
     const url = `${strings.serverBaseUrl}/users/signUpProviders`;
@@ -179,7 +182,7 @@ const SignUpScreen = props => {
     setPassword("");
     setRepeatPassword("");
     setSelection(false);
-    setDaysSelected(false, false, false, false, false, false, false)
+    setDaysSelected([false, false, false, false, false, false, false]);
     setImage(null);
 
     //await AsyncStorage.setItem('token', response.body.token);
@@ -188,9 +191,17 @@ const SignUpScreen = props => {
 
 
   const chooseImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync();
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4,3],
+      quality: 0.3,
+      base64: true
+    });
+    
     if (!result.canceled) {
-      setImage(result);
+      let base64Img = `data:image/jpeg;base64,${result.assets[0].base64}`;
+      setImage(base64Img);
     }
   };
 
@@ -435,7 +446,7 @@ const SignUpScreen = props => {
             <Text style={styles.title}>Profile Picture</Text>
           </View>
           <View style={{ marginTop: 20, }}>
-            <Pressable style={styles.ImageInput} title="Choose Image" onPress={chooseImage} >
+            <Pressable style={styles.ImageInput} title="Choose Image" onPress={async () => await chooseImage()} >
               <AntDesign name="clouduploado" size={30} color="white" />
             </Pressable>
           </View>
