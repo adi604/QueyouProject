@@ -89,7 +89,6 @@ module.exports = {
 
         // Sort the distances in ascending order
         distances.sort((a, b) => a.distance - b.distance);
-        console.log(distances)
         // Extract the sorted point from the distances
         const sortedPointsArray = distances.map((item) => item.provider);
 

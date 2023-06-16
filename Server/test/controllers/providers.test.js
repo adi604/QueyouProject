@@ -292,7 +292,6 @@ describe('Providers Controller', () => {
             }
             const res = {
                 status: (num) => {
-                    console.log("hey");
                     expect(num).to.equal(200);
                     return {
                         json: (obj) => {
