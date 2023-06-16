@@ -6,6 +6,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { serverBaseUrl } from '../utils/strings';
 import { sendRequest, getCustomerDetails } from '../utils/utils'
+import { Avatar } from 'react-native-paper';
+
 const moment = require('moment');
 
 import {
@@ -99,6 +101,28 @@ async function handleDeleteAppointment (key) {
   }
 };
 
+
+const getObj = async (item) => {
+      const url = `${serverBaseUrl}/providers/username/${item.providerUserName}`;
+      const response = await sendRequest(url, 'GET');
+      let image = '';
+      if (response.ok) {
+        image = response.body.image;
+      }
+      const res = {
+        key: item._id,
+        id: item._id,
+        provider: item.providerName,
+        providerUserName: item.providerUserName,
+        date: item.date,
+        hour: item.time,
+        day: getDay(item.date),
+        image: image,
+      }
+      return res;
+}
+
+
 useFocusEffect(
   React.useCallback(() => {
     setIsScreenFocused(true);
@@ -122,17 +146,10 @@ useEffect(() => {
             // Fetch succeeded
             const data = response.body
             const appointmentsData = []
-            data.forEach((item) => {
-                appointmentsData.push({
-                    key: item._id,
-                    id: item._id,
-                    provider: item.providerName,
-                    providerUserName: item.providerUserName,
-                    date: item.date,
-                    hour: item.time,
-                    day: getDay(item.date)
-                })
-            });
+            for (let i=0; i < data.length; i++) {
+              const res = await getObj(data[i])
+              appointmentsData.push(res)
+            }
             appointmentsData.sort((a, b) => {
               const dateA = `${a.date} ${a.hour}`;
               const dateB = `${b.date} ${b.hour}`;
@@ -160,9 +177,8 @@ useEffect(() => {
         <View style={[styles.box, isLastItem && { marginBottom: 120, }]}>
           <View style={{ flexDirection: 'row', }}>
             <View style={{ flexDirection: 'column', width: 50 }}>
-              <MaterialCommunityIcons name="account-circle-outline" size={45} color="#6CC3ED" style={styles.icon} />
-              {/* <Image style={styles.icon} source={item.icon}></Image> */}
-              {/* <Text style={styles.category}>{item.category}</Text> */}
+              {item.image ? <Avatar.Image size={45} source={{uri: item.image}} style={styles.icon}/>
+                        : <MaterialCommunityIcons name="account-circle-outline" size={45} color="#6CC3ED" style={styles.icon} />}
             </View>
             <View style={styles.verticalLine} />
             <View style={[{ left: 16 }]}>
