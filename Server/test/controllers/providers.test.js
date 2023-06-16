@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const { expect } = require('chai');
 const providers = require('../../api/controllers/providers');
 const Provider = require('../../api/models/provider');
-
+const utils = require('../../utils/utils');
 
 describe('Providers Controller', () => {
     afterEach(() => {
@@ -274,8 +274,6 @@ describe('Providers Controller', () => {
                 query: {
                     name: 'Provider',
                     category: 'Category',
-                    lat: '123.456',
-                    lng: '78.910'
                 }
             };
             const res = {
@@ -283,6 +281,7 @@ describe('Providers Controller', () => {
                     expect(num).to.equal(200);
                     return {
                         json: (obj) => {
+                            console.log("hey:" + obj);
                             expect(obj).to.deep.equal([{ name: 'Provider 1' }, { name: 'Provider 2' }]);
                         }
                     }

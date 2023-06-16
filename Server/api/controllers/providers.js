@@ -1,4 +1,4 @@
-const { mapProvider } = require('../../utils/utils');
+const { sortByDistance } = require('../../utils/utils');
 const Provider = require('../models/provider');
 
 module.exports = {
@@ -86,26 +86,16 @@ module.exports = {
             
             const { name, category, lat, lng } = req.query;
             const query = {};
-
             if (name) {
                 query.name = { $regex: name, $options: 'i' };
             }
-
             if (category) {
                 query.category = category;
             }
-
+            let providers = await Provider.find(query)
             if (lat && lng) {
-                query.location = {
-                    $near:
-                    {
-                        $geometry: { type: "Point", coordinates: [parseFloat(lng), parseFloat(lat)] }
-                    }
-                };
+                providers = sortByDistance({latitude: lat, longitude: lng}, providers);
             }
-
-            const providers = await Provider.find(query)
-
             res.status(200).json(providers);
         } catch (error) {
             res.status(500).json({ error: 'Cannot filter providers' });
