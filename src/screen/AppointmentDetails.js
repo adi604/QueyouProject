@@ -7,12 +7,14 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { serverBaseUrl } from '../utils/strings';
-import { sendRequest } from '../utils/utils'
+import { sendRequest } from '../utils/utils';
+import { Avatar } from 'react-native-paper';
+
 
 
 const AppointmentDetails = props => {
     const [meeting, setMeeting] = useState(props.route.params.meeting)
-    const [providerDetails, setProviderDetails] = useState({phoneNumber:"",address:"",city:"",description:""})
+    const [providerDetails, setProviderDetails] = useState({phoneNumber:"",address:"",description:"", image:""})
 
 
     useEffect(() => {
@@ -25,11 +27,12 @@ const AppointmentDetails = props => {
               } else {
                   // Fetch succeeded
                   const data = response.body
+                  console.log(data)
                   const details = {}
                   details.phoneNumber = data.phoneNumber
                   details.address = data.address
-                  details.city = data.city
                   details.description = data.description
+                  details.image = data.image
                   console.log(details)
                   setProviderDetails(details);
               }
@@ -47,7 +50,9 @@ const AppointmentDetails = props => {
         <ScrollView style={styles.card}>
             <View style={{ height: 2, backgroundColor: "#EEE", marginTop: 5, marginBottom: 25, }}></View>
             <View style={{ flexDirection: "row", }}>
-                <Ionicons style={{ top: 7 }} name="person" size={23} color="#777" />
+                {providerDetails.image ? <Avatar.Image size={70} source={{uri: providerDetails.image}} style={styles.icon}/>
+                    : <MaterialCommunityIcons name="account-circle-outline" size={70} color="#6CC3ED" style={styles.icon} />}
+
                 <View style={{ flexDirection: "column", left: 25 }}>
                     <Text style={styles.provider}>{meeting.provider}</Text>
                     <Text style={styles.phon}>{providerDetails.phoneNumber}</Text>
@@ -98,11 +103,10 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     icon: {
-        marginTop: 5,
-        left: 20,
-        top: 10,
-        height: 45,
-        width: 45,
+        left: 5,
+        top: 5,
+        height: 70,
+        width: 70,
     },
     details: {
         flexDirection: "column",
