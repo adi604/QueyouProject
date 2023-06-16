@@ -43,7 +43,7 @@ const Reviews = props => {
                         text: item.content,
                     })
                 });
-                setReviews(reviewsData);
+                setReviews(reviewsData.reverse());
                 setAmount(reviewsData.length);
                 if (reviewsData.length > 0) {
                     setAvarage(sum / reviewsData.length)
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     addReview: {
-        backgroundColor: "#232323",
+        backgroundColor: "#64b5f6",
         padding: 10,
         margin: 15,
         width: "50%",

@@ -196,9 +196,10 @@ useEffect(() => {
         >
           <View style={{ marginTop: 30, marginBottom: 10, flexDirection: "row", width: "105%" }}>
             <Image
-              source={require('../../assets/profile.jpg')}
-              style={{ width: 90, height: 90, borderRadius: 50, marginLeft: 'auto' }}
-            />
+              source={require('../../assets/logo7.png')}
+              style={{ width: 90, height: 90, marginLeft: 'auto' }}
+              >
+            </Image>
             {(isPast) ?
               <TouchableOpacity style={{ marginLeft: "auto", right: 40, top: 10 }} onPress={onPressAppointmentsBtn}>
                 <MaterialCommunityIcons name="filter-check" size={30} color="white" />

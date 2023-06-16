@@ -16,10 +16,10 @@ const HomeProvider = props => {
   return (
     <View style={{ height: '100%' }}>
       <TouchableOpacity style={styles.signup} onPress={onPressSignUp}>
-        <Text style={[{ fontSize: 20 }, { textAlign: 'center' }, { fontWeight: 'bold' }, { color: 'black' }, { letterSpacing: 1 }]}>Sign Up Provider</Text>
+        <Text style={[{ fontSize: 20 }, { textAlign: 'center' }, { fontWeight: 'bold' }, { color: 'black' }]}>Sign Up</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.login} onPress={onPressLogin}>
-        <Text style={[{ fontSize: 20 }, { textAlign: 'center' }, { fontWeight: 'bold' }, { color: 'white' }, { letterSpacing: 1 }]}>Log In Provider</Text>
+        <Text style={[{ fontSize: 20 }, { textAlign: 'center' }, { fontWeight: 'bold' }, { color: 'white' }]}>Sign In</Text>
       </TouchableOpacity>
     </View>
   );

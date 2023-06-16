@@ -17,7 +17,7 @@ const AppointmentList = ({ appointments, onDeleteAppointment }) => {
             renderItem={({ item, index }) => (
                 <View key={item.key} style={[styles.appointmentContainer, (index === appointments.length - 1) && { marginBottom: 120, }]}>
                     <View style={styles.iconContainer}>
-                        <MaterialCommunityIcons name="calendar-clock" size={32} color="#2D87B8" />
+                        <MaterialCommunityIcons name="calendar-clock" size={32} color="#64b5f6" />
                     </View>
                     <View style={styles.detailsContainer}>
                         <Text style={styles.customerNameText}>{item.customerName}</Text>
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
     },
     header: {
-        backgroundColor: '#2D87B8',
+        backgroundColor: '#64b5f6',
         height: "40%",
         shadowColor: "#000",
         elevation: 50,

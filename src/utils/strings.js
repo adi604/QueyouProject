@@ -17,5 +17,6 @@ export const INVALID_OPEN_MSG = "Invalid open time.";
 export const INVALID_CLOSE_MSG = "Invalid close time.";
 export const INVALID_DURATION_MSG = "Invalid duration meeting.";
 export const INVALID_MAX_DATE_MSG = "Invalid max date.";
+export const INVALID_OFF_DATE_MSG = "Invalid off date.";
 export const ADDRESS_MSG = "Address is required.";
 

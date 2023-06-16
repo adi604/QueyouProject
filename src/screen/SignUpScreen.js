@@ -118,7 +118,7 @@ const SignUpScreen = props => {
     setRepeatPassword("");
     setSelection(false);
     //await AsyncStorage.setItem('token', response.body.token);
-    props.navigation.navigate('LoginScreen');
+    props.navigation.navigate('Oueyou');
   }
 
 

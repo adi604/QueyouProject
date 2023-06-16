@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome5, Feather, Fontisto, MaterialIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
 import ModalSlide from '../components/ModalSlide';
 import { serverBaseUrl } from '../utils/strings';
-import { sendRequest } from '../utils/utils'
+import { sendRequest, validateCustomerSettingsDetails } from '../utils/utils'
 import {
   useFonts,
   Montserrat_100Thin,
@@ -69,6 +69,22 @@ const Settings = props => {
 
   async function onPressSave() {
     if ((phone !== "") || (email !== "")) {
+      const settingsDetails = {
+        email: email,
+        phoneNumber: phone,
+      }
+      const isValid = validateCustomerSettingsDetails(settingsDetails,
+        (errorMsg) => {
+          setModalMessage(errorMsg);
+          setModalVisible(true);
+        }
+      );
+      if (!isValid) {
+        setEmail("");
+        setPhone("");
+        return;
+      }
+
       const body = {}
       if (phone !== "") {
         body.phoneNumber = phone
@@ -89,6 +105,10 @@ const Settings = props => {
       setPhone("");
     }
   };
+
+  const onPressLogOut = () => {
+    props.navigation.navigate('Oueyou', {});
+  }
 
 
   return (
@@ -191,9 +211,9 @@ const Settings = props => {
         </View>
       </View>
       <View style={styles.lastBox}>
-        <TouchableOpacity style={[{ flexDirection: 'row' }]}>
+        <TouchableOpacity style={[{ flexDirection: 'row' }]} onPress={onPressLogOut}>
           <FontAwesome style={[styles.icon, {}]} name="power-off" size={24} color="red" />
-          <Text style={[styles.username, { color: 'red' }]}>Deactivate</Text>
+          <Text style={[styles.username, { color: 'red' }]}>Sign Out</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

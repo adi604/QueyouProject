@@ -73,6 +73,47 @@ export function validateMaxDate(maxDate) {
     return true;
 }
 
+export function validateCustomerSettingsDetails(settingsDetails, onDetailsNotValid) {
+    if (settingsDetails.phoneNumber != '' && !validatePhoneNumber(settingsDetails.phoneNumber)) {
+        onDetailsNotValid(strings.INVALID_PHONE_MSG);
+        return false;
+    }
+    if (settingsDetails.email != '' && !validateEmail(settingsDetails.email)) {
+        onDetailsNotValid(strings.INVALID_EMAIL_MSG);
+        return false;
+    }
+    return true;
+}
+
+
+export function validateProviderSettingsDetails(settingsDetails, onDetailsNotValid) {
+    if (settingsDetails.phoneNumber != '' && !validatePhoneNumber(settingsDetails.phoneNumber)) {
+        onDetailsNotValid(strings.INVALID_PHONE_MSG);
+        return false;
+    }
+    if (settingsDetails.email != '' && !validateEmail(settingsDetails.email)) {
+        onDetailsNotValid(strings.INVALID_EMAIL_MSG);
+        return false;
+    }
+    if (settingsDetails.maxDate != '' && !validateMaxDate(settingsDetails.maxDate)) {
+        onDetailsNotValid(strings.INVALID_MAX_DATE_MSG);
+        return false;
+    }
+    if (settingsDetails.openTime != '' && !validateHour(settingsDetails.openTime)) {
+        onDetailsNotValid(strings.INVALID_OPEN_MSG);
+        return false;
+    }
+    if (settingsDetails.closeTime != '' && !validateHour(settingsDetails.closeTime)) {
+        onDetailsNotValid(strings.INVALID_CLOSE_MSG);
+        return false;
+    }
+    if (settingsDetails.offDate != '' && !validateMaxDate(settingsDetails.offDate)) {
+        onDetailsNotValid(strings.INVALID_OFF_DATE_MSG);
+        return false;
+    }
+    return true;
+}
+
 
 export function validateSignUpCustomerDetails(SignUpDetails, onDetailsNotValid) {
     if (!SignUpDetails.isSelected) {

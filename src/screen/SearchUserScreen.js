@@ -147,6 +147,9 @@ const SearchUserScreen = props => {
         }
         setIsLoading(false);
         console.log("navigate to AvailableAppointments");
+        setValueCat(undefined);
+        setName('');
+        setSelection(false);
         props.navigation.navigate('AvailableAppointments', {
             url: url,
         });
@@ -179,6 +182,7 @@ const SearchUserScreen = props => {
                                 style={styles.TextInput}
                                 placeholder="Provider Name"
                                 placeholderTextColor="#444"
+                                value={name}
                                 onChangeText={(name) => setName(name)}
                             />
                         </View>

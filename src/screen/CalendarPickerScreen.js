@@ -202,7 +202,7 @@ const CalendarPickerScreen = props => {
                 nextScreen={nextScreen}
             />
                 <LinearGradient
-                    colors={['#2D87B8', '#6CC3ED', '#6CC3ED', '#2D87B8',]}
+                    colors={['#4FA4E5', '#64b5f6',]}
                     style={{ height: 470, paddingTop: 20, }}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 0, y: 1 }}
@@ -234,7 +234,7 @@ const CalendarPickerScreen = props => {
                 <View>
                     <Modal visible={isTimePickerVisible} animationType="slide">
                         <LinearGradient
-                            colors={['#2D87B8', '#6CC3ED', '#6CC3ED', '#2D87B8',]}
+                            colors={['#6CC3ED', '#ffffff',]}
                             start={{ x: 0, y: 0 }}
                             end={{ x: 0, y: 1 }}
                             style={styles.modalContainer}
@@ -254,7 +254,7 @@ const CalendarPickerScreen = props => {
                         </LinearGradient>
                     </Modal>
                     <View style={{ flexDirection: "row", width: "80%", alignContent: "center", padding: 20 }}>
-                        <Text style={{ height: 11, width: 11, backgroundColor: "#2D87B8", borderRadius: 50, alignSelf: "center", marginRight: 20, bottom: 10 }}></Text>
+                        <Text style={{ height: 11, width: 11, backgroundColor: "#64b5f6", borderRadius: 50, alignSelf: "center", marginRight: 20, bottom: 10 }}></Text>
                         <View style={{}}>
                             <Text style={styles.timeStr}>Selected Meeting :</Text>
                             <Text style={styles.innerTime}>{selectedDate}{(selectedDate != "" && selectedTime != "") ? <Text>  |  </Text> : null}{selectedTime}</Text>
@@ -327,7 +327,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#b3c6ff',
     },
     modalContent: {
-        backgroundColor: 'rgba(204, 217, 255, 0.255)',
+        backgroundColor: '#83C6F9',
         paddingBottom: 20,
         borderRadius: 50,
         width: '70%',

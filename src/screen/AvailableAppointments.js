@@ -51,7 +51,7 @@ const AvailableAppointments = props => {
     return (
         <View style={[{ backgroundColor: "white", top: 25, height: "95%" }]}>
             <LinearGradient
-                colors={['#4FA4E5', '#0069BA',]}
+                colors={['#4FA4E5', '#64b5f6',]}
                 style={{
                     width: '100%', height: 100, borderBottomLeftRadius: 30, borderBottomRightRadius: 30, padding: 20, bottom: 25,
                     shadowColor: '#000',
@@ -71,12 +71,12 @@ const AvailableAppointments = props => {
                 renderItem={({item}) =>
                     <View style={styles.box}>
                         {item.image ? <Avatar.Image size={60} source={{uri: item.image}} style={{ alignSelf: "center", marginLeft: 10 }}/>
-                        : <MaterialIcons style={{ alignSelf: "center", marginLeft: 10 }} name="person-pin" size={60} color="#0069BA" />}
+                        : <MaterialIcons style={{ alignSelf: "center", marginLeft: 10 }} name="person-pin" size={60} color="#64b5f6" />}
                         <View style={[{ left: 30, paddingVertical: 1, width: "68%"}]}>
                             <View style={[{ flexDirection: 'row',}]}>
                                 <Text style={styles.provider}>{item.name}</Text>
                                 <TouchableOpacity onPress={()=>{onPressReview(item.username, item.name)}}>
-                                    <Fontisto style={{ marginLeft: 30, top: 10 }} name="preview" size={26} color="#0069BA" />
+                                    <Fontisto style={{ marginLeft: 30, top: 10 }} name="preview" size={26} color="#64b5f6" />
                                 </TouchableOpacity>
                             </View>
                             <Text style={styles.category}>{item.category}</Text>

@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome5, Feather, Fontisto, MaterialIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
 import ModalSlide from '../components/ModalSlide';
 import { serverBaseUrl } from '../utils/strings';
-import { sendRequest } from '../utils/utils'
+import { sendRequest, validateProviderSettingsDetails } from '../utils/utils'
 import {
   useFonts,
   Montserrat_100Thin,
@@ -58,6 +58,9 @@ const PrSettings = props => {
   const [closeTime, setCloseTime] = useState("");
   const [offDate, setOffDate] = useState("");
 
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+
   if (!fontsLoaded) {
     return <AppLoading />;
   }
@@ -80,8 +83,35 @@ const PrSettings = props => {
   const onChangeOffDate = (e) => {
     setOffDate(e.nativeEvent.text);
   };
+  const onPressLogOut = () => {
+    props.navigation.navigate('Oueyou', {});
+  }
   async function onPressSave () {
     if ((phone != "") || (email != "") || (maxDate != "") || (openTime != "") || (closeTime != "") || (offDate != "")) {
+      const settingsDetails = {
+        email: email,
+        phoneNumber: phone,
+        maxDate: maxDate,
+        openTime: openTime,
+        closeTime: closeTime,
+        offDate: offDate
+      }
+      const isValid = validateProviderSettingsDetails(settingsDetails,
+        (errorMsg) => {
+          setModalMessage(errorMsg);
+          setModalVisible(true);
+        }
+      );
+      if (!isValid) {
+        setPhone("");
+        setEmail("");
+        setMaxDate("");
+        setOpenTime("");
+        setCloseTime("");
+        setOffDate("");
+        return;
+      }
+
         const body = {
           details: {},
           offDate: ""
@@ -107,24 +137,31 @@ const PrSettings = props => {
         const url = `${serverBaseUrl}/providers`;
         console.log(body);
         const response = await sendRequest(url, 'PATCH', body);
-        if(!response.ok) {
-            console.log("Update Failed !");
+        if (!response.ok) {
+          setModalMessage("Update Failed!");
         } else {
-            // update succeeded
-            console.log("Update Succeeded !");
-            setPhone("");
-            setEmail("");
-            setMaxDate("");
-            setOpenTime("");
-            setCloseTime("");
-            setOffDate("");
+          setModalMessage("Update Succeeded!");
+          console.log("Update Succeeded !");
         }
+        setModalVisible(true);
+        setPhone("");
+        setEmail("");
+        setMaxDate("");
+        setOpenTime("");
+        setCloseTime("");
+        setOffDate("");
     }
 };
 
 
   return (
     <ScrollView style={[{ backgroundColor: "white", top: 25, height: "100%", marginBottom: 30, }]}>
+      <ModalSlide
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            message={modalMessage}
+            buttonText="OK"
+          />
       <View style={{
         shadowColor: '#000',
         elevation: 45,
@@ -251,9 +288,9 @@ const PrSettings = props => {
       
       </View>
       <View style={styles.lastBox}>
-        <TouchableOpacity style={[{ flexDirection: 'row' }]}>
+        <TouchableOpacity style={[{ flexDirection: 'row' }]} onPress={onPressLogOut}>
           <FontAwesome style={[styles.icon, {}]} name="power-off" size={24} color="red" />
-          <Text style={[styles.username, { color: 'red' }]}>Deactivate</Text>
+          <Text style={[styles.username, { color: 'red' }]}>Sign Out</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

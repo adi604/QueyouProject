@@ -75,6 +75,8 @@ const LoginScreen = props => {
     // login succeeded
     await AsyncStorage.setItem('token', response.body.token);
     await AsyncStorage.setItem('customerDetails', JSON.stringify({username: username, name: name}));
+    setUsername('');
+    setPassword('');
     props.navigation.navigate('Nevigator', {});
   };
 
@@ -118,6 +120,7 @@ const LoginScreen = props => {
             style={styles.TextInput}
             placeholder="Username"
             placeholderTextColor={"#BBB"}
+            value={username}
             onChangeText={(username) => setUsername(username)}
           />
         </View>
@@ -128,6 +131,7 @@ const LoginScreen = props => {
               placeholder="Password"
               secureTextEntry={isHidden}
               placeholderTextColor={"#BBB"}
+              value={password}
               onChangeText={(password) => setPassword(password)}
             />
             <TouchableOpacity style={{marginLeft: "auto"}} onPress={() => setIsHidden(!isHidden)}>
@@ -145,7 +149,7 @@ const LoginScreen = props => {
           style={styles.linearGradient}
         >
           <TouchableOpacity style={styles.loginBtn} onPress={onPressLogin}>
-            <Text style={styles.loginText}>LOGIN</Text>
+            <Text style={styles.loginText}>Sign In</Text>
           </TouchableOpacity>
         </LinearGradient>
       </ScrollView>

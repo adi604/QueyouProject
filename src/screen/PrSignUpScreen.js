@@ -186,7 +186,7 @@ const SignUpScreen = props => {
     setImage(null);
 
     //await AsyncStorage.setItem('token', response.body.token);
-    props.navigation.navigate('PrLoginScreen');
+    props.navigation.navigate('Oueyou');
   }
 
 
