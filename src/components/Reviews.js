@@ -59,7 +59,7 @@ const Reviews = props => {
     return (
         <View style={styles.container}>
             <View style={styles.reviewContainer}>
-                <Text style={styles.title}>Reviews about {nameProvider}</Text>
+                <Text style={styles.title}>{nameProvider}</Text>
                 <View style={styles.totalWrap}>
                     <View style={{ flexDirection: "row", }}>
                         {Array(Math.floor(avarage)).fill(null).map((_, index) => (

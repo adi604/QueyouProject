@@ -27,13 +27,11 @@ const AppointmentDetails = props => {
               } else {
                   // Fetch succeeded
                   const data = response.body
-                  console.log(data)
                   const details = {}
                   details.phoneNumber = data.phoneNumber
                   details.address = data.address
                   details.description = data.description
                   details.image = data.image
-                  console.log(details)
                   setProviderDetails(details);
               }
           }
@@ -80,7 +78,7 @@ const AppointmentDetails = props => {
                 </View>
                 <View style={{ height: 2, backgroundColor: "#EEE", marginTop: 30, }}></View>
                 <TouchableOpacity onPress={() => handleDeleteAppointment(meeting.key)}>
-                    <View style={{ flexDirection: "row", marginTop: 70, }}>
+                    <View style={{ flexDirection: "row", marginTop: 50, }}>
                         <AntDesign name="delete" size={24} color="red" />
                         <View style={styles.details}>
                             <Text style={[styles.title, { color: "red" }]}>Delete</Text>
@@ -109,13 +107,13 @@ const styles = StyleSheet.create({
         width: 70,
     },
     details: {
-        flexDirection: "column",
+        flex: 0.9,
         left: 20,
     },
     title: {
         fontSize: 19,
         fontWeight: "800",
-        height: 30,
+        height: 50,
         color: "#555",
     },
     subtitle: {

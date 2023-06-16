@@ -89,15 +89,18 @@ async function handleDeleteAppointment (key) {
       // Fetch succeeded
       console.log("Delete Meeting succeeded !")
       // Delete from the client
-      setAppointmentsToShow((prevAppointments) =>
-          prevAppointments.filter((appointment) => appointment.key != key)
+      await new Promise(r => setTimeout(r, 2000));
+      console.log("Delete !")
+      setAppointments(
+          appointments.filter((appointment) => appointment.key !== key)
       );
-      setAppointments((prevAppointments) =>
-          prevAppointments.filter((appointment) => appointment.key != key)
+      setFutureAppointments(
+          futureAppointments.filter((appointment) => appointment.key !== key)
       );
-      setFutureAppointments((prevAppointments) =>
-          prevAppointments.filter((appointment) => appointment.key != key)
+      setAppointmentsToShow(
+        appointmentsToShow.filter((appointment) => appointment.key !== key)
       );
+      
   }
 };
 
@@ -160,7 +163,7 @@ useEffect(() => {
               const tempDate = moment(tempStr, 'DD-MM-YYYY HH:mm');
               return tempDate.isAfter(moment());
             })
-            console.log(futureAppointmentsData)
+            console.log("useEffect !")
             setAppointments(appointmentsData);
             setFutureAppointments(futureAppointmentsData);
             setAppointmentsToShow(futureAppointmentsData);
@@ -184,9 +187,12 @@ useEffect(() => {
             <View style={[{ left: 16 }]}>
               <Text style={styles.provider}>{item.provider}</Text>
               <View style={{ flexDirection: 'row' }}>
+                <Text style={styles.time}>{item.date} {item.day} {item.hour}</Text>
+                {/*
                 <Text style={styles.day}>{item.day} in hour</Text>
                 <Text style={styles.hour}>{item.hour}</Text>
                 <Text style={styles.date}>{item.date}</Text>
+              */}
               </View>
             </View>
           </View>
@@ -252,7 +258,7 @@ export default MyAppointments
 const styles = StyleSheet.create({
   icon: {
     marginTop: 5,
-    left: 20,
+    left: 5,
     top: 10,
     height: 45,
     width: 45,
@@ -307,13 +313,17 @@ const styles = StyleSheet.create({
     marginLeft:10,
 
   },
+  time: {
+    fontSize: 13,
+    color: "#c0c0c0",
+    fontWeight: '500',
+  },
   day: {
     bottom: 5,
     left: 10,
     fontSize: 17,
     color: "#c0c0c0",
     fontWeight: '400',
-
   },
   hour: {
     bottom: 5,
