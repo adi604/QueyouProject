@@ -269,25 +269,39 @@ describe('Providers Controller', () => {
 
 
     describe("getFilteredProviders", () => {
-        it('should return filtered providers based on query parameters', async () => {
+        it('should return filtered providers based on query parameters and sort based on distance', async () => {
             const req = {
                 query: {
                     name: 'Provider',
                     category: 'Category',
+                    lat: '12.22',
+                    lng: '103.5'
                 }
             };
+            const provider1 = {
+                name: 'Provider 1',
+                location: {
+                    coordinates: [101.2, 12.22]
+                }
+            }
+            const provider2 = {
+                name: 'Provider 2',
+                location: {
+                    coordinates: [103.4, 12.22]
+                }
+            }
             const res = {
                 status: (num) => {
                     expect(num).to.equal(200);
                     return {
                         json: (obj) => {
-                            console.log("hey:" + obj);
-                            expect(obj).to.deep.equal([{ name: 'Provider 1' }, { name: 'Provider 2' }]);
+                            expect(obj).to.deep.equal([provider2, provider1]);
                         }
                     }
                 }
             };
-            sinon.stub(Provider, 'find').resolves([{ name: 'Provider 1' }, { name: 'Provider 2' }]);
+            
+            sinon.stub(Provider, 'find').resolves([provider1,provider2]);
 
             await providers.getFilteredProviders(req, res);
         });
@@ -335,7 +349,7 @@ describe('Providers Controller', () => {
             await providers.getFilteredProviders(req, res);
         });
 
-        
+
     });
 
 
